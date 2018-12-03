@@ -7,7 +7,9 @@ public class Szyfruj {
     private BigInteger p;
     private BigInteger q;
     private byte[] tekstJawny;
-    private BigInteger m, n;
+    private BigInteger n;
+    private BigInteger[] m;
+    private String tekst;
 
     public Szyfruj(byte[] tekstJawny){
         this.tekstJawny=tekstJawny;
@@ -26,20 +28,41 @@ public class Szyfruj {
         return a;
     }
 
-    public BigInteger szyfruj()
+    public BigInteger[] szyfruj()
     {
-        BigInteger c;
+        BigInteger[] c;
+        int i=0,j=0;
+        m=new BigInteger[tekstJawny.length/256+1];
 
-        m = new BigInteger(tekstJawny);
+        byte[] pom= new byte [256];
+
+        tekst=new String("Ala ma kota");
+        pom=tekst.getBytes();
+        int tekstLength=tekst.getBytes().length;
+        while(tekstJawny.length-i-tekstLength>0)
+        {
+            System.arraycopy(tekstJawny, i, pom, tekstLength, 256-tekstLength);
+            m[j]=new BigInteger(pom);
+            i+=tekstLength;
+            j++;
+        }
+        System.arraycopy(tekstJawny,i,pom,tekstLength,tekstJawny.length-i);
+        m[j]=new BigInteger(pom);
+        j++;
+        c=new BigInteger[j];
+       // m = new BigInteger(tekstJawny);
 
         do {
             p = getPrime();
             q = getPrime();
 
             n = p.multiply(q);
-        }while(p.equals(q) || !(m.compareTo(n) == -1));
+        } while (p.equals(q) || !(m[0].compareTo(n) == -1));
 
-        c = m.multiply(m).mod(n);
+        for(int k=0; k<j; k++) {
+
+            c[k] = m[k].multiply(m[k]).mod(n);
+        }
         return c;
     }
 
@@ -57,9 +80,9 @@ public class Szyfruj {
         y_q2 = q.subtract(y_q1);
 
         m_1 = chinol(y_p1, y_q1);
-        m_2 = m_1.multiply(BigInteger.valueOf(-1)).mod(n);
         m_3 = chinol(y_p1, y_q2);
-        m_4 = m_3.multiply((BigInteger.valueOf(-1))).mod(n);
+        m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
+        m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
 
         return dobre(m);                                        // :)))
     }
@@ -98,6 +121,7 @@ public class Szyfruj {
         for(int i = 0; i < q.size(); i++)
         {
             P.addElement(P.elementAt(i+1).multiply(q.elementAt(i)).add(P.elementAt(i)));
+            Q.addElement(Q.elementAt(i+1).multiply(q.elementAt(i)).add(Q.elementAt(i)));
         }
 
         u = Q.lastElement();

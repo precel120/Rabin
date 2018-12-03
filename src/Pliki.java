@@ -11,8 +11,8 @@ public class Pliki {
         String evr = new String();
         String error = new String();
         //Path sciezka = Paths.get(pathFile);
-       // byte[] trescByte = new byte[ ]
-       // FileInputStream inStream
+        // byte[] trescByte = new byte[ ]
+        // FileInputStream inStream
 
         String data="";
 
@@ -29,13 +29,13 @@ public class Pliki {
             return error;
         }
 
-       // return evr;
+        // return evr;
         return data;
     }
     public void writeFile(String pathFile, byte[] cipher) throws IOException {
 
         Path path = Paths.get(pathFile);
-            Files.write(path, cipher);
+        Files.write(path, cipher);
 
 
 
