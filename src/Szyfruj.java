@@ -66,11 +66,17 @@ public class Szyfruj {
         return c;
     }
 
-    public BigInteger deszyfruj(BigInteger zaszyfr)
+    public BigInteger deszyfruj(BigInteger[] zaszyfr)
     {
-        BigInteger x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
-        x_p = zaszyfr.mod(p);
-        x_q = zaszyfr.mod(q);
+        BigInteger x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4, zmienna = BigInteger.valueOf(0);
+        byte[] g_1, g_2, g_3, g_4;
+
+        for(int i = 0; i < zaszyfr.length; i++)
+        {
+            zmienna = zmienna.add(zaszyfr[i]);              //??
+        }
+        x_p = zmienna.mod(p);
+        x_q = zmienna.mod(q);
         y_p1 = new BigInteger(String.valueOf(x_p));
 
         y_p1 = x_p.modPow(p.add(BigInteger.valueOf(1)).divide(BigInteger.valueOf(4)), p);
@@ -83,6 +89,22 @@ public class Szyfruj {
         m_3 = chinol(y_p1, y_q2);
         m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
         m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
+
+        g_1 = m_1.toByteArray();
+        g_2 = m_2.toByteArray();
+        g_3 = m_3.toByteArray();
+        g_4 = m_4.toByteArray();
+
+        byte[] textArray = tekst.getBytes();
+
+        for(int l = 1; l < tekst.length(); l++)
+        {
+            if(g_1[l] == textArray[l])
+            {
+
+            }
+
+        }
 
         return dobre(m);                                        // :)))
     }

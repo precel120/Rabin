@@ -1,44 +1,46 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Pliki {
 
-    public String readFile(String pathFile) {
-        String evr = new String();
-        String error = new String();
+    public byte[] readFile(byte[] pathFile) {
+        byte[] evr;
+        String error;
         //Path sciezka = Paths.get(pathFile);
         // byte[] trescByte = new byte[ ]
         // FileInputStream inStream
 
         String data="";
+        byte[] byteData;
 
 
         try {
             //byte[] tab = Files.readAllBytes(sciezka);
             //evr = new String(tab, "UTF-8");
-            data=new String(Files.readAllBytes(Paths.get(pathFile)));
+            //data=new String(Files.readAllBytes(Paths.get(pathFile)));
+
+            byteData = Files.readAllBytes(Paths.get(String.valueOf(pathFile)));
+            data = byteData.toString();
         } catch (FileNotFoundException var5) {
             error = "Błąd";
-            return error;
+            evr = error.getBytes();
+            return evr;
         } catch (IOException var6) {
             error = "zła ścieżka";
-            return error;
+            evr = error.getBytes();
+            return evr;
         }
 
-        // return evr;
-        return data;
+        return byteData;
     }
-    public void writeFile(String pathFile, byte[] cipher) throws IOException {
+    public void writeFile(String pathFile, BigInteger cipher) throws IOException {
 
         Path path = Paths.get(pathFile);
-        Files.write(path, cipher);
-
-
-
-
+        Files.write(path, (Iterable<? extends CharSequence>) cipher);
     }
 }

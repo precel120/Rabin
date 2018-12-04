@@ -8,6 +8,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.Arrays;
 
 
 public class Main extends Application {
@@ -60,11 +62,15 @@ public class Main extends Application {
 
         button_szyfr.setOnAction(e -> {
             String txt_from = tekstSzyfr.getText();
-            Szyfruj slowo = new Szyfruj(txt_from);
-            String wyswZaszyfr = new String(slowo.szyfruj());
-            String wyswOdszyfr = new String (slowo.deszyfruj(slowo.szyfruj()));
-            tekstZaszyfr.setText(wyswZaszyfr);
-            tekstOdszyfr.setText(wyswOdszyfr);
+            byte[] byteText = txt_from.getBytes();
+            Szyfruj slowo = new Szyfruj(byteText);
+
+            BigInteger wyswZaszyfr = new BigInteger(Arrays.toString(slowo.szyfruj()));
+            BigInteger wyswOdszyfr = new BigInteger(String.valueOf(slowo.deszyfruj(slowo.szyfruj())));
+            String txt_przed = wyswZaszyfr.toString();
+            String txt_po = wyswOdszyfr.toString();
+            tekstZaszyfr.setText(txt_przed);
+            tekstOdszyfr.setText(txt_po);
         });
 
         Button button_szyfrplik = new Button("Szyfruj z pliku");
@@ -72,12 +78,17 @@ public class Main extends Application {
 
         button_szyfrplik.setOnAction(e -> {
             String filePath = tekstPlik.getText();
+            byte[] bytePath = filePath.getBytes();
             Pliki pliki=new Pliki();
-            Szyfruj slowo = new Szyfruj(pliki.readFile(filePath));
-            String wyswZaszyfr = new String(slowo.szyfruj());
-            String wyswOdszyfr = new String (slowo.deszyfruj(slowo.szyfruj()));
-            tekstZaszyfr.setText(wyswZaszyfr);
-            tekstOdszyfr.setText(wyswOdszyfr);
+            Szyfruj slowo = new Szyfruj(pliki.readFile(bytePath));
+
+            BigInteger wyswZaszyfr = new BigInteger(String.valueOf(slowo.szyfruj()));
+            BigInteger wyswOdszyfr = new BigInteger(String.valueOf(slowo.deszyfruj(slowo.szyfruj())));
+            String txt_przed = wyswZaszyfr.toString();
+            String txt_po = wyswOdszyfr.toString();
+            tekstZaszyfr.setText(txt_przed);
+            tekstOdszyfr.setText(txt_po);
+
             try {
                 pliki.writeFile("C:\\Users\\Michał\\Desktop\\gowno2.jpeg", slowo.deszyfruj(slowo.szyfruj()));
             }
