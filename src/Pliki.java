@@ -23,9 +23,7 @@ public class Pliki {
             //byte[] tab = Files.readAllBytes(sciezka);
             //evr = new String(tab, "UTF-8");
             //data=new String(Files.readAllBytes(Paths.get(pathFile)));
-
             byteData = Files.readAllBytes(Paths.get(String.valueOf(pathFile)));
-            data = byteData.toString();
         } catch (FileNotFoundException var5) {
             error = "Błąd";
             evr = error.getBytes();
@@ -38,9 +36,9 @@ public class Pliki {
 
         return byteData;
     }
-    public void writeFile(String pathFile, BigInteger cipher) throws IOException {
+    public void writeFile(String pathFile, byte[] cipher) throws IOException {
 
         Path path = Paths.get(pathFile);
-        Files.write(path, (Iterable<? extends CharSequence>) cipher);
+        Files.write(path, cipher);
     }
 }

@@ -23,7 +23,7 @@ public class Szyfruj {
         BigInteger cztery=BigInteger.valueOf(4);
         do{
             a = BigInteger.probablePrime(1024,rnd);
-        }while(a.mod(cztery).equals(trzy));
+        }while(!(a.mod(cztery).equals(trzy)));
 
         return a;
     }
@@ -32,81 +32,72 @@ public class Szyfruj {
     {
         BigInteger[] c;
         int i=0,j=0;
-        m=new BigInteger[tekstJawny.length/256+1];
+        m=new BigInteger[(tekstJawny.length/256)+1];
 
-        byte[] pom= new byte [256];
+        byte[] pom;
 
         tekst=new String("Ala ma kota");
         pom=tekst.getBytes();
         int tekstLength=tekst.getBytes().length;
         while(tekstJawny.length-i-tekstLength>0)
         {
-            System.arraycopy(tekstJawny, i, pom, tekstLength, 256-tekstLength);
+            System.arraycopy(tekstJawny, i, pom, tekstLength-1, 256-tekstLength);
+            //BigInteger pom2=new BigInteger(pom);
             m[j]=new BigInteger(pom);
-            i+=tekstLength;
+            i+=256-tekstLength;
             j++;
         }
-        System.arraycopy(tekstJawny,i,pom,tekstLength,tekstJawny.length-i);
+        /*System.arraycopy(tekstJawny,i,pom,tekstLength-1,tekstJawny.length-i);
         m[j]=new BigInteger(pom);
-        j++;
+        j++;*/
         c=new BigInteger[j];
-       // m = new BigInteger(tekstJawny);
+        // m = new BigInteger(tekstJawny);
 
         do {
             p = getPrime();
             q = getPrime();
 
             n = p.multiply(q);
-        } while (p.equals(q) || !(m[0].compareTo(n) == -1));
+        } while (p.equals(q) || m[0].compareTo(n) != -1);
 
-        for(int k=0; k<j; k++) {
+        for(int k=0; k<j-1; k++) {
 
             c[k] = m[k].multiply(m[k]).mod(n);
         }
         return c;
     }
 
-    public BigInteger deszyfruj(BigInteger[] zaszyfr)
+    public byte[] deszyfruj(BigInteger[] zaszyfr)
     {
-        BigInteger x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4, zmienna = BigInteger.valueOf(0);
-        byte[] g_1, g_2, g_3, g_4;
+        BigInteger x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
+        byte[] result= new byte[zaszyfr.length];
+        for(int i=0; i<zaszyfr.length;i++) {
 
-        for(int i = 0; i < zaszyfr.length; i++)
-        {
-            zmienna = zmienna.add(zaszyfr[i]);              //??
-        }
-        x_p = zmienna.mod(p);
-        x_q = zmienna.mod(q);
-        y_p1 = new BigInteger(String.valueOf(x_p));
 
-        y_p1 = x_p.modPow(p.add(BigInteger.valueOf(1)).divide(BigInteger.valueOf(4)), p);
-        y_p2 = p.subtract(y_p1);
+            x_p = zaszyfr[i].mod(p);
+            x_q = zaszyfr[i].mod(q);
+            y_p1 = new BigInteger(String.valueOf(x_p));
 
-        y_q1 = x_q.modPow(q.add(BigInteger.valueOf(1)).divide(BigInteger.valueOf(4)), q);
-        y_q2 = q.subtract(y_q1);
+            y_p1 = x_p.modPow(p.add(BigInteger.valueOf(1)).divide(BigInteger.valueOf(4)), p);
+            y_p2 = p.subtract(y_p1);
 
-        m_1 = chinol(y_p1, y_q1);
-        m_3 = chinol(y_p1, y_q2);
-        m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
-        m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
+            y_q1 = x_q.modPow(q.add(BigInteger.valueOf(1)).divide(BigInteger.valueOf(4)), q);
+            y_q2 = q.subtract(y_q1);
 
-        g_1 = m_1.toByteArray();
-        g_2 = m_2.toByteArray();
-        g_3 = m_3.toByteArray();
-        g_4 = m_4.toByteArray();
+            m_1 = chinol(y_p1, y_q1);
+            m_3 = chinol(y_p1, y_q2);
+            m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
+            m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
 
-        byte[] textArray = tekst.getBytes();
-
-        for(int l = 1; l < tekst.length(); l++)
-        {
-            if(g_1[l] == textArray[l])
-            {
-
-            }
+            if (sprawdzanko(m_1)) System.arraycopy(m_1.toByteArray(), 0, result, i * 256,  m_1.toByteArray().length);
+            if (sprawdzanko(m_2)) System.arraycopy(m_2.toByteArray(), 0, result, i * 256,  m_2.toByteArray().length);
+            if (sprawdzanko(m_3)) System.arraycopy(m_3.toByteArray(), 0, result, i * 256,  m_3.toByteArray().length);
+            if (sprawdzanko(m_4)) System.arraycopy(m_4.toByteArray(), 0, result, i * 256,  m_4.toByteArray().length);
 
         }
+        return result;
 
-        return dobre(m);                                        // :)))
+
     }
 
     public BigInteger chinol(BigInteger a, BigInteger b){
@@ -160,5 +151,17 @@ public class Szyfruj {
 
         return result;
     }
-
+    public boolean sprawdzanko(BigInteger m)
+    {
+        byte[] textArray = tekst.getBytes();
+        byte[] mArray = m.toByteArray();
+        for(int l = 0; l < textArray.length; l++)
+        {
+            if(mArray[l] != textArray[l])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -65,11 +65,13 @@ public class Main extends Application {
             byte[] byteText = txt_from.getBytes();
             Szyfruj slowo = new Szyfruj(byteText);
 
-            BigInteger wyswZaszyfr = new BigInteger(Arrays.toString(slowo.szyfruj()));
-            BigInteger wyswOdszyfr = new BigInteger(String.valueOf(slowo.deszyfruj(slowo.szyfruj())));
-            String txt_przed = wyswZaszyfr.toString();
-            String txt_po = wyswOdszyfr.toString();
-            tekstZaszyfr.setText(txt_przed);
+            //BigInteger[] zaszyfr = slowo.szyfruj();
+            //byte []wyswZaszyfr=zaszyfr;
+            //BigInteger wyswOdszyfr = new BigInteger(Arrays.toString(slowo.deszyfruj(slowo.szyfruj())));
+            byte[] wyswOdszyfr=slowo.deszyfruj(slowo.szyfruj());
+            //String txt_przed = wyswZaszyfr.toString();
+            String txt_po = new String(wyswOdszyfr);
+            //tekstZaszyfr.setText(txt_przed);
             tekstOdszyfr.setText(txt_po);
         });
 
@@ -82,15 +84,15 @@ public class Main extends Application {
             Pliki pliki=new Pliki();
             Szyfruj slowo = new Szyfruj(pliki.readFile(bytePath));
 
-            BigInteger wyswZaszyfr = new BigInteger(String.valueOf(slowo.szyfruj()));
-            BigInteger wyswOdszyfr = new BigInteger(String.valueOf(slowo.deszyfruj(slowo.szyfruj())));
+            BigInteger wyswZaszyfr = new BigInteger(Arrays.toString(slowo.szyfruj()));
+            BigInteger wyswOdszyfr = new BigInteger(Arrays.toString(slowo.deszyfruj(slowo.szyfruj())));
             String txt_przed = wyswZaszyfr.toString();
             String txt_po = wyswOdszyfr.toString();
             tekstZaszyfr.setText(txt_przed);
             tekstOdszyfr.setText(txt_po);
 
             try {
-                pliki.writeFile("C:\\Users\\Michał\\Desktop\\gowno2.jpeg", slowo.deszyfruj(slowo.szyfruj()));
+                pliki.writeFile("C:\\Users\\student\\Desktop\\cos.txt", slowo.deszyfruj(slowo.szyfruj()));
             }
             catch (IOException el) {
                 el.printStackTrace();
