@@ -6,7 +6,7 @@ public class Szyfruj {
 
     private BigInteger p;
     private BigInteger q;
-    private byte[] tekstJawny;
+    public byte[] tekstJawny;
     private BigInteger n;
     private BigInteger[] m;
     private String tekst;
@@ -30,27 +30,27 @@ public class Szyfruj {
 
     public BigInteger[] szyfruj()
     {
-        BigInteger[] c;
-        int i=0,j=0;
-        m=new BigInteger[(tekstJawny.length/256)+1];
 
-        byte[] pom;
+        int i=0,j=0,blockSize=256;
+        m=new BigInteger[(tekstJawny.length/blockSize)+1];
+
+        byte[] pom=new byte[blockSize];
 
         tekst=new String("Ala ma kota");
-        pom=tekst.getBytes();
+        System.arraycopy(tekst.getBytes(),0,pom,0,tekst.getBytes().length);
         int tekstLength=tekst.getBytes().length;
-        while(tekstJawny.length-i-tekstLength>0)
+        while(tekstJawny.length-i >= blockSize-tekstLength)
         {
-            System.arraycopy(tekstJawny, i, pom, tekstLength-1, 256-tekstLength);
+            System.arraycopy(tekstJawny, i, pom, tekstLength, blockSize-tekstLength);
             //BigInteger pom2=new BigInteger(pom);
             m[j]=new BigInteger(pom);
-            i+=256-tekstLength;
+            i=i+(blockSize-tekstLength);
             j++;
         }
-        /*System.arraycopy(tekstJawny,i,pom,tekstLength-1,tekstJawny.length-i);
+        System.arraycopy(tekstJawny,i,pom,tekstLength,tekstJawny.length-i);
         m[j]=new BigInteger(pom);
-        j++;*/
-        c=new BigInteger[j];
+        j++;
+        BigInteger[] c=new BigInteger[j];
         // m = new BigInteger(tekstJawny);
 
         do {
@@ -59,11 +59,12 @@ public class Szyfruj {
 
             n = p.multiply(q);
         } while (p.equals(q) || m[0].compareTo(n) != -1);
+        //System.out.println("P:"+p);
+        for(int k=0; k<j; k++) {
 
-        for(int k=0; k<j-1; k++) {
-
-            c[k] = m[k].multiply(m[k]).mod(n);
+            c[k] = m[k].pow(2).mod(n);
         }
+        //System.out.println(c[0]);
         return c;
     }
 
@@ -88,6 +89,21 @@ public class Szyfruj {
             m_3 = chinol(y_p1, y_q2);
             m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
             m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
+
+            byte[] m1B=m_1.toByteArray();
+            byte[] m2B=m_2.toByteArray();
+            byte[] m3B=m_3.toByteArray();
+            byte[] m4B=m_4.toByteArray();
+
+            String m1S=new String(m_1.toByteArray());
+            String m2S=new String(m_2.toByteArray());
+            String m3S=new String(m_3.toByteArray());
+            String m4S=new String(m_4.toByteArray());
+
+            System.out.println("M1:"+m1S);
+            System.out.println("M2:"+m2S);
+            System.out.println("M3:"+m3S);
+            System.out.println("M4:"+m4S);
 
             if (sprawdzanko(m_1)) System.arraycopy(m_1.toByteArray(), 0, result, i * 256,  m_1.toByteArray().length);
             if (sprawdzanko(m_2)) System.arraycopy(m_2.toByteArray(), 0, result, i * 256,  m_2.toByteArray().length);
