@@ -50,28 +50,39 @@ public class Szyfruj {
         System.arraycopy(tekstJawny,i,pom,tekstLength,tekstJawny.length-i);
         m[j]=new BigInteger(pom);
         j++;
+        //System.out.println(m[0]);
+        /*byte[] tabB=m[0].toByteArray();
+        String tabS=new String(tabB);
+        System.out.println(tabS);*/
         BigInteger[] c=new BigInteger[j];
         // m = new BigInteger(tekstJawny);
 
         do {
             p = getPrime();
             q = getPrime();
-
+            if(p.compareTo(q) == -1)
+            {
+                BigInteger pom2;
+                pom2 = p;
+                p = q;
+                q = pom2;
+            }
             n = p.multiply(q);
         } while (p.equals(q) || m[0].compareTo(n) != -1);
         //System.out.println("P:"+p);
         for(int k=0; k<j; k++) {
 
             c[k] = m[k].pow(2).mod(n);
+            //System.out.println(c[k]);
         }
-        //System.out.println(c[0]);
+        //System.out.println(m[0]);
         return c;
     }
 
     public byte[] deszyfruj(BigInteger[] zaszyfr)
     {
         BigInteger x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
-        byte[] result= new byte[zaszyfr.length];
+        byte[] result= new byte[zaszyfr.length*256];
         for(int i=0; i<zaszyfr.length;i++) {
 
 
@@ -85,10 +96,14 @@ public class Szyfruj {
             y_q1 = x_q.modPow(q.add(BigInteger.valueOf(1)).divide(BigInteger.valueOf(4)), q);
             y_q2 = q.subtract(y_q1);
 
-            m_1 = chinol(y_p1, y_q1);
-            m_3 = chinol(y_p1, y_q2);
-            m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
-            m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
+            BigInteger[] uv=chinol();
+
+            m_1 = p.multiply(uv[0]).multiply(y_q1).subtract(q.multiply(uv[1]).multiply(y_p1)).mod(n);
+            m_2 = p.multiply(uv[0]).multiply(y_q1).subtract(q.multiply(uv[1]).multiply(y_p2)).mod(n);
+            m_3 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
+            m_4 = m_2.multiply((BigInteger.valueOf(-1))).mod(n);
+            //m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
+            //m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
 
             byte[] m1B=m_1.toByteArray();
             byte[] m2B=m_2.toByteArray();
@@ -100,10 +115,10 @@ public class Szyfruj {
             String m3S=new String(m_3.toByteArray());
             String m4S=new String(m_4.toByteArray());
 
-            System.out.println("M1:"+m1S);
-            System.out.println("M2:"+m2S);
-            System.out.println("M3:"+m3S);
-            System.out.println("M4:"+m4S);
+            /*System.out.println("M1:"+m_1);
+            System.out.println("M2:"+m_2);
+            System.out.println("M3:"+m_3);
+            System.out.println("M4:"+m_4);*/
 
             if (sprawdzanko(m_1)) System.arraycopy(m_1.toByteArray(), 0, result, i * 256,  m_1.toByteArray().length);
             if (sprawdzanko(m_2)) System.arraycopy(m_2.toByteArray(), 0, result, i * 256,  m_2.toByteArray().length);
@@ -116,19 +131,32 @@ public class Szyfruj {
 
     }
 
-    public BigInteger chinol(BigInteger a, BigInteger b){
+   /* BigInteger[] euklidesik(BigInteger p, BigInteger q)
+    {
+        if(q>p) {
+            BigInteger pom=p;
+            p=q;
+            q=pom;
+        }
+        if(q.compareTo(BigInteger.valueOf(0))==0) {
+            BigInteger tab;
+        }
+    }*/
+
+
+    public BigInteger[] chinol(){
 
         BigInteger d = new BigInteger(String.valueOf(p));
         BigInteger e = new BigInteger(String.valueOf(q));
         BigInteger u, v;
 
-        if(d.compareTo(e) == -1)
+        /*if(d.compareTo(e) == -1)
         {
             BigInteger pom;
             pom = d;
             d = e;
             e = pom;
-        }
+        }*/
 
         Vector<BigInteger> P = new Vector<>();
         Vector<BigInteger> Q = new Vector<>();
@@ -147,7 +175,7 @@ public class Szyfruj {
             e = pom.mod(e);
         }
 
-        for(int i = 0; i < q.size(); i++)
+        for(int i = 0; i < q.size()-1; i++)
         {
             P.addElement(P.elementAt(i+1).multiply(q.elementAt(i)).add(P.elementAt(i)));
             Q.addElement(Q.elementAt(i+1).multiply(q.elementAt(i)).add(Q.elementAt(i)));
@@ -156,17 +184,20 @@ public class Szyfruj {
         u = Q.lastElement();
         v = P.lastElement();
 
-        if(q.size()%2 == 1)
+        if(q.size()%2 == 0)
         {
             u = u.multiply(BigInteger.valueOf(-1));
             v = v.multiply(BigInteger.valueOf(-1));
         }
 
-        BigInteger result;
-        result = p.multiply(u).multiply(b).subtract(this.q.multiply(v).multiply(a)).mod(n);
-
+        BigInteger[] result=new BigInteger[2];
+        //result = p.multiply(u).multiply(b).subtract(this.q.multiply(v).multiply(a)).mod(n);
+        result[0]=u;
+        result[1]=v;
         return result;
     }
+
+
     public boolean sprawdzanko(BigInteger m)
     {
         byte[] textArray = tekst.getBytes();
