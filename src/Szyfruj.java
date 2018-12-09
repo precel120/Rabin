@@ -73,9 +73,7 @@ public class Szyfruj {
         for(int k=0; k<j; k++) {
 
             c[k] = m[k].pow(2).mod(n);
-            //System.out.println(c[k]);
         }
-        //System.out.println(m[0]);
         return c;
     }
 
@@ -130,19 +128,6 @@ public class Szyfruj {
 
 
     }
-
-   /* BigInteger[] euklidesik(BigInteger p, BigInteger q)
-    {
-        if(q>p) {
-            BigInteger pom=p;
-            p=q;
-            q=pom;
-        }
-        if(q.compareTo(BigInteger.valueOf(0))==0) {
-            BigInteger tab;
-        }
-    }*/
-
 
     public BigInteger[] chinol(){
 
