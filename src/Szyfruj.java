@@ -4,35 +4,35 @@ import java.util.Vector;
 
 public class Szyfruj {
 
-    private BigInteger p;
-    private BigInteger q;
+    private Matma p;
+    private Matma q;
     public byte[] tekstJawny;
-    private BigInteger n;
-    private BigInteger[] m;
+    private Matma n;
+    private Matma[] m;
     private String tekst;
 
     public Szyfruj(byte[] tekstJawny){
         this.tekstJawny=tekstJawny;
     }
 
-    public BigInteger getPrime() {
+    public Matma getPrime() {
 
-        BigInteger a;
+        Matma a;
         Random rnd = new Random();
-        BigInteger trzy=BigInteger.valueOf(3);
-        BigInteger cztery=BigInteger.valueOf(4);
+        Matma trzy=Matma.valueOf(3);
+        Matma cztery=Matma.valueOf(4);
         do{
-            a = BigInteger.probablePrime(1024,rnd);
+            a = Matma.probablePrime(1024,rnd);
         }while(!(a.mod(cztery).equals(trzy)));
 
         return a;
     }
 
-    public BigInteger[] szyfruj()
+    public Matma[] szyfruj()
     {
 
         int i=0,j=0,blockSize=256;
-        m=new BigInteger[(tekstJawny.length/blockSize)+1];
+        m=new Matma[(tekstJawny.length/blockSize)+1];
 
         byte[] pom=new byte[blockSize];
 
@@ -43,18 +43,18 @@ public class Szyfruj {
         {
             System.arraycopy(tekstJawny, i, pom, tekstLength, blockSize-tekstLength);
             //BigInteger pom2=new BigInteger(pom);
-            m[j]=new BigInteger(pom);
+            m[j]=new Matma(pom);
             i=i+(blockSize-tekstLength);
             j++;
         }
         System.arraycopy(tekstJawny,i,pom,tekstLength,tekstJawny.length-i);
-        m[j]=new BigInteger(pom);
+        m[j]=new Matma(pom);
         j++;
         //System.out.println(m[0]);
         /*byte[] tabB=m[0].toByteArray();
         String tabS=new String(tabB);
         System.out.println(tabS);*/
-        BigInteger[] c=new BigInteger[j];
+        Matma[] c=new Matma[j];
         // m = new BigInteger(tekstJawny);
 
         do {
@@ -62,7 +62,7 @@ public class Szyfruj {
             q = getPrime();
             if(p.compareTo(q) == -1)
             {
-                BigInteger pom2;
+                Matma pom2;
                 pom2 = p;
                 p = q;
                 q = pom2;
@@ -73,33 +73,35 @@ public class Szyfruj {
         for(int k=0; k<j; k++) {
 
             c[k] = m[k].pow(2).mod(n);
+            //System.out.println(c[k]);
         }
+        //System.out.println(m[0]);
         return c;
     }
 
-    public byte[] deszyfruj(BigInteger[] zaszyfr)
+    public byte[] deszyfruj(Matma[] zaszyfr)
     {
-        BigInteger x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
+        Matma x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
         byte[] result= new byte[zaszyfr.length*256];
         for(int i=0; i<zaszyfr.length;i++) {
 
 
             x_p = zaszyfr[i].mod(p);
             x_q = zaszyfr[i].mod(q);
-            y_p1 = new BigInteger(String.valueOf(x_p));
+            y_p1 = new Matma(String.valueOf(x_p));
 
-            y_p1 = x_p.modPow(p.add(BigInteger.valueOf(1)).divide(BigInteger.valueOf(4)), p);
+            y_p1 = x_p.modPow(p.add(Matma.valueOf(1)).divide(Matma.valueOf(4)), p);
             y_p2 = p.subtract(y_p1);
 
-            y_q1 = x_q.modPow(q.add(BigInteger.valueOf(1)).divide(BigInteger.valueOf(4)), q);
+            y_q1 = x_q.modPow(q.add(Matma.valueOf(1)).divide(Matma.valueOf(4)), q);
             y_q2 = q.subtract(y_q1);
 
-            BigInteger[] uv=chinol();
+            Matma[] uv=chinol();
 
             m_1 = p.multiply(uv[0]).multiply(y_q1).subtract(q.multiply(uv[1]).multiply(y_p1)).mod(n);
             m_2 = p.multiply(uv[0]).multiply(y_q1).subtract(q.multiply(uv[1]).multiply(y_p2)).mod(n);
-            m_3 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
-            m_4 = m_2.multiply((BigInteger.valueOf(-1))).mod(n);
+            m_3 = m_1.multiply((Matma.valueOf(-1))).mod(n);
+            m_4 = m_2.multiply((Matma.valueOf(-1))).mod(n);
             //m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
             //m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
 
@@ -129,11 +131,24 @@ public class Szyfruj {
 
     }
 
-    public BigInteger[] chinol(){
+   /* BigInteger[] euklidesik(BigInteger p, BigInteger q)
+    {
+        if(q>p) {
+            BigInteger pom=p;
+            p=q;
+            q=pom;
+        }
+        if(q.compareTo(BigInteger.valueOf(0))==0) {
+            BigInteger tab;
+        }
+    }*/
 
-        BigInteger d = new BigInteger(String.valueOf(p));
-        BigInteger e = new BigInteger(String.valueOf(q));
-        BigInteger u, v;
+
+    public Matma[] chinol(){
+
+        Matma d = new Matma(String.valueOf(p));
+        Matma e = new Matma(String.valueOf(q));
+        Matma u, v;
 
         /*if(d.compareTo(e) == -1)
         {
@@ -143,19 +158,19 @@ public class Szyfruj {
             e = pom;
         }*/
 
-        Vector<BigInteger> P = new Vector<>();
-        Vector<BigInteger> Q = new Vector<>();
-        Vector<BigInteger> q = new Vector<>();
+        Vector<Matma> P = new Vector<>();
+        Vector<Matma> Q = new Vector<>();
+        Vector<Matma> q = new Vector<>();
 
-        P.addElement(BigInteger.valueOf(0));
-        P.addElement(BigInteger.valueOf(1));
-        Q.addElement(BigInteger.valueOf(1));
-        Q.addElement(BigInteger.valueOf(0));
+        P.addElement(Matma.valueOf(0));
+        P.addElement(Matma.valueOf(1));
+        Q.addElement(Matma.valueOf(1));
+        Q.addElement(Matma.valueOf(0));
 
-        while(e.compareTo(BigInteger.valueOf(0)) != 0) {
+        while(e.compareTo(Matma.valueOf(0)) != 0) {
             q.addElement(d.divide(e));
 
-            BigInteger pom = new BigInteger(String.valueOf(d));
+            Matma pom = new Matma(String.valueOf(d));
             d = e;
             e = pom.mod(e);
         }
@@ -171,11 +186,11 @@ public class Szyfruj {
 
         if(q.size()%2 == 0)
         {
-            u = u.multiply(BigInteger.valueOf(-1));
-            v = v.multiply(BigInteger.valueOf(-1));
+            u = u.multiply(Matma.valueOf(-1));
+            v = v.multiply(Matma.valueOf(-1));
         }
 
-        BigInteger[] result=new BigInteger[2];
+        Matma[] result=new Matma[2];
         //result = p.multiply(u).multiply(b).subtract(this.q.multiply(v).multiply(a)).mod(n);
         result[0]=u;
         result[1]=v;
@@ -183,7 +198,7 @@ public class Szyfruj {
     }
 
 
-    public boolean sprawdzanko(BigInteger m)
+    public boolean sprawdzanko(Matma m)
     {
         byte[] textArray = tekst.getBytes();
         byte[] mArray = m.toByteArray();
