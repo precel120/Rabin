@@ -3,17 +3,17 @@ package Library;
 //package sample.Library;
 
 
-//import sample.Matma;
-//import sample.SMutMatma;
+//import sample.CalkowicieBig;
+//import sample.SMutCalkowicieBig;
 
 import java.util.Arrays;
-import static Library.Matma.LONG_MASK;
-import static Library.DMatma.INFLATED;
+import static Library.CalkowicieBig.LONG_MASK;
+import static Library.DCalkowicieBig.INFLATED;
 
 
-class MutMatma {
+class MutCalkowicieBig {
     /**
-     * Holds the magnitude of this MutMatma in big endian order.
+     * Holds the magnitude of this MutCalkowicieBig in big endian order.
      * The magnitude may start at an offset into the value array, and it may
      * end before the length of the value array.
      */
@@ -21,24 +21,24 @@ class MutMatma {
 
     /**
      * The number of ints of the value array that are currently used
-     * to hold the magnitude of this MutMatma. The magnitude starts
+     * to hold the magnitude of this MutCalkowicieBig. The magnitude starts
      * at an offset and offset + intLen may be less than value.length.
      */
     int intLen;
 
     /**
      * The offset into the value array where the magnitude of this
-     * MutMatma begins.
+     * MutCalkowicieBig begins.
      */
     int offset = 0;
 
     // Constants
     /**
-     * MutMatma with one element value array with the value 1. Used by
-     * DMatma divideAndRound to increment the quotient. Use this constant
+     * MutCalkowicieBig with one element value array with the value 1. Used by
+     * DCalkowicieBig divideAndRound to increment the quotient. Use this constant
      * only when the method is not going to modify this object.
      */
-    static final MutMatma ONE = new MutMatma(1);
+    static final MutCalkowicieBig ONE = new MutCalkowicieBig(1);
 
     /**
      * The minimum {@code intLen} for cancelling powers of two before
@@ -61,47 +61,47 @@ class MutMatma {
     // Constructors
 
     /**
-     * The default constructor. An empty MutMatma is created with
+     * The default constructor. An empty MutCalkowicieBig is created with
      * a one word capacity.
      */
-    MutMatma() {
+    MutCalkowicieBig() {
         value = new int[1];
         intLen = 0;
     }
 
     /**
-     * Construct a new MutMatma with a magnitude specified by
+     * Construct a new MutCalkowicieBig with a magnitude specified by
      * the int val.
      */
-    MutMatma(int val) {
+    MutCalkowicieBig(int val) {
         value = new int[1];
         intLen = 1;
         value[0] = val;
     }
 
     /**
-     * Construct a new MutMatma with the specified value array
+     * Construct a new MutCalkowicieBig with the specified value array
      * up to the length of the array supplied.
      */
-    MutMatma(int[] val) {
+    MutCalkowicieBig(int[] val) {
         value = val;
         intLen = val.length;
     }
 
     /**
-     * Construct a new MutMatma with a magnitude equal to the
-     * specified Matma.
+     * Construct a new MutCalkowicieBig with a magnitude equal to the
+     * specified CalkowicieBig.
      */
-    MutMatma(Matma b) {
+    MutCalkowicieBig(CalkowicieBig b) {
         intLen = b.mag.length;
         value = Arrays.copyOf(b.mag, intLen);
     }
 
     /**
-     * Construct a new MutMatma with a magnitude equal to the
-     * specified MutMatma.
+     * Construct a new MutCalkowicieBig with a magnitude equal to the
+     * specified MutCalkowicieBig.
      */
-    MutMatma(MutMatma val) {
+    MutCalkowicieBig(MutCalkowicieBig val) {
         intLen = val.intLen;
         value = Arrays.copyOfRange(val.value, val.offset, val.offset + intLen);
     }
@@ -131,11 +131,11 @@ class MutMatma {
     }
 
     /**
-     * Convert this MutMatma to a long value. The caller has to make
-     * sure this MutMatma can be fit into long.
+     * Convert this MutCalkowicieBig to a long value. The caller has to make
+     * sure this MutCalkowicieBig can be fit into long.
      */
     private long toLong() {
-        assert (intLen <= 2) : "this MutMatma exceeds the range of long";
+        assert (intLen <= 2) : "this MutCalkowicieBig exceeds the range of long";
         if (intLen == 0)
             return 0;
         long d = value[offset] & LONG_MASK;
@@ -143,44 +143,44 @@ class MutMatma {
     }
 
     /**
-     * Convert this MutMatma to a Matma object.
+     * Convert this MutCalkowicieBig to a CalkowicieBig object.
      */
-    Matma toMatma(int sign) {
+    CalkowicieBig toCalkowicieBig(int sign) {
         if (intLen == 0 || sign == 0)
-            return Matma.ZERO;
-        return new Matma(getMagnitudeArray(), sign);
+            return CalkowicieBig.ZERO;
+        return new CalkowicieBig(getMagnitudeArray(), sign);
     }
 
     /**
-     * Converts this number to a nonnegative {@code Matma}.
+     * Converts this number to a nonnegative {@code CalkowicieBig}.
      */
-    Matma toMatma() {
+    CalkowicieBig toCalkowicieBig() {
         normalize();
-        return toMatma(isZero() ? 0 : 1);
+        return toCalkowicieBig(isZero() ? 0 : 1);
     }
 
     /**
-     * Convert this MutMatma to DMatma object with the specified sign
+     * Convert this MutCalkowicieBig to DCalkowicieBig object with the specified sign
      * and scale.
      */
-    DMatma toBigDecimal(int sign, int scale) {
+    DCalkowicieBig toBigDecimal(int sign, int scale) {
         if (intLen == 0 || sign == 0)
-            return DMatma.zeroValueOf(scale);
+            return DCalkowicieBig.zeroValueOf(scale);
         int[] mag = getMagnitudeArray();
         int len = mag.length;
         int d = mag[0];
-        // If this MutMatma can't be fit into long, we need to
-        // make a Matma object for the resultant DMatma object.
+        // If this MutCalkowicieBig can't be fit into long, we need to
+        // make a CalkowicieBig object for the resultant DCalkowicieBig object.
         if (len > 2 || (d < 0 && len == 2))
-            return new DMatma(new Matma(mag, sign), INFLATED, scale, 0);
+            return new DCalkowicieBig(new CalkowicieBig(mag, sign), INFLATED, scale, 0);
         long v = (len == 2) ?
                 ((mag[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
                 d & LONG_MASK;
-        return DMatma.valueOf(sign == -1 ? -v : v, scale);
+        return DCalkowicieBig.valueOf(sign == -1 ? -v : v, scale);
     }
 
     /**
-     * This is for internal use in converting from a MutMatma
+     * This is for internal use in converting from a MutCalkowicieBig
      * object into a long value given a specified sign.
      * returns INFLATED if value is not fit into long
      */
@@ -190,8 +190,8 @@ class MutMatma {
         int[] mag = getMagnitudeArray();
         int len = mag.length;
         int d = mag[0];
-        // If this MutMatma can not be fitted into long, we need to
-        // make a Matma object for the resultant DMatma object.
+        // If this MutCalkowicieBig can not be fitted into long, we need to
+        // make a CalkowicieBig object for the resultant DCalkowicieBig object.
         if (len > 2 || (d < 0 && len == 2))
             return INFLATED;
         long v = (len == 2) ?
@@ -201,7 +201,7 @@ class MutMatma {
     }
 
     /**
-     * Clear out a MutMatma for reuse.
+     * Clear out a MutCalkowicieBig for reuse.
      */
     void clear() {
         offset = intLen = 0;
@@ -210,7 +210,7 @@ class MutMatma {
     }
 
     /**
-     * Set a MutMatma to zero, removing its offset.
+     * Set a MutCalkowicieBig to zero, removing its offset.
      */
     void reset() {
         offset = intLen = 0;
@@ -218,10 +218,10 @@ class MutMatma {
 
     /**
      * Compare the magnitude of two MutableBigIntegers. Returns -1, 0 or 1
-     * as this MutMatma is numerically less than, equal to, or
+     * as this MutCalkowicieBig is numerically less than, equal to, or
      * greater than <tt>b</tt>.
      */
-    final int compare(MutMatma b) {
+    final int compare(MutCalkowicieBig b) {
         int blen = b.intLen;
         if (intLen < blen)
             return -1;
@@ -246,7 +246,7 @@ class MutMatma {
      * Returns a value equal to what {@code b.leftShift(32*ints); return compare(b);}
      * would return, but doesn't change the value of {@code b}.
      */
-    private int compareShifted(MutMatma b, int ints) {
+    private int compareShifted(MutCalkowicieBig b, int ints) {
         int blen = b.intLen;
         int alen = intLen - ints;
         if (alen < blen)
@@ -269,12 +269,12 @@ class MutMatma {
     }
 
     /**
-     * Compare this against half of a MutMatma object (Needed for
+     * Compare this against half of a MutCalkowicieBig object (Needed for
      * remainder tests).
      * Assumes no leading unnecessary zeros, which holds for results
      * from divide().
      */
-    final int compareHalf(MutMatma b) {
+    final int compareHalf(MutCalkowicieBig b) {
         int blen = b.intLen;
         int len = intLen;
         if (len <= 0)
@@ -309,8 +309,8 @@ class MutMatma {
     }
 
     /**
-     * Return the index of the lowest set bit in this MutMatma. If the
-     * magnitude of this MutMatma is zero, -1 is returned.
+     * Return the index of the lowest set bit in this MutCalkowicieBig. If the
+     * magnitude of this MutCalkowicieBig is zero, -1 is returned.
      */
     private final int getLowestSetBit() {
         if (intLen == 0)
@@ -325,7 +325,7 @@ class MutMatma {
     }
 
     /**
-     * Return the int in use in this MutMatma at the specified
+     * Return the int in use in this MutCalkowicieBig at the specified
      * index. This method is not used because it is not inlined on all
      * platforms.
      */
@@ -335,7 +335,7 @@ class MutMatma {
 
     /**
      * Return a long which is equal to the unsigned value of the int in
-     * use in this MutMatma at the specified index. This method is
+     * use in this MutCalkowicieBig at the specified index. This method is
      * not used because it is not inlined on all platforms.
      */
     private final long getLong(int index) {
@@ -343,7 +343,7 @@ class MutMatma {
     }
 
     /**
-     * Ensure that the MutMatma is in normal form, specifically
+     * Ensure that the MutCalkowicieBig is in normal form, specifically
      * making sure that there are no leading zeros, and that if the
      * magnitude is zero, then intLen is zero.
      */
@@ -368,7 +368,7 @@ class MutMatma {
     }
 
     /**
-     * If this MutMatma cannot hold len words, increase the size
+     * If this MutCalkowicieBig cannot hold len words, increase the size
      * of the value array to len words.
      */
     private final void ensureCapacity(int len) {
@@ -380,8 +380,8 @@ class MutMatma {
     }
 
     /**
-     * Convert this MutMatma into an int array with no leading
-     * zeros, of a length that is equal to this MutMatma's intLen.
+     * Convert this MutCalkowicieBig into an int array with no leading
+     * zeros, of a length that is equal to this MutCalkowicieBig's intLen.
      */
     int[] toIntArray() {
         int[] result = new int[intLen];
@@ -391,7 +391,7 @@ class MutMatma {
     }
 
     /**
-     * Sets the int at index+offset in this MutMatma to val.
+     * Sets the int at index+offset in this MutCalkowicieBig to val.
      * This does not get inlined on all platforms so it is not used
      * as often as originally intended.
      */
@@ -400,7 +400,7 @@ class MutMatma {
     }
 
     /**
-     * Sets this MutMatma's value array to the specified array.
+     * Sets this MutCalkowicieBig's value array to the specified array.
      * The intLen is set to the specified length.
      */
     void setValue(int[] val, int length) {
@@ -410,10 +410,10 @@ class MutMatma {
     }
 
     /**
-     * Sets this MutMatma's value array to a copy of the specified
+     * Sets this MutCalkowicieBig's value array to a copy of the specified
      * array. The intLen is set to the length of the new array.
      */
-    void copyValue(MutMatma src) {
+    void copyValue(MutCalkowicieBig src) {
         int len = src.intLen;
         if (value.length < len)
             value = new int[len];
@@ -423,7 +423,7 @@ class MutMatma {
     }
 
     /**
-     * Sets this MutMatma's value array to a copy of the specified
+     * Sets this MutCalkowicieBig's value array to a copy of the specified
      * array. The intLen is set to the length of the specified array.
      */
     void copyValue(int[] val) {
@@ -436,36 +436,36 @@ class MutMatma {
     }
 
     /**
-     * Returns true iff this MutMatma has a value of one.
+     * Returns true iff this MutCalkowicieBig has a value of one.
      */
     boolean isOne() {
         return (intLen == 1) && (value[offset] == 1);
     }
 
     /**
-     * Returns true iff this MutMatma has a value of zero.
+     * Returns true iff this MutCalkowicieBig has a value of zero.
      */
     boolean isZero() {
         return (intLen == 0);
     }
 
     /**
-     * Returns true iff this MutMatma is even.
+     * Returns true iff this MutCalkowicieBig is even.
      */
     boolean isEven() {
         return (intLen == 0) || ((value[offset + intLen - 1] & 1) == 0);
     }
 
     /**
-     * Returns true iff this MutMatma is odd.
+     * Returns true iff this MutCalkowicieBig is odd.
      */
     boolean isOdd() {
         return isZero() ? false : ((value[offset + intLen - 1] & 1) == 1);
     }
 
     /**
-     * Returns true iff this MutMatma is in normal form. A
-     * MutMatma is in normal form if it has no leading zeros
+     * Returns true iff this MutCalkowicieBig is in normal form. A
+     * MutCalkowicieBig is in normal form if it has no leading zeros
      * after the offset, and intLen + offset <= value.length.
      */
     boolean isNormal() {
@@ -477,10 +477,10 @@ class MutMatma {
     }
 
     /**
-     * Returns a String representation of this MutMatma in radix 10.
+     * Returns a String representation of this MutCalkowicieBig in radix 10.
      */
     public String toString() {
-        Matma b = toMatma(1);
+        CalkowicieBig b = toCalkowicieBig(1);
         return b.toString();
     }
 
@@ -496,7 +496,7 @@ class MutMatma {
     }
 
     /**
-     * Right shift this MutMatma n bits. The MutMatma is left
+     * Right shift this MutCalkowicieBig n bits. The MutCalkowicieBig is left
      * in normal form.
      */
     void rightShift(int n) {
@@ -507,7 +507,7 @@ class MutMatma {
         this.intLen -= nInts;
         if (nBits == 0)
             return;
-        int bitsInHighWord = Matma.bitLengthForInt(value[offset]);
+        int bitsInHighWord = CalkowicieBig.bitLengthForInt(value[offset]);
         if (nBits >= bitsInHighWord) {
             this.primitiveLeftShift(32 - nBits);
             this.intLen--;
@@ -526,11 +526,11 @@ class MutMatma {
     }
 
     /**
-     * Left shift this MutMatma n bits.
+     * Left shift this MutCalkowicieBig n bits.
      */
     void leftShift(int n) {
         /*
-         * If there is enough storage space in this MutMatma already
+         * If there is enough storage space in this MutCalkowicieBig already
          * the available space will be used. Space to the right of the used
          * ints in the value array is faster to utilize, so the extra space
          * will be taken from the right if possible.
@@ -539,7 +539,7 @@ class MutMatma {
             return;
         int nInts = n >>> 5;
         int nBits = n&0x1F;
-        int bitsInHighWord = Matma.bitLengthForInt(value[offset]);
+        int bitsInHighWord = CalkowicieBig.bitLengthForInt(value[offset]);
 
         // If shift can be done without moving words, do so
         if (n <= (32-bitsInHighWord)) {
@@ -634,7 +634,7 @@ class MutMatma {
     }
 
     /**
-     * Right shift this MutMatma n bits, where n is
+     * Right shift this MutCalkowicieBig n bits, where n is
      * less than 32.
      * Assumes that intLen > 0, n > 0 for speed
      */
@@ -650,7 +650,7 @@ class MutMatma {
     }
 
     /**
-     * Left shift this MutMatma n bits, where n is
+     * Left shift this MutCalkowicieBig n bits, where n is
      * less than 32.
      * Assumes that intLen > 0, n > 0 for speed
      */
@@ -666,21 +666,21 @@ class MutMatma {
     }
 
     /**
-     * Returns a {@code Matma} equal to the {@code n}
+     * Returns a {@code CalkowicieBig} equal to the {@code n}
      * low ints of this number.
      */
-    private Matma getLower(int n) {
+    private CalkowicieBig getLower(int n) {
         if (isZero()) {
-            return Matma.ZERO;
+            return CalkowicieBig.ZERO;
         } else if (intLen < n) {
-            return toMatma(1);
+            return toCalkowicieBig(1);
         } else {
             // strip zeros
             int len = n;
             while (len > 0 && value[offset+intLen-len] == 0)
                 len--;
             int sign = len > 0 ? 1 : 0;
-            return new Matma(Arrays.copyOfRange(value, offset+intLen-len, offset+intLen), sign);
+            return new CalkowicieBig(Arrays.copyOfRange(value, offset+intLen-len, offset+intLen), sign);
         }
     }
 
@@ -695,11 +695,11 @@ class MutMatma {
     }
 
     /**
-     * Adds the contents of two MutMatma objects.The result
-     * is placed within this MutMatma.
+     * Adds the contents of two MutCalkowicieBig objects.The result
+     * is placed within this MutCalkowicieBig.
      * The contents of the addend are not changed.
      */
-    void add(MutMatma addend) {
+    void add(MutCalkowicieBig addend) {
         int x = intLen;
         int y = addend.intLen;
         int resultLen = (intLen > addend.intLen ? intLen : addend.intLen);
@@ -758,7 +758,7 @@ class MutMatma {
      * Has the same effect as {@code addend.leftShift(32*ints); add(addend);}
      * but doesn't change the value of {@code addend}.
      */
-    void addShifted(MutMatma addend, int n) {
+    void addShifted(MutCalkowicieBig addend, int n) {
         if (addend.isZero()) {
             return;
         }
@@ -820,11 +820,11 @@ class MutMatma {
     }
 
     /**
-     * Like {@link #addShifted(MutMatma, int)} but {@code this.intLen} must
+     * Like {@link #addShifted(MutCalkowicieBig, int)} but {@code this.intLen} must
      * not be greater than {@code n}. In other words, concatenates {@code this}
      * and {@code addend}.
      */
-    void addDisjoint(MutMatma addend, int n) {
+    void addDisjoint(MutCalkowicieBig addend, int n) {
         if (addend.isZero())
             return;
 
@@ -861,8 +861,8 @@ class MutMatma {
     /**
      * Adds the low {@code n} ints of {@code addend}.
      */
-    void addLower(MutMatma addend, int n) {
-        MutMatma a = new MutMatma(addend);
+    void addLower(MutCalkowicieBig addend, int n) {
+        MutCalkowicieBig a = new MutCalkowicieBig(addend);
         if (a.offset + a.intLen >= n) {
             a.offset = a.offset + a.intLen - n;
             a.intLen = n;
@@ -873,10 +873,10 @@ class MutMatma {
 
     /**
      * Subtracts the smaller of this and b from the larger and places the
-     * result into this MutMatma.
+     * result into this MutCalkowicieBig.
      */
-    int subtract(MutMatma b) {
-        MutMatma a = this;
+    int subtract(MutCalkowicieBig b) {
+        MutCalkowicieBig a = this;
 
         int[] result = value;
         int sign = a.compare(b);
@@ -886,7 +886,7 @@ class MutMatma {
             return 0;
         }
         if (sign < 0) {
-            MutMatma tmp = a;
+            MutCalkowicieBig tmp = a;
             a = b;
             b = tmp;
         }
@@ -927,13 +927,13 @@ class MutMatma {
      * into the larger. Returns 1 if the answer is in a, -1 if in b, 0 if no
      * operation was performed.
      */
-    private int difference(MutMatma b) {
-        MutMatma a = this;
+    private int difference(MutCalkowicieBig b) {
+        MutCalkowicieBig a = this;
         int sign = a.compare(b);
         if (sign == 0)
             return 0;
         if (sign < 0) {
-            MutMatma tmp = a;
+            MutCalkowicieBig tmp = a;
             a = b;
             b = tmp;
         }
@@ -961,10 +961,10 @@ class MutMatma {
     }
 
     /**
-     * Multiply the contents of two MutMatma objects. The result is
-     * placed into MutMatma z. The contents of y are not changed.
+     * Multiply the contents of two MutCalkowicieBig objects. The result is
+     * placed into MutCalkowicieBig z. The contents of y are not changed.
      */
-    void multiply(MutMatma y, MutMatma z) {
+    void multiply(MutCalkowicieBig y, MutCalkowicieBig z) {
         int xLen = intLen;
         int yLen = y.intLen;
         int newLen = xLen + yLen;
@@ -1003,10 +1003,10 @@ class MutMatma {
     }
 
     /**
-     * Multiply the contents of this MutMatma by the word y. The
+     * Multiply the contents of this MutCalkowicieBig by the word y. The
      * result is placed into z.
      */
-    void mul(int y, MutMatma z) {
+    void mul(int y, MutCalkowicieBig z) {
         if (y == 1) {
             z.copyValue(this);
             return;
@@ -1047,7 +1047,7 @@ class MutMatma {
      * @return the remainder of the division is returned.
      *
      */
-    int divideOneWord(int divisor, MutMatma quotient) {
+    int divideOneWord(int divisor, MutCalkowicieBig quotient) {
         long divisorLong = divisor & LONG_MASK;
 
         // Special case of one word dividend
@@ -1105,16 +1105,16 @@ class MutMatma {
 
     /**
      * Calculates the quotient of this div b and places the quotient in the
-     * provided MutMatma objects and the remainder object is returned.
+     * provided MutCalkowicieBig objects and the remainder object is returned.
      *
      */
-    MutMatma divide(MutMatma b, MutMatma quotient) {
+    MutCalkowicieBig divide(MutCalkowicieBig b, MutCalkowicieBig quotient) {
         return divide(b,quotient,true);
     }
 
-    MutMatma divide(MutMatma b, MutMatma quotient, boolean needRemainder) {
-        if (b.intLen < Matma.BURNIKEL_ZIEGLER_THRESHOLD ||
-                intLen - b.intLen < Matma.BURNIKEL_ZIEGLER_OFFSET) {
+    MutCalkowicieBig divide(MutCalkowicieBig b, MutCalkowicieBig quotient, boolean needRemainder) {
+        if (b.intLen < CalkowicieBig.BURNIKEL_ZIEGLER_THRESHOLD ||
+                intLen - b.intLen < CalkowicieBig.BURNIKEL_ZIEGLER_OFFSET) {
             return divideKnuth(b, quotient, needRemainder);
         } else {
             return divideAndRemainderBurnikelZiegler(b, quotient);
@@ -1122,15 +1122,15 @@ class MutMatma {
     }
 
     /**
-     * @see #divideKnuth(MutMatma, MutMatma, boolean)
+     * @see #divideKnuth(MutCalkowicieBig, MutCalkowicieBig, boolean)
      */
-    MutMatma divideKnuth(MutMatma b, MutMatma quotient) {
+    MutCalkowicieBig divideKnuth(MutCalkowicieBig b, MutCalkowicieBig quotient) {
         return divideKnuth(b,quotient,true);
     }
 
     /**
      * Calculates the quotient of this div b and places the quotient in the
-     * provided MutMatma objects and the remainder object is returned.
+     * provided MutCalkowicieBig objects and the remainder object is returned.
      *
      * Uses Algorithm D in Knuth section 4.3.1.
      * Many optimizations to that algorithm have been adapted from the Colin
@@ -1139,27 +1139,27 @@ class MutMatma {
      * changed.
      *
      */
-    MutMatma divideKnuth(MutMatma b, MutMatma quotient, boolean needRemainder) {
+    MutCalkowicieBig divideKnuth(MutCalkowicieBig b, MutCalkowicieBig quotient, boolean needRemainder) {
         if (b.intLen == 0)
-            throw new ArithmeticException("Matma divide by zero");
+            throw new ArithmeticException("CalkowicieBig divide by zero");
 
         // Dividend is zero
         if (intLen == 0) {
             quotient.intLen = quotient.offset = 0;
-            return needRemainder ? new MutMatma() : null;
+            return needRemainder ? new MutCalkowicieBig() : null;
         }
 
         int cmp = compare(b);
         // Dividend less than divisor
         if (cmp < 0) {
             quotient.intLen = quotient.offset = 0;
-            return needRemainder ? new MutMatma(this) : null;
+            return needRemainder ? new MutCalkowicieBig(this) : null;
         }
         // Dividend equal to divisor
         if (cmp == 0) {
             quotient.value[0] = quotient.intLen = 1;
             quotient.offset = 0;
-            return needRemainder ? new MutMatma() : null;
+            return needRemainder ? new MutCalkowicieBig() : null;
         }
 
         quotient.clear();
@@ -1168,8 +1168,8 @@ class MutMatma {
             int r = divideOneWord(b.value[b.offset], quotient);
             if(needRemainder) {
                 if (r == 0)
-                    return new MutMatma();
-                return new MutMatma(r);
+                    return new MutCalkowicieBig();
+                return new MutCalkowicieBig(r);
             } else {
                 return null;
             }
@@ -1179,11 +1179,11 @@ class MutMatma {
         if (intLen >= KNUTH_POW2_THRESH_LEN) {
             int trailingZeroBits = Math.min(getLowestSetBit(), b.getLowestSetBit());
             if (trailingZeroBits >= KNUTH_POW2_THRESH_ZEROS*32) {
-                MutMatma a = new MutMatma(this);
-                b = new MutMatma(b);
+                MutCalkowicieBig a = new MutCalkowicieBig(this);
+                b = new MutCalkowicieBig(b);
                 a.rightShift(trailingZeroBits);
                 b.rightShift(trailingZeroBits);
-                MutMatma r = a.divideKnuth(b, quotient);
+                MutCalkowicieBig r = a.divideKnuth(b, quotient);
                 r.leftShift(trailingZeroBits);
                 return r;
             }
@@ -1203,7 +1203,7 @@ class MutMatma {
      * @param quotient output parameter for {@code this/b}
      * @return the remainder
      */
-    MutMatma divideAndRemainderBurnikelZiegler(MutMatma b, MutMatma quotient) {
+    MutCalkowicieBig divideAndRemainderBurnikelZiegler(MutCalkowicieBig b, MutCalkowicieBig quotient) {
         int r = intLen;
         int s = b.intLen;
 
@@ -1218,15 +1218,15 @@ class MutMatma {
             // additional benefit.
 
             // step 1: let m = min{2^k | (2^k)*BURNIKEL_ZIEGLER_THRESHOLD > s}
-            int m = 1 << (32-Integer.numberOfLeadingZeros(s/ Matma.BURNIKEL_ZIEGLER_THRESHOLD));
+            int m = 1 << (32-Integer.numberOfLeadingZeros(s/ CalkowicieBig.BURNIKEL_ZIEGLER_THRESHOLD));
 
             int j = (s+m-1) / m;      // step 2a: j = ceil(s/m)
             int n = j * m;            // step 2b: block length in 32-bit units
             long n32 = 32L * n;         // block length in bits
             int sigma = (int) Math.max(0, n32 - b.bitLength());   // step 3: sigma = max{T | (2^T)*B < beta^n}
-            MutMatma bShifted = new MutMatma(b);
+            MutCalkowicieBig bShifted = new MutCalkowicieBig(b);
             bShifted.safeLeftShift(sigma);   // step 4a: shift b so its length is a multiple of n
-            MutMatma aShifted = new MutMatma(this);
+            MutCalkowicieBig aShifted = new MutCalkowicieBig(this);
             aShifted.safeLeftShift(sigma);     // step 4b: shift a by the same amount
 
             // step 5: t is the number of blocks needed to accommodate a plus one additional bit
@@ -1236,15 +1236,15 @@ class MutMatma {
             }
 
             // step 6: conceptually split a into blocks a[t-1], ..., a[0]
-            MutMatma a1 = aShifted.getBlock(t-1, t, n);   // the most significant block of a
+            MutCalkowicieBig a1 = aShifted.getBlock(t-1, t, n);   // the most significant block of a
 
             // step 7: z[t-2] = [a[t-1], a[t-2]]
-            MutMatma z = aShifted.getBlock(t-2, t, n);    // the second to most significant block
+            MutCalkowicieBig z = aShifted.getBlock(t-2, t, n);    // the second to most significant block
             z.addDisjoint(a1, n);   // z[t-2]
 
             // do schoolbook division on blocks, dividing 2-block numbers by 1-block numbers
-            MutMatma qi = new MutMatma();
-            MutMatma ri;
+            MutCalkowicieBig qi = new MutCalkowicieBig();
+            MutCalkowicieBig ri;
             for (int i=t-2; i > 0; i--) {
                 // step 8a: compute (qi,ri) such that z=b*qi+ri
                 ri = z.divide2n1n(bShifted, qi);
@@ -1273,26 +1273,26 @@ class MutMatma {
      * @param quotient output parameter for {@code this/b}
      * @return {@code this%b}
      */
-    private MutMatma divide2n1n(MutMatma b, MutMatma quotient) {
+    private MutCalkowicieBig divide2n1n(MutCalkowicieBig b, MutCalkowicieBig quotient) {
         int n = b.intLen;
 
         // step 1: base case
-        if (n%2 != 0 || n < Matma.BURNIKEL_ZIEGLER_THRESHOLD) {
+        if (n%2 != 0 || n < CalkowicieBig.BURNIKEL_ZIEGLER_THRESHOLD) {
             return divideKnuth(b, quotient);
         }
 
         // step 2: view this as [a1,a2,a3,a4] where each ai is n/2 ints or less
-        MutMatma aUpper = new MutMatma(this);
+        MutCalkowicieBig aUpper = new MutCalkowicieBig(this);
         aUpper.safeRightShift(32*(n/2));   // aUpper = [a1,a2,a3]
         keepLower(n/2);   // this = a4
 
         // step 3: q1=aUpper/b, r1=aUpper%b
-        MutMatma q1 = new MutMatma();
-        MutMatma r1 = aUpper.divide3n2n(b, q1);
+        MutCalkowicieBig q1 = new MutCalkowicieBig();
+        MutCalkowicieBig r1 = aUpper.divide3n2n(b, q1);
 
         // step 4: quotient=[r1,this]/b, r2=[r1,this]%b
         addDisjoint(r1, n/2);   // this = [r1,this]
-        MutMatma r2 = divide3n2n(b, quotient);
+        MutCalkowicieBig r2 = divide3n2n(b, quotient);
 
         // step 5: let quotient=[q1,quotient] and return r2
         quotient.addDisjoint(q1, n/2);
@@ -1308,26 +1308,26 @@ class MutMatma {
      * @param quotient output parameter for {@code this/b}
      * @return {@code this%b}
      */
-    private MutMatma divide3n2n(MutMatma b, MutMatma quotient) {
+    private MutCalkowicieBig divide3n2n(MutCalkowicieBig b, MutCalkowicieBig quotient) {
         int n = b.intLen / 2;   // half the length of b in ints
 
         // step 1: view this as [a1,a2,a3] where each ai is n ints or less; let a12=[a1,a2]
-        MutMatma a12 = new MutMatma(this);
+        MutCalkowicieBig a12 = new MutCalkowicieBig(this);
         a12.safeRightShift(32*n);
 
         // step 2: view b as [b1,b2] where each bi is n ints or less
-        MutMatma b1 = new MutMatma(b);
+        MutCalkowicieBig b1 = new MutCalkowicieBig(b);
         b1.safeRightShift(n * 32);
-        Matma b2 = b.getLower(n);
+        CalkowicieBig b2 = b.getLower(n);
 
-        MutMatma r;
-        MutMatma d;
+        MutCalkowicieBig r;
+        MutCalkowicieBig d;
         if (compareShifted(b, n) < 0) {
             // step 3a: if a1<b1, let quotient=a12/b1 and r=a12%b1
             r = a12.divide2n1n(b1, quotient);
 
             // step 4: d=quotient*b2
-            d = new MutMatma(quotient.toMatma().multiply(b2));
+            d = new MutCalkowicieBig(quotient.toCalkowicieBig().multiply(b2));
         } else {
             // step 3b: if a1>=b1, let quotient=beta^n-1 and r=a12-b1*2^n+b1
             quotient.ones(n);
@@ -1337,9 +1337,9 @@ class MutMatma {
             r = a12;
 
             // step 4: d=quotient*b2=(b2 << 32*n) - b2
-            d = new MutMatma(b2);
+            d = new MutCalkowicieBig(b2);
             d.leftShift(32 * n);
-            d.subtract(new MutMatma(b2));
+            d.subtract(new MutCalkowicieBig(b2));
         }
 
         // step 5: r = r*beta^n + a3 - d (paper says a4)
@@ -1350,7 +1350,7 @@ class MutMatma {
         // step 6: add b until r>=d
         while (r.compare(d) < 0) {
             r.add(b);
-            quotient.subtract(MutMatma.ONE);
+            quotient.subtract(MutCalkowicieBig.ONE);
         }
         r.subtract(d);
 
@@ -1358,7 +1358,7 @@ class MutMatma {
     }
 
     /**
-     * Returns a {@code MutMatma} containing {@code blockLength} ints from
+     * Returns a {@code MutCalkowicieBig} containing {@code blockLength} ints from
      * {@code this} number, starting at {@code index*blockLength}.<br/>
      * Used by Burnikel-Ziegler division.
      * @param index the block index
@@ -1366,10 +1366,10 @@ class MutMatma {
      * @param blockLength length of one block in units of 32 bits
      * @return
      */
-    private MutMatma getBlock(int index, int numBlocks, int blockLength) {
+    private MutCalkowicieBig getBlock(int index, int numBlocks, int blockLength) {
         int blockStart = index * blockLength;
         if (blockStart >= intLen) {
-            return new MutMatma();
+            return new MutCalkowicieBig();
         }
 
         int blockEnd;
@@ -1379,14 +1379,14 @@ class MutMatma {
             blockEnd = (index+1) * blockLength;
         }
         if (blockEnd > intLen) {
-            return new MutMatma();
+            return new MutCalkowicieBig();
         }
 
         int[] newVal = Arrays.copyOfRange(value, offset+intLen-blockEnd, offset+intLen-blockStart);
-        return new MutMatma(newVal);
+        return new MutCalkowicieBig(newVal);
     }
 
-    /** @see Matma#bitLength() */
+    /** @see CalkowicieBig#bitLength() */
     long bitLength() {
         if (intLen == 0)
             return 0;
@@ -1395,14 +1395,14 @@ class MutMatma {
 
     /**
      * Internally used  to calculate the quotient of this div v and places the
-     * quotient in the provided MutMatma object and the remainder is
+     * quotient in the provided MutCalkowicieBig object and the remainder is
      * returned.
      *
      * @return the remainder of the division will be returned.
      */
-    long divide(long v, MutMatma quotient) {
+    long divide(long v, MutCalkowicieBig quotient) {
         if (v == 0)
-            throw new ArithmeticException("Matma divide by zero");
+            throw new ArithmeticException("CalkowicieBig divide by zero");
 
         // Dividend is zero
         if (intLen == 0) {
@@ -1434,12 +1434,12 @@ class MutMatma {
     }
 
     /**
-     * Divide this MutMatma by the divisor.
+     * Divide this MutCalkowicieBig by the divisor.
      * The quotient will be placed into the provided quotient object &
      * the remainder object is returned.
      */
-    private MutMatma divideMagnitude(MutMatma div,
-                                     MutMatma quotient,
+    private MutCalkowicieBig divideMagnitude(MutCalkowicieBig div,
+                                     MutCalkowicieBig quotient,
                                      boolean needRemainder ) {
         // assert div.intLen > 1
         // D1 normalize the divisor
@@ -1447,19 +1447,19 @@ class MutMatma {
         // Copy divisor value to protect divisor
         final int dlen = div.intLen;
         int[] divisor;
-        MutMatma rem; // Remainder starts as dividend with space for a leading zero
+        MutCalkowicieBig rem; // Remainder starts as dividend with space for a leading zero
         if (shift > 0) {
             divisor = new int[dlen];
             copyAndShift(div.value,div.offset,dlen,divisor,0,shift);
             if (Integer.numberOfLeadingZeros(value[offset]) >= shift) {
                 int[] remarr = new int[intLen + 1];
-                rem = new MutMatma(remarr);
+                rem = new MutCalkowicieBig(remarr);
                 rem.intLen = intLen;
                 rem.offset = 1;
                 copyAndShift(value,offset,intLen,remarr,1,shift);
             } else {
                 int[] remarr = new int[intLen + 2];
-                rem = new MutMatma(remarr);
+                rem = new MutCalkowicieBig(remarr);
                 rem.intLen = intLen+1;
                 rem.offset = 1;
                 int rFrom = offset;
@@ -1474,7 +1474,7 @@ class MutMatma {
             }
         } else {
             divisor = Arrays.copyOfRange(div.value, div.offset, div.offset + div.intLen);
-            rem = new MutMatma(new int[intLen + 1]);
+            rem = new MutCalkowicieBig(new int[intLen + 1]);
             System.arraycopy(value, offset, rem.value, 1, intLen);
             rem.intLen = intLen;
             rem.offset = 1;
@@ -1639,13 +1639,13 @@ class MutMatma {
     }
 
     /**
-     * Divide this MutMatma by the divisor represented by positive long
+     * Divide this MutCalkowicieBig by the divisor represented by positive long
      * value. The quotient will be placed into the provided quotient object &
      * the remainder object is returned.
      */
-    private MutMatma divideLongMagnitude(long ldivisor, MutMatma quotient) {
+    private MutCalkowicieBig divideLongMagnitude(long ldivisor, MutCalkowicieBig quotient) {
         // Remainder starts as dividend with space for a leading zero
-        MutMatma rem = new MutMatma(new int[intLen + 1]);
+        MutCalkowicieBig rem = new MutCalkowicieBig(new int[intLen + 1]);
         System.arraycopy(value, offset, rem.value, 1, intLen);
         rem.intLen = intLen;
         rem.offset = 1;
@@ -1834,17 +1834,17 @@ class MutMatma {
     /**
      * Calculate GCD of this and b. This and b are changed by the computation.
      */
-    MutMatma hybridGCD(MutMatma b) {
+    MutCalkowicieBig hybridGCD(MutCalkowicieBig b) {
         // Use Euclid's algorithm until the numbers are approximately the
         // same length, then use the binary GCD algorithm to find the GCD.
-        MutMatma a = this;
-        MutMatma q = new MutMatma();
+        MutCalkowicieBig a = this;
+        MutCalkowicieBig q = new MutCalkowicieBig();
 
         while (b.intLen != 0) {
             if (Math.abs(a.intLen - b.intLen) < 2)
                 return a.binaryGCD(b);
 
-            MutMatma r = a.divide(b, q);
+            MutCalkowicieBig r = a.divide(b, q);
             a = b;
             b = r;
         }
@@ -1855,10 +1855,10 @@ class MutMatma {
      * Calculate GCD of this and v.
      * Assumes that this and v are not zero.
      */
-    private MutMatma binaryGCD(MutMatma v) {
+    private MutCalkowicieBig binaryGCD(MutCalkowicieBig v) {
         // Algorithm B from Knuth section 4.5.2
-        MutMatma u = this;
-        MutMatma r = new MutMatma();
+        MutCalkowicieBig u = this;
+        MutCalkowicieBig r = new MutCalkowicieBig();
 
         // step B1
         int s1 = u.getLowestSetBit();
@@ -1871,7 +1871,7 @@ class MutMatma {
 
         // step B2
         boolean uOdd = (k == s1);
-        MutMatma t = uOdd ? v: u;
+        MutCalkowicieBig t = uOdd ? v: u;
         int tsign = uOdd ? -1 : 1;
 
         int lb;
@@ -1941,38 +1941,38 @@ class MutMatma {
      * Returns the modInverse of this mod p. This and p are not affected by
      * the operation.
      */
-    MutMatma mutableModInverse(MutMatma p) {
+    MutCalkowicieBig mutableModInverse(MutCalkowicieBig p) {
         // Modulus is odd, use Schroeppel's algorithm
         if (p.isOdd())
             return modInverse(p);
 
         // Base and modulus are even, throw exception
         if (isEven())
-            throw new ArithmeticException("Matma not invertible.");
+            throw new ArithmeticException("CalkowicieBig not invertible.");
 
         // Get even part of modulus expressed as a power of 2
         int powersOf2 = p.getLowestSetBit();
 
         // Construct odd part of modulus
-        MutMatma oddMod = new MutMatma(p);
+        MutCalkowicieBig oddMod = new MutCalkowicieBig(p);
         oddMod.rightShift(powersOf2);
 
         if (oddMod.isOne())
             return modInverseMP2(powersOf2);
 
         // Calculate 1/a mod oddMod
-        MutMatma oddPart = modInverse(oddMod);
+        MutCalkowicieBig oddPart = modInverse(oddMod);
 
         // Calculate 1/a mod evenMod
-        MutMatma evenPart = modInverseMP2(powersOf2);
+        MutCalkowicieBig evenPart = modInverseMP2(powersOf2);
 
         // Combine the results using Chinese Remainder Theorem
-        MutMatma y1 = modInverseBP2(oddMod, powersOf2);
-        MutMatma y2 = oddMod.modInverseMP2(powersOf2);
+        MutCalkowicieBig y1 = modInverseBP2(oddMod, powersOf2);
+        MutCalkowicieBig y2 = oddMod.modInverseMP2(powersOf2);
 
-        MutMatma temp1 = new MutMatma();
-        MutMatma temp2 = new MutMatma();
-        MutMatma result = new MutMatma();
+        MutCalkowicieBig temp1 = new MutCalkowicieBig();
+        MutCalkowicieBig temp2 = new MutCalkowicieBig();
+        MutCalkowicieBig result = new MutCalkowicieBig();
 
         oddPart.leftShift(powersOf2);
         oddPart.multiply(y1, result);
@@ -1987,7 +1987,7 @@ class MutMatma {
     /*
      * Calculate the multiplicative inverse of this mod 2^k.
      */
-    MutMatma modInverseMP2(int k) {
+    MutCalkowicieBig modInverseMP2(int k) {
         if (isEven())
             throw new ArithmeticException("Non-invertible. (GCD != 1)");
 
@@ -1998,7 +1998,7 @@ class MutMatma {
 
         if (k < 33) {
             t = (k == 32 ? t : t & ((1 << k) - 1));
-            return new MutMatma(t);
+            return new MutCalkowicieBig(t);
         }
 
         long pLong = (value[offset+intLen-1] & LONG_MASK);
@@ -2008,7 +2008,7 @@ class MutMatma {
         tLong = tLong * (2 - pLong * tLong);  // 1 more Newton iter step
         tLong = (k == 64 ? tLong : tLong & ((1L << k) - 1));
 
-        MutMatma result = new MutMatma(new int[2]);
+        MutCalkowicieBig result = new MutCalkowicieBig(new int[2]);
         result.value[0] = (int)(tLong >>> 32);
         result.value[1] = (int)tLong;
         result.intLen = 2;
@@ -2047,9 +2047,9 @@ class MutMatma {
     /**
      * Calculate the multiplicative inverse of 2^k mod mod, where mod is odd.
      */
-    static MutMatma modInverseBP2(MutMatma mod, int k) {
+    static MutCalkowicieBig modInverseBP2(MutCalkowicieBig mod, int k) {
         // Copy the mod to protect original
-        return fixup(new MutMatma(1), new MutMatma(mod), k);
+        return fixup(new MutCalkowicieBig(1), new MutCalkowicieBig(mod), k);
     }
 
     /**
@@ -2061,14 +2061,14 @@ class MutMatma {
      * ("Montgomery Form").  The algorithm is described in an unpublished
      * manuscript entitled "Fast Modular Reciprocals."
      */
-    private MutMatma modInverse(MutMatma mod) {
-        MutMatma p = new MutMatma(mod);
-        MutMatma f = new MutMatma(this);
-        MutMatma g = new MutMatma(p);
-        SMutMatma c = new SMutMatma(1);
-        SMutMatma d = new SMutMatma();
-        MutMatma temp = null;
-        SMutMatma sTemp = null;
+    private MutCalkowicieBig modInverse(MutCalkowicieBig mod) {
+        MutCalkowicieBig p = new MutCalkowicieBig(mod);
+        MutCalkowicieBig f = new MutCalkowicieBig(this);
+        MutCalkowicieBig g = new MutCalkowicieBig(p);
+        SMutCalkowicieBig c = new SMutCalkowicieBig(1);
+        SMutCalkowicieBig d = new SMutCalkowicieBig();
+        MutCalkowicieBig temp = null;
+        SMutCalkowicieBig sTemp = null;
 
         int k = 0;
         // Right shift f k times until odd, left shift d k times
@@ -2083,7 +2083,7 @@ class MutMatma {
         while (!f.isOne()) {
             // If gcd(f, g) != 1, number is not invertible modulo mod
             if (f.isZero())
-                throw new ArithmeticException("Matma not invertible.");
+                throw new ArithmeticException("CalkowicieBig not invertible.");
 
             // If f < g exchange f, g and c, d
             if (f.compare(g) < 0) {
@@ -2119,9 +2119,9 @@ class MutMatma {
      * Calculates X such that X = C * 2^(-k) (mod P)
      * Assumes C<P and P is odd.
      */
-    static MutMatma fixup(MutMatma c, MutMatma p,
+    static MutCalkowicieBig fixup(MutCalkowicieBig c, MutCalkowicieBig p,
                           int k) {
-        MutMatma temp = new MutMatma();
+        MutCalkowicieBig temp = new MutCalkowicieBig();
         // Set r to the multiplicative inverse of p mod 2^32
         int r = -inverseMod32(p.value[p.offset+p.intLen-1]);
 
@@ -2157,29 +2157,29 @@ class MutMatma {
      * Uses the extended Euclidean algorithm to compute the modInverse of base
      * mod a modulus that is a power of 2. The modulus is 2^k.
      */
-    MutMatma euclidModInverse(int k) {
-        MutMatma b = new MutMatma(1);
+    MutCalkowicieBig euclidModInverse(int k) {
+        MutCalkowicieBig b = new MutCalkowicieBig(1);
         b.leftShift(k);
-        MutMatma mod = new MutMatma(b);
+        MutCalkowicieBig mod = new MutCalkowicieBig(b);
 
-        MutMatma a = new MutMatma(this);
-        MutMatma q = new MutMatma();
-        MutMatma r = b.divide(a, q);
+        MutCalkowicieBig a = new MutCalkowicieBig(this);
+        MutCalkowicieBig q = new MutCalkowicieBig();
+        MutCalkowicieBig r = b.divide(a, q);
 
-        MutMatma swapper = b;
+        MutCalkowicieBig swapper = b;
         // swap b & r
         b = r;
         r = swapper;
 
-        MutMatma t1 = new MutMatma(q);
-        MutMatma t0 = new MutMatma(1);
-        MutMatma temp = new MutMatma();
+        MutCalkowicieBig t1 = new MutCalkowicieBig(q);
+        MutCalkowicieBig t0 = new MutCalkowicieBig(1);
+        MutCalkowicieBig temp = new MutCalkowicieBig();
 
         while (!b.isOne()) {
             r = a.divide(b, q);
 
             if (r.intLen == 0)
-                throw new ArithmeticException("Matma not invertible.");
+                throw new ArithmeticException("CalkowicieBig not invertible.");
 
             swapper = r;
             a = swapper;
@@ -2199,7 +2199,7 @@ class MutMatma {
             r = b.divide(a, q);
 
             if (r.intLen == 0)
-                throw new ArithmeticException("Matma not invertible.");
+                throw new ArithmeticException("CalkowicieBig not invertible.");
 
             swapper = b;
             b =  r;

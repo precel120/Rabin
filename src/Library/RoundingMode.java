@@ -28,7 +28,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-6</td>
          *</table>
          */
-    UP(DMatma.ROUND_UP),
+    UP(DCalkowicieBig.ROUND_UP),
 
         /**
          * Rounding mode to round towards zero.  Never increments the digit
@@ -52,7 +52,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-5</td>
          *</table>
          */
-    DOWN(DMatma.ROUND_DOWN),
+    DOWN(DCalkowicieBig.ROUND_DOWN),
 
         /**
          * Rounding mode to round towards positive infinity.  If the
@@ -77,7 +77,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-5</td>
          *</table>
          */
-    CEILING(DMatma.ROUND_CEILING),
+    CEILING(DCalkowicieBig.ROUND_CEILING),
 
         /**
          * Rounding mode to round towards negative infinity.  If the
@@ -102,7 +102,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-6</td>
          *</table>
          */
-    FLOOR(DMatma.ROUND_FLOOR),
+    FLOOR(DCalkowicieBig.ROUND_FLOOR),
 
         /**
          * Rounding mode to round towards {@literal "nearest neighbor"}
@@ -129,7 +129,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-6</td>
          *</table>
          */
-    HALF_UP(DMatma.ROUND_HALF_UP),
+    HALF_UP(DCalkowicieBig.ROUND_HALF_UP),
 
         /**
          * Rounding mode to round towards {@literal "nearest neighbor"}
@@ -155,7 +155,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-5</td>
          *</table>
          */
-    HALF_DOWN(DMatma.ROUND_HALF_DOWN),
+    HALF_DOWN(DCalkowicieBig.ROUND_HALF_DOWN),
 
         /**
          * Rounding mode to round towards the {@literal "nearest neighbor"}
@@ -188,7 +188,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-6</td>
          *</table>
          */
-    HALF_EVEN(DMatma.ROUND_HALF_EVEN),
+    HALF_EVEN(DCalkowicieBig.ROUND_HALF_EVEN),
 
         /**
          * Rounding mode to assert that the requested operation has an exact
@@ -212,15 +212,15 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>throw {@code ArithmeticException}</td>
          *</table>
          */
-    UNNECESSARY(DMatma.ROUND_UNNECESSARY);
+    UNNECESSARY(DCalkowicieBig.ROUND_UNNECESSARY);
 
-    // Corresponding DMatma rounding constant
+    // Corresponding DCalkowicieBig rounding constant
     final int oldMode;
 
     /**
      * Constructor
      *
-     * @param oldMode The {@code DMatma} constant corresponding to
+     * @param oldMode The {@code DCalkowicieBig} constant corresponding to
      *        this mode
      */
     private RoundingMode(int oldMode) {
@@ -229,7 +229,7 @@ public enum RoundingMode {
 
     /**
      * Returns the {@code RoundingMode} object corresponding to a
-     * legacy integer rounding mode constant in {@link DMatma}.
+     * legacy integer rounding mode constant in {@link DCalkowicieBig}.
      *
      * @param  rm legacy integer rounding mode to convert
      * @return {@code RoundingMode} corresponding to the given integer.
@@ -238,28 +238,28 @@ public enum RoundingMode {
     public static RoundingMode valueOf(int rm) {
         switch(rm) {
 
-        case DMatma.ROUND_UP:
+        case DCalkowicieBig.ROUND_UP:
             return UP;
 
-        case DMatma.ROUND_DOWN:
+        case DCalkowicieBig.ROUND_DOWN:
             return DOWN;
 
-        case DMatma.ROUND_CEILING:
+        case DCalkowicieBig.ROUND_CEILING:
             return CEILING;
 
-        case DMatma.ROUND_FLOOR:
+        case DCalkowicieBig.ROUND_FLOOR:
             return FLOOR;
 
-        case DMatma.ROUND_HALF_UP:
+        case DCalkowicieBig.ROUND_HALF_UP:
             return HALF_UP;
 
-        case DMatma.ROUND_HALF_DOWN:
+        case DCalkowicieBig.ROUND_HALF_DOWN:
             return HALF_DOWN;
 
-        case DMatma.ROUND_HALF_EVEN:
+        case DCalkowicieBig.ROUND_HALF_EVEN:
             return HALF_EVEN;
 
-        case DMatma.ROUND_UNNECESSARY:
+        case DCalkowicieBig.ROUND_UNNECESSARY:
             return UNNECESSARY;
 
         default:

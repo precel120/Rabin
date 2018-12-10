@@ -1,36 +1,36 @@
 package Library;//package sample.Library;
 
 
-class SMutMatma extends MutMatma {
+class SMutCalkowicieBig extends MutCalkowicieBig {
 
    /**
-     * The sign of this MutMatma.
+     * The sign of this MutCalkowicieBig.
      */
     int sign = 1;
 
     // Constructors
 
     /**
-     * The default constructor. An empty MutMatma is created with
+     * The default constructor. An empty MutCalkowicieBig is created with
      * a one word capacity.
      */
-    SMutMatma() {
+    SMutCalkowicieBig() {
         super();
     }
 
     /**
-     * Construct a new MutMatma with a magnitude specified by
+     * Construct a new MutCalkowicieBig with a magnitude specified by
      * the int val.
      */
-    SMutMatma(int val) {
+    SMutCalkowicieBig(int val) {
         super(val);
     }
 
     /**
-     * Construct a new MutMatma with a magnitude equal to the
-     * specified MutMatma.
+     * Construct a new MutCalkowicieBig with a magnitude equal to the
+     * specified MutCalkowicieBig.
      */
-    SMutMatma(MutMatma val) {
+    SMutCalkowicieBig(MutCalkowicieBig val) {
         super(val);
     }
 
@@ -39,7 +39,7 @@ class SMutMatma extends MutMatma {
    /**
      * Signed addition built upon unsigned add and subtract.
      */
-    void signedAdd(SMutMatma addend) {
+    void signedAdd(SMutCalkowicieBig addend) {
         if (sign == addend.sign)
             add(addend);
         else
@@ -50,7 +50,7 @@ class SMutMatma extends MutMatma {
    /**
      * Signed addition built upon unsigned add and subtract.
      */
-    void signedAdd(MutMatma addend) {
+    void signedAdd(MutCalkowicieBig addend) {
         if (sign == 1)
             add(addend);
         else
@@ -61,7 +61,7 @@ class SMutMatma extends MutMatma {
    /**
      * Signed subtraction built upon unsigned add and subtract.
      */
-    void signedSubtract(SMutMatma addend) {
+    void signedSubtract(SMutCalkowicieBig addend) {
         if (sign == addend.sign)
             sign = sign * subtract(addend);
         else
@@ -72,7 +72,7 @@ class SMutMatma extends MutMatma {
    /**
      * Signed subtraction built upon unsigned add and subtract.
      */
-    void signedSubtract(MutMatma addend) {
+    void signedSubtract(MutCalkowicieBig addend) {
         if (sign == 1)
             sign = sign * subtract(addend);
         else
@@ -82,11 +82,11 @@ class SMutMatma extends MutMatma {
     }
 
     /**
-     * Print out the first intLen ints of this MutMatma's value
+     * Print out the first intLen ints of this MutCalkowicieBig's value
      * array starting at offset.
      */
     public String toString() {
-        return this.toMatma(sign).toString();
+        return this.toCalkowicieBig(sign).toString();
     }
 
 }

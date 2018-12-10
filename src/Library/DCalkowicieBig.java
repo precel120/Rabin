@@ -2,29 +2,29 @@ package Library;
 
 //package sample.Library;
 
-//import sample.MutMatma;
+//import sample.MutCalkowicieBig;
 
 //import MathContext;
-//import sample.Matma;
-//import sample.MutMatma;
+//import sample.CalkowicieBig;
+//import sample.MutCalkowicieBig;
 //import RoundingMode;
 
 import java.util.Arrays;
 
-import static Library.Matma.LONG_MASK;
+import static Library.CalkowicieBig.LONG_MASK;
 
-public class DMatma extends Number implements Comparable<DMatma> {
+public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig> {
     /**
-     * The unscaled value of this DMatma, as returned by {@link
+     * The unscaled value of this DCalkowicieBig, as returned by {@link
      * #unscaledValue}.
      *
      * @serial
      * @see #unscaledValue
      */
-    private final Matma intVal;
+    private final CalkowicieBig intVal;
 
     /**
-     * The scale of this DMatma, as returned by {@link #scale}.
+     * The scale of this DCalkowicieBig, as returned by {@link #scale}.
      *
      * @serial
      * @see #scale
@@ -33,7 +33,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     // calculations must be done in longs
 
     /**
-     * The number of decimal digits in this DMatma, or 0 if the
+     * The number of decimal digits in this DCalkowicieBig, or 0 if the
      * number of digits are not known (lookaside information).  If
      * nonzero, the value is guaranteed correct.  Use the precision()
      * method to obtain and set the value if it might be 0.  This
@@ -54,10 +54,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
      */
     static final long INFLATED = Long.MIN_VALUE;
 
-    private static final Matma INFLATED_BIGINT = Matma.valueOf(INFLATED);
+    private static final CalkowicieBig INFLATED_BIGINT = CalkowicieBig.valueOf(INFLATED);
 
     /**
-     * If the absolute value of the significand of this DMatma is
+     * If the absolute value of the significand of this DCalkowicieBig is
      * less than or equal to {@code Long.MAX_VALUE}, the value can be
      * compactly stored in this field and used in computations.
      */
@@ -78,39 +78,39 @@ public class DMatma extends Number implements Comparable<DMatma> {
         }
     };
 
-    // Cache of common small DMatma values.
-    private static final DMatma zeroThroughTen[] = {
-            new DMatma(Matma.ZERO,       0,  0, 1),
-            new DMatma(Matma.ONE,        1,  0, 1),
-            new DMatma(Matma.valueOf(2), 2,  0, 1),
-            new DMatma(Matma.valueOf(3), 3,  0, 1),
-            new DMatma(Matma.valueOf(4), 4,  0, 1),
-            new DMatma(Matma.valueOf(5), 5,  0, 1),
-            new DMatma(Matma.valueOf(6), 6,  0, 1),
-            new DMatma(Matma.valueOf(7), 7,  0, 1),
-            new DMatma(Matma.valueOf(8), 8,  0, 1),
-            new DMatma(Matma.valueOf(9), 9,  0, 1),
-            new DMatma(Matma.TEN,        10, 0, 2),
+    // Cache of common small DCalkowicieBig values.
+    private static final DCalkowicieBig zeroThroughTen[] = {
+            new DCalkowicieBig(CalkowicieBig.ZERO,       0,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.ONE,        1,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.valueOf(2), 2,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.valueOf(3), 3,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.valueOf(4), 4,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.valueOf(5), 5,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.valueOf(6), 6,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.valueOf(7), 7,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.valueOf(8), 8,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.valueOf(9), 9,  0, 1),
+            new DCalkowicieBig(CalkowicieBig.TEN,        10, 0, 2),
     };
 
     // Cache of zero scaled by 0 - 15
-    private static final DMatma[] ZERO_SCALED_BY = {
+    private static final DCalkowicieBig[] ZERO_SCALED_BY = {
             zeroThroughTen[0],
-            new DMatma(Matma.ZERO, 0, 1, 1),
-            new DMatma(Matma.ZERO, 0, 2, 1),
-            new DMatma(Matma.ZERO, 0, 3, 1),
-            new DMatma(Matma.ZERO, 0, 4, 1),
-            new DMatma(Matma.ZERO, 0, 5, 1),
-            new DMatma(Matma.ZERO, 0, 6, 1),
-            new DMatma(Matma.ZERO, 0, 7, 1),
-            new DMatma(Matma.ZERO, 0, 8, 1),
-            new DMatma(Matma.ZERO, 0, 9, 1),
-            new DMatma(Matma.ZERO, 0, 10, 1),
-            new DMatma(Matma.ZERO, 0, 11, 1),
-            new DMatma(Matma.ZERO, 0, 12, 1),
-            new DMatma(Matma.ZERO, 0, 13, 1),
-            new DMatma(Matma.ZERO, 0, 14, 1),
-            new DMatma(Matma.ZERO, 0, 15, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 1, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 2, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 3, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 4, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 5, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 6, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 7, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 8, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 9, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 10, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 11, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 12, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 13, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 14, 1),
+            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 15, 1),
     };
 
     // Half of Long.MIN_VALUE & Long.MAX_VALUE.
@@ -123,7 +123,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *
      * @since  1.5
      */
-    public static final DMatma ZERO =
+    public static final DCalkowicieBig ZERO =
             zeroThroughTen[0];
 
     /**
@@ -131,7 +131,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *
      * @since  1.5
      */
-    public static final DMatma ONE =
+    public static final DCalkowicieBig ONE =
             zeroThroughTen[1];
 
     /**
@@ -139,7 +139,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *
      * @since  1.5
      */
-    public static final DMatma TEN =
+    public static final DCalkowicieBig TEN =
             zeroThroughTen[10];
 
     // Constructors
@@ -149,7 +149,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * Trusted simply means if val is INFLATED, intVal could not be null and
      * if intVal is null, val could not be INFLATED.
      */
-    DMatma(Matma intVal, long val, int scale, int prec) {
+    DCalkowicieBig(CalkowicieBig intVal, long val, int scale, int prec) {
         this.scale = scale;
         this.precision = prec;
         this.intCompact = val;
@@ -158,38 +158,38 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     /**
      * Translates a character array representation of a
-     * {@code DMatma} into a {@code DMatma}, accepting the
-     * same sequence of characters as the {@link #DMatma(String)}
+     * {@code DCalkowicieBig} into a {@code DCalkowicieBig}, accepting the
+     * same sequence of characters as the {@link #DCalkowicieBig(String)}
      * constructor, while allowing a sub-array to be specified.
      *
      * <p>Note that if the sequence of characters is already available
      * within a character array, using this constructor is faster than
      * converting the {@code char} array to string and using the
-     * {@code DMatma(String)} constructor .
+     * {@code DCalkowicieBig(String)} constructor .
      *
      * @param  in {@code char} array that is the source of characters.
      * @param  offset first character in the array to inspect.
      * @param  len number of characters to consider.
      * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code DMatma} or the defined subarray
+     *         representation of a {@code DCalkowicieBig} or the defined subarray
      *         is not wholly within {@code in}.
      * @since  1.5
      */
-    public DMatma(char[] in, int offset, int len) {
+    public DCalkowicieBig(char[] in, int offset, int len) {
         this(in,offset,len, MathContext.UNLIMITED);
     }
 
     /**
      * Translates a character array representation of a
-     * {@code DMatma} into a {@code DMatma}, accepting the
-     * same sequence of characters as the {@link #DMatma(String)}
+     * {@code DCalkowicieBig} into a {@code DCalkowicieBig}, accepting the
+     * same sequence of characters as the {@link #DCalkowicieBig(String)}
      * constructor, while allowing a sub-array to be specified and
      * with rounding according to the context settings.
      *
      * <p>Note that if the sequence of characters is already available
      * within a character array, using this constructor is faster than
      * converting the {@code char} array to string and using the
-     * {@code DMatma(String)} constructor .
+     * {@code DCalkowicieBig(String)} constructor .
      *
      * @param  in {@code char} array that is the source of characters.
      * @param  offset first character in the array to inspect.
@@ -198,15 +198,15 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code DMatma} or the defined subarray
+     *         representation of a {@code DCalkowicieBig} or the defined subarray
      *         is not wholly within {@code in}.
      * @since  1.5
      */
-    public DMatma(char[] in, int offset, int len, MathContext mc) {
+    public DCalkowicieBig(char[] in, int offset, int len, MathContext mc) {
         // protect against huge length.
         if (offset + len > in.length || offset < 0)
             throw new NumberFormatException("Bad offset or len arguments for char[] input.");
-        // This is the primary string to DMatma constructor; all
+        // This is the primary string to DCalkowicieBig constructor; all
         // incoming strings end up here; it uses explicit (inline)
         // parsing for speed and generates at most one intermediate
         // (temporary) object (a char[] array) for non-compact case.
@@ -215,7 +215,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
         int prec = 0;                 // record precision value
         int scl = 0;                  // record scale value
         long rs = 0;                  // the compact value in long
-        Matma rb = null;         // the inflated value in Matma
+        CalkowicieBig rb = null;         // the inflated value in CalkowicieBig
         // use array bounds checking to handle too-long, len == 0,
         // bad offset, etc.
         try {
@@ -358,7 +358,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                     scl = adjustScale(scl, exp);
                 }
                 // Remove leading zeros from precision (digits count)
-                rb = new Matma(coeff, isneg ? -1 : 1, prec);
+                rb = new CalkowicieBig(coeff, isneg ? -1 : 1, prec);
                 rs = compactValFor(rb);
                 int mcp = mc.precision;
                 if (mcp > 0 && (prec > mcp)) {
@@ -455,51 +455,51 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     /**
      * Translates a character array representation of a
-     * {@code DMatma} into a {@code DMatma}, accepting the
-     * same sequence of characters as the {@link #DMatma(String)}
+     * {@code DCalkowicieBig} into a {@code DCalkowicieBig}, accepting the
+     * same sequence of characters as the {@link #DCalkowicieBig(String)}
      * constructor.
      *
      * <p>Note that if the sequence of characters is already available
      * as a character array, using this constructor is faster than
      * converting the {@code char} array to string and using the
-     * {@code DMatma(String)} constructor .
+     * {@code DCalkowicieBig(String)} constructor .
      *
      * @param in {@code char} array that is the source of characters.
      * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code DMatma}.
+     *         representation of a {@code DCalkowicieBig}.
      * @since  1.5
      */
-    public DMatma(char[] in) {
+    public DCalkowicieBig(char[] in) {
         this(in, 0, in.length);
     }
 
     /**
      * Translates a character array representation of a
-     * {@code DMatma} into a {@code DMatma}, accepting the
-     * same sequence of characters as the {@link #DMatma(String)}
+     * {@code DCalkowicieBig} into a {@code DCalkowicieBig}, accepting the
+     * same sequence of characters as the {@link #DCalkowicieBig(String)}
      * constructor and with rounding according to the context
      * settings.
      *
      * <p>Note that if the sequence of characters is already available
      * as a character array, using this constructor is faster than
      * converting the {@code char} array to string and using the
-     * {@code DMatma(String)} constructor .
+     * {@code DCalkowicieBig(String)} constructor .
      *
      * @param  in {@code char} array that is the source of characters.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code DMatma}.
+     *         representation of a {@code DCalkowicieBig}.
      * @since  1.5
      */
-    public DMatma(char[] in, MathContext mc) {
+    public DCalkowicieBig(char[] in, MathContext mc) {
         this(in, 0, in.length, mc);
     }
 
     /**
-     * Translates the string representation of a {@code DMatma}
-     * into a {@code DMatma}.  The string representation consists
+     * Translates the string representation of a {@code DCalkowicieBig}
+     * into a {@code DCalkowicieBig}.  The string representation consists
      * of an optional sign, {@code '+'} (<tt> '&#92;u002B'</tt>) or
      * {@code '-'} (<tt>'&#92;u002D'</tt>), followed by a sequence of
      * zero or more decimal digits ("the integer"), optionally
@@ -550,7 +550,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * </dl>
      * </blockquote>
      *
-     * <p>The scale of the returned {@code DMatma} will be the
+     * <p>The scale of the returned {@code DCalkowicieBig} will be the
      * number of digits in the fraction, or zero if the string
      * contains no decimal point, subject to adjustment for any
      * exponent; if the string contains an exponent, the exponent is
@@ -564,10 +564,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * for example).
      *
      * <p><b>Examples:</b><br>
-     * The value of the returned {@code DMatma} is equal to
+     * The value of the returned {@code DCalkowicieBig} is equal to
      * <i>significand</i> &times; 10<sup>&nbsp;<i>exponent</i></sup>.
      * For each string on the left, the resulting representation
-     * [{@code Matma}, {@code scale}] is shown on the right.
+     * [{@code CalkowicieBig}, {@code scale}] is shown on the right.
      * <pre>
      * "0"            [0,0]
      * "0.00"         [0,2]
@@ -590,49 +590,49 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * compatible with the values returned by {@link Float#toString}
      * and {@link Double#toString}.  This is generally the preferred
      * way to convert a {@code float} or {@code double} into a
-     * DMatma, as it doesn't suffer from the unpredictability of
-     * the {@link #DMatma(double)} constructor.
+     * DCalkowicieBig, as it doesn't suffer from the unpredictability of
+     * the {@link #DCalkowicieBig(double)} constructor.
      *
-     * @param val String representation of {@code DMatma}.
+     * @param val String representation of {@code DCalkowicieBig}.
      *
      * @throws NumberFormatException if {@code val} is not a valid
-     *         representation of a {@code DMatma}.
+     *         representation of a {@code DCalkowicieBig}.
      */
-    public DMatma(String val) {
+    public DCalkowicieBig(String val) {
         this(val.toCharArray(), 0, val.length());
     }
 
     /**
-     * Translates the string representation of a {@code DMatma}
-     * into a {@code DMatma}, accepting the same strings as the
-     * {@link #DMatma(String)} constructor, with rounding
+     * Translates the string representation of a {@code DCalkowicieBig}
+     * into a {@code DCalkowicieBig}, accepting the same strings as the
+     * {@link #DCalkowicieBig(String)} constructor, with rounding
      * according to the context settings.
      *
-     * @param  val string representation of a {@code DMatma}.
+     * @param  val string representation of a {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @throws NumberFormatException if {@code val} is not a valid
-     *         representation of a DMatma.
+     *         representation of a DCalkowicieBig.
      * @since  1.5
      */
-    public DMatma(String val, MathContext mc) {
+    public DCalkowicieBig(String val, MathContext mc) {
         this(val.toCharArray(), 0, val.length(), mc);
     }
 
     /**
-     * Translates a {@code double} into a {@code DMatma} which
+     * Translates a {@code double} into a {@code DCalkowicieBig} which
      * is the exact decimal representation of the {@code double}'s
      * binary floating-point value.  The scale of the returned
-     * {@code DMatma} is the smallest value such that
+     * {@code DCalkowicieBig} is the smallest value such that
      * <tt>(10<sup>scale</sup> &times; val)</tt> is an integer.
      * <p>
      * <b>Notes:</b>
      * <ol>
      * <li>
      * The results of this constructor can be somewhat unpredictable.
-     * One might assume that writing {@code new DMatma(0.1)} in
-     * Java creates a {@code DMatma} which is exactly equal to
+     * One might assume that writing {@code new DCalkowicieBig(0.1)} in
+     * Java creates a {@code DCalkowicieBig} which is exactly equal to
      * 0.1 (an unscaled value of 1, with a scale of 1), but it is
      * actually equal to
      * 0.1000000000000000055511151231257827021181583404541015625.
@@ -644,49 +644,49 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *
      * <li>
      * The {@code String} constructor, on the other hand, is
-     * perfectly predictable: writing {@code new DMatma("0.1")}
-     * creates a {@code DMatma} which is <i>exactly</i> equal to
+     * perfectly predictable: writing {@code new DCalkowicieBig("0.1")}
+     * creates a {@code DCalkowicieBig} which is <i>exactly</i> equal to
      * 0.1, as one would expect.  Therefore, it is generally
-     * recommended that the {@linkplain #DMatma(String)
+     * recommended that the {@linkplain #DCalkowicieBig(String)
      * <tt>String</tt> constructor} be used in preference to this one.
      *
      * <li>
      * When a {@code double} must be used as a source for a
-     * {@code DMatma}, note that this constructor provides an
+     * {@code DCalkowicieBig}, note that this constructor provides an
      * exact conversion; it does not give the same result as
      * converting the {@code double} to a {@code String} using the
      * {@link Double#toString(double)} method and then using the
-     * {@link #DMatma(String)} constructor.  To get that result,
+     * {@link #DCalkowicieBig(String)} constructor.  To get that result,
      * use the {@code static} {@link #valueOf(double)} method.
      * </ol>
      *
      * @param val {@code double} value to be converted to
-     *        {@code DMatma}.
+     *        {@code DCalkowicieBig}.
      * @throws NumberFormatException if {@code val} is infinite or NaN.
      */
-    public DMatma(double val) {
+    public DCalkowicieBig(double val) {
         this(val,MathContext.UNLIMITED);
     }
 
     /**
-     * Translates a {@code double} into a {@code DMatma}, with
+     * Translates a {@code double} into a {@code DCalkowicieBig}, with
      * rounding according to the context settings.  The scale of the
-     * {@code DMatma} is the smallest value such that
+     * {@code DCalkowicieBig} is the smallest value such that
      * <tt>(10<sup>scale</sup> &times; val)</tt> is an integer.
      *
      * <p>The results of this constructor can be somewhat unpredictable
      * and its use is generally not recommended; see the notes under
-     * the {@link #DMatma(double)} constructor.
+     * the {@link #DCalkowicieBig(double)} constructor.
      *
      * @param  val {@code double} value to be converted to
-     *         {@code DMatma}.
+     *         {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         RoundingMode is UNNECESSARY.
      * @throws NumberFormatException if {@code val} is infinite or NaN.
      * @since  1.5
      */
-    public DMatma(double val, MathContext mc) {
+    public DCalkowicieBig(double val, MathContext mc) {
         if (Double.isInfinite(val) || Double.isNaN(val))
             throw new NumberFormatException("Infinite or NaN");
         // Translate the double into sign, exponent and significand, according
@@ -705,7 +705,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
          * scale calculation.
          */
         if (significand == 0) {
-            this.intVal = Matma.ZERO;
+            this.intVal = CalkowicieBig.ZERO;
             this.scale = 0;
             this.intCompact = 0;
             this.precision = 1;
@@ -718,16 +718,16 @@ public class DMatma extends Number implements Comparable<DMatma> {
         }
         int scale = 0;
         // Calculate intVal and scale
-        Matma intVal;
+        CalkowicieBig intVal;
         long compactVal = sign * significand;
         if (exponent == 0) {
             intVal = (compactVal == INFLATED) ? INFLATED_BIGINT : null;
         } else {
             if (exponent < 0) {
-                intVal = Matma.valueOf(5).pow(-exponent).multiply(compactVal);
+                intVal = CalkowicieBig.valueOf(5).pow(-exponent).multiply(compactVal);
                 scale = -exponent;
             } else { //  (exponent > 0)
-                intVal = Matma.valueOf(2).pow(exponent).multiply(compactVal);
+                intVal = CalkowicieBig.valueOf(2).pow(exponent).multiply(compactVal);
             }
             compactVal = compactValFor(intVal);
         }
@@ -769,44 +769,44 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Translates a {@code Matma} into a {@code DMatma}.
-     * The scale of the {@code DMatma} is zero.
+     * Translates a {@code CalkowicieBig} into a {@code DCalkowicieBig}.
+     * The scale of the {@code DCalkowicieBig} is zero.
      *
-     * @param val {@code Matma} value to be converted to
-     *            {@code DMatma}.
+     * @param val {@code CalkowicieBig} value to be converted to
+     *            {@code DCalkowicieBig}.
      */
-    public DMatma(Matma val) {
+    public DCalkowicieBig(CalkowicieBig val) {
         scale = 0;
         intVal = val;
         intCompact = compactValFor(val);
     }
 
     /**
-     * Translates a {@code Matma} into a {@code DMatma}
+     * Translates a {@code CalkowicieBig} into a {@code DCalkowicieBig}
      * rounding according to the context settings.  The scale of the
-     * {@code DMatma} is zero.
+     * {@code DCalkowicieBig} is zero.
      *
-     * @param val {@code Matma} value to be converted to
-     *            {@code DMatma}.
+     * @param val {@code CalkowicieBig} value to be converted to
+     *            {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DMatma(Matma val, MathContext mc) {
+    public DCalkowicieBig(CalkowicieBig val, MathContext mc) {
         this(val,0,mc);
     }
 
     /**
-     * Translates a {@code Matma} unscaled value and an
-     * {@code int} scale into a {@code DMatma}.  The value of
-     * the {@code DMatma} is
+     * Translates a {@code CalkowicieBig} unscaled value and an
+     * {@code int} scale into a {@code DCalkowicieBig}.  The value of
+     * the {@code DCalkowicieBig} is
      * <tt>(unscaledVal &times; 10<sup>-scale</sup>)</tt>.
      *
-     * @param unscaledVal unscaled value of the {@code DMatma}.
-     * @param scale scale of the {@code DMatma}.
+     * @param unscaledVal unscaled value of the {@code DCalkowicieBig}.
+     * @param scale scale of the {@code DCalkowicieBig}.
      */
-    public DMatma(Matma unscaledVal, int scale) {
+    public DCalkowicieBig(CalkowicieBig unscaledVal, int scale) {
         // Negative scales are now allowed
         this.intVal = unscaledVal;
         this.intCompact = compactValFor(unscaledVal);
@@ -814,21 +814,21 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Translates a {@code Matma} unscaled value and an
-     * {@code int} scale into a {@code DMatma}, with rounding
+     * Translates a {@code CalkowicieBig} unscaled value and an
+     * {@code int} scale into a {@code DCalkowicieBig}, with rounding
      * according to the context settings.  The value of the
-     * {@code DMatma} is <tt>(unscaledVal &times;
+     * {@code DCalkowicieBig} is <tt>(unscaledVal &times;
      * 10<sup>-scale</sup>)</tt>, rounded according to the
      * {@code precision} and rounding mode settings.
      *
-     * @param  unscaledVal unscaled value of the {@code DMatma}.
-     * @param  scale scale of the {@code DMatma}.
+     * @param  unscaledVal unscaled value of the {@code DCalkowicieBig}.
+     * @param  scale scale of the {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DMatma(Matma unscaledVal, int scale, MathContext mc) {
+    public DCalkowicieBig(CalkowicieBig unscaledVal, int scale, MathContext mc) {
         long compactVal = compactValFor(unscaledVal);
         int mcp = mc.precision;
         int prec = 0;
@@ -867,31 +867,31 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Translates an {@code int} into a {@code DMatma}.  The
-     * scale of the {@code DMatma} is zero.
+     * Translates an {@code int} into a {@code DCalkowicieBig}.  The
+     * scale of the {@code DCalkowicieBig} is zero.
      *
      * @param val {@code int} value to be converted to
-     *            {@code DMatma}.
+     *            {@code DCalkowicieBig}.
      * @since  1.5
      */
-    public DMatma(int val) {
+    public DCalkowicieBig(int val) {
         this.intCompact = val;
         this.scale = 0;
         this.intVal = null;
     }
 
     /**
-     * Translates an {@code int} into a {@code DMatma}, with
+     * Translates an {@code int} into a {@code DCalkowicieBig}, with
      * rounding according to the context settings.  The scale of the
-     * {@code DMatma}, before any rounding, is zero.
+     * {@code DCalkowicieBig}, before any rounding, is zero.
      *
-     * @param  val {@code int} value to be converted to {@code DMatma}.
+     * @param  val {@code int} value to be converted to {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DMatma(int val, MathContext mc) {
+    public DCalkowicieBig(int val, MathContext mc) {
         int mcp = mc.precision;
         long compactVal = val;
         int scale = 0;
@@ -913,35 +913,35 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Translates a {@code long} into a {@code DMatma}.  The
-     * scale of the {@code DMatma} is zero.
+     * Translates a {@code long} into a {@code DCalkowicieBig}.  The
+     * scale of the {@code DCalkowicieBig} is zero.
      *
-     * @param val {@code long} value to be converted to {@code DMatma}.
+     * @param val {@code long} value to be converted to {@code DCalkowicieBig}.
      * @since  1.5
      */
-    public DMatma(long val) {
+    public DCalkowicieBig(long val) {
         this.intCompact = val;
         this.intVal = (val == INFLATED) ? INFLATED_BIGINT : null;
         this.scale = 0;
     }
 
     /**
-     * Translates a {@code long} into a {@code DMatma}, with
+     * Translates a {@code long} into a {@code DCalkowicieBig}, with
      * rounding according to the context settings.  The scale of the
-     * {@code DMatma}, before any rounding, is zero.
+     * {@code DCalkowicieBig}, before any rounding, is zero.
      *
-     * @param  val {@code long} value to be converted to {@code DMatma}.
+     * @param  val {@code long} value to be converted to {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DMatma(long val, MathContext mc) {
+    public DCalkowicieBig(long val, MathContext mc) {
         int mcp = mc.precision;
         int mode = mc.roundingMode.oldMode;
         int prec = 0;
         int scale = 0;
-        Matma intVal = (val == INFLATED) ? INFLATED_BIGINT : null;
+        CalkowicieBig intVal = (val == INFLATED) ? INFLATED_BIGINT : null;
         if (mcp > 0) { // do rounding
             if (val == INFLATED) {
                 prec = 19;
@@ -979,107 +979,107 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     /**
      * Translates a {@code long} unscaled value and an
-     * {@code int} scale into a {@code DMatma}.  This
+     * {@code int} scale into a {@code DCalkowicieBig}.  This
      * {@literal "static factory method"} is provided in preference to
      * a ({@code long}, {@code int}) constructor because it
-     * allows for reuse of frequently used {@code DMatma} values..
+     * allows for reuse of frequently used {@code DCalkowicieBig} values..
      *
-     * @param unscaledVal unscaled value of the {@code DMatma}.
-     * @param scale scale of the {@code DMatma}.
-     * @return a {@code DMatma} whose value is
+     * @param unscaledVal unscaled value of the {@code DCalkowicieBig}.
+     * @param scale scale of the {@code DCalkowicieBig}.
+     * @return a {@code DCalkowicieBig} whose value is
      *         <tt>(unscaledVal &times; 10<sup>-scale</sup>)</tt>.
      */
-    public static DMatma valueOf(long unscaledVal, int scale) {
+    public static DCalkowicieBig valueOf(long unscaledVal, int scale) {
         if (scale == 0)
             return valueOf(unscaledVal);
         else if (unscaledVal == 0) {
             return zeroValueOf(scale);
         }
-        return new DMatma(unscaledVal == INFLATED ?
+        return new DCalkowicieBig(unscaledVal == INFLATED ?
                 INFLATED_BIGINT : null,
                 unscaledVal, scale, 0);
     }
 
     /**
-     * Translates a {@code long} value into a {@code DMatma}
+     * Translates a {@code long} value into a {@code DCalkowicieBig}
      * with a scale of zero.  This {@literal "static factory method"}
      * is provided in preference to a ({@code long}) constructor
      * because it allows for reuse of frequently used
-     * {@code DMatma} values.
+     * {@code DCalkowicieBig} values.
      *
-     * @param val value of the {@code DMatma}.
-     * @return a {@code DMatma} whose value is {@code val}.
+     * @param val value of the {@code DCalkowicieBig}.
+     * @return a {@code DCalkowicieBig} whose value is {@code val}.
      */
-    public static DMatma valueOf(long val) {
+    public static DCalkowicieBig valueOf(long val) {
         if (val >= 0 && val < zeroThroughTen.length)
             return zeroThroughTen[(int)val];
         else if (val != INFLATED)
-            return new DMatma(null, val, 0, 0);
-        return new DMatma(INFLATED_BIGINT, val, 0, 0);
+            return new DCalkowicieBig(null, val, 0, 0);
+        return new DCalkowicieBig(INFLATED_BIGINT, val, 0, 0);
     }
 
-    static DMatma valueOf(long unscaledVal, int scale, int prec) {
+    static DCalkowicieBig valueOf(long unscaledVal, int scale, int prec) {
         if (scale == 0 && unscaledVal >= 0 && unscaledVal < zeroThroughTen.length) {
             return zeroThroughTen[(int) unscaledVal];
         } else if (unscaledVal == 0) {
             return zeroValueOf(scale);
         }
-        return new DMatma(unscaledVal == INFLATED ? INFLATED_BIGINT : null,
+        return new DCalkowicieBig(unscaledVal == INFLATED ? INFLATED_BIGINT : null,
                 unscaledVal, scale, prec);
     }
 
-    static DMatma valueOf(Matma intVal, int scale, int prec) {
+    static DCalkowicieBig valueOf(CalkowicieBig intVal, int scale, int prec) {
         long val = compactValFor(intVal);
         if (val == 0) {
             return zeroValueOf(scale);
         } else if (scale == 0 && val >= 0 && val < zeroThroughTen.length) {
             return zeroThroughTen[(int) val];
         }
-        return new DMatma(intVal, val, scale, prec);
+        return new DCalkowicieBig(intVal, val, scale, prec);
     }
 
-    static DMatma zeroValueOf(int scale) {
+    static DCalkowicieBig zeroValueOf(int scale) {
         if (scale >= 0 && scale < ZERO_SCALED_BY.length)
             return ZERO_SCALED_BY[scale];
         else
-            return new DMatma(Matma.ZERO, 0, scale, 1);
+            return new DCalkowicieBig(CalkowicieBig.ZERO, 0, scale, 1);
     }
 
     /**
-     * Translates a {@code double} into a {@code DMatma}, using
+     * Translates a {@code double} into a {@code DCalkowicieBig}, using
      * the {@code double}'s canonical string representation provided
      * by the {@link Double#toString(double)} method.
      *
      * <p><b>Note:</b> This is generally the preferred way to convert
      * a {@code double} (or {@code float}) into a
-     * {@code DMatma}, as the value returned is equal to that
-     * resulting from constructing a {@code DMatma} from the
+     * {@code DCalkowicieBig}, as the value returned is equal to that
+     * resulting from constructing a {@code DCalkowicieBig} from the
      * result of using {@link Double#toString(double)}.
      *
-     * @param  val {@code double} to convert to a {@code DMatma}.
-     * @return a {@code DMatma} whose value is equal to or approximately
+     * @param  val {@code double} to convert to a {@code DCalkowicieBig}.
+     * @return a {@code DCalkowicieBig} whose value is equal to or approximately
      *         equal to the value of {@code val}.
      * @throws NumberFormatException if {@code val} is infinite or NaN.
      * @since  1.5
      */
-    public static DMatma valueOf(double val) {
+    public static DCalkowicieBig valueOf(double val) {
         // Reminder: a zero double returns '0.0', so we cannot fastpath
         // to use the constant ZERO.  This might be important enough to
         // justify a factory approach, a cache, or a few private
         // constants, later.
-        return new DMatma(Double.toString(val));
+        return new DCalkowicieBig(Double.toString(val));
     }
 
     // Arithmetic Operations
     /**
-     * Returns a {@code DMatma} whose value is {@code (this +
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this +
      * augend)}, and whose scale is {@code max(this.scale(),
      * augend.scale())}.
      *
-     * @param  augend value to be added to this {@code DMatma}.
+     * @param  augend value to be added to this {@code DCalkowicieBig}.
      * @return {@code this + augend}
      */
-    public DMatma add(DMatma augend) {
+    public DCalkowicieBig add(DCalkowicieBig augend) {
         if (this.intCompact != INFLATED) {
             if ((augend.intCompact != INFLATED)) {
                 return add(this.intCompact, this.scale, augend.intCompact, augend.scale);
@@ -1096,23 +1096,23 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this + augend)},
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this + augend)},
      * with rounding according to the context settings.
      *
      * If either number is zero and the precision setting is nonzero then
      * the other number, rounded if necessary, is used as the result.
      *
-     * @param  augend value to be added to this {@code DMatma}.
+     * @param  augend value to be added to this {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @return {@code this + augend}, rounded as necessary.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DMatma add(DMatma augend, MathContext mc) {
+    public DCalkowicieBig add(DCalkowicieBig augend, MathContext mc) {
         if (mc.precision == 0)
             return add(augend);
-        DMatma lhs = this;
+        DCalkowicieBig lhs = this;
 
         // If either number is zero then the other number, rounded and
         // scaled if necessary, is used as the result.
@@ -1122,7 +1122,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
             if (lhsIsZero || augendIsZero) {
                 int preferredScale = Math.max(lhs.scale(), augend.scale());
-                DMatma result;
+                DCalkowicieBig result;
 
                 if (lhsIsZero && augendIsZero)
                     return zeroValueOf(preferredScale);
@@ -1146,7 +1146,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
         long padding = (long) lhs.scale - augend.scale;
         if (padding != 0) { // scales differ; alignment needed
-            DMatma arg[] = preAlign(lhs, augend, padding, mc);
+            DCalkowicieBig arg[] = preAlign(lhs, augend, padding, mc);
             matchScale(arg);
             lhs = arg[0];
             augend = arg[1];
@@ -1156,7 +1156,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     /**
      * Returns an array of length two, the sum of whose entries is
-     * equal to the rounded sum of the {@code DMatma} arguments.
+     * equal to the rounded sum of the {@code DCalkowicieBig} arguments.
      *
      * <p>If the digit positions of the arguments have a sufficient
      * gap between them, the value smaller in magnitude can be
@@ -1176,10 +1176,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * that the number of digits of the smaller operand could be
      * reduced even though the significands partially overlapped.
      */
-    private DMatma[] preAlign(DMatma lhs, DMatma augend, long padding, MathContext mc) {
+    private DCalkowicieBig[] preAlign(DCalkowicieBig lhs, DCalkowicieBig augend, long padding, MathContext mc) {
         assert padding != 0;
-        DMatma big;
-        DMatma small;
+        DCalkowicieBig big;
+        DCalkowicieBig small;
 
         if (padding < 0) { // lhs is big; augend is small
             big = lhs;
@@ -1209,24 +1209,24 @@ public class DMatma extends Number implements Comparable<DMatma> {
         long smallHighDigitPos = (long) small.scale - small.precision() + 1;
         if (smallHighDigitPos > big.scale + 2 && // big and small disjoint
                 smallHighDigitPos > estResultUlpScale + 2) { // small digits not visible
-            small = DMatma.valueOf(small.signum(), this.checkScale(Math.max(big.scale, estResultUlpScale) + 3));
+            small = DCalkowicieBig.valueOf(small.signum(), this.checkScale(Math.max(big.scale, estResultUlpScale) + 3));
         }
 
         // Since addition is symmetric, preserving input order in
         // returned operands doesn't matter
-        DMatma[] result = {big, small};
+        DCalkowicieBig[] result = {big, small};
         return result;
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this -
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this -
      * subtrahend)}, and whose scale is {@code max(this.scale(),
      * subtrahend.scale())}.
      *
-     * @param  subtrahend value to be subtracted from this {@code DMatma}.
+     * @param  subtrahend value to be subtracted from this {@code DCalkowicieBig}.
      * @return {@code this - subtrahend}
      */
-    public DMatma subtract(DMatma subtrahend) {
+    public DCalkowicieBig subtract(DCalkowicieBig subtrahend) {
         if (this.intCompact != INFLATED) {
             if ((subtrahend.intCompact != INFLATED)) {
                 return add(this.intCompact, this.scale, -subtrahend.intCompact, subtrahend.scale);
@@ -1236,7 +1236,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
         } else {
             if ((subtrahend.intCompact != INFLATED)) {
                 // Pair of subtrahend values given before pair of
-                // values from this DMatma to avoid need for
+                // values from this DCalkowicieBig to avoid need for
                 // method overloading on the specialized add method
                 return add(-subtrahend.intCompact, subtrahend.scale, this.intVal, this.scale);
             } else {
@@ -1246,20 +1246,20 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this - subtrahend)},
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this - subtrahend)},
      * with rounding according to the context settings.
      *
      * If {@code subtrahend} is zero then this, rounded if necessary, is used as the
      * result.  If this is zero then the result is {@code subtrahend.negate(mc)}.
      *
-     * @param  subtrahend value to be subtracted from this {@code DMatma}.
+     * @param  subtrahend value to be subtracted from this {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @return {@code this - subtrahend}, rounded as necessary.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DMatma subtract(DMatma subtrahend, MathContext mc) {
+    public DCalkowicieBig subtract(DCalkowicieBig subtrahend, MathContext mc) {
         if (mc.precision == 0)
             return subtract(subtrahend);
         // share the special rounding code in add()
@@ -1267,14 +1267,14 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is <tt>(this &times;
+     * Returns a {@code DCalkowicieBig} whose value is <tt>(this &times;
      * multiplicand)</tt>, and whose scale is {@code (this.scale() +
      * multiplicand.scale())}.
      *
-     * @param  multiplicand value to be multiplied by this {@code DMatma}.
+     * @param  multiplicand value to be multiplied by this {@code DCalkowicieBig}.
      * @return {@code this * multiplicand}
      */
-    public DMatma multiply(DMatma multiplicand) {
+    public DCalkowicieBig multiply(DCalkowicieBig multiplicand) {
         int productScale = checkScale((long) scale + multiplicand.scale);
         if (this.intCompact != INFLATED) {
             if ((multiplicand.intCompact != INFLATED)) {
@@ -1292,17 +1292,17 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is <tt>(this &times;
+     * Returns a {@code DCalkowicieBig} whose value is <tt>(this &times;
      * multiplicand)</tt>, with rounding according to the context settings.
      *
-     * @param  multiplicand value to be multiplied by this {@code DMatma}.
+     * @param  multiplicand value to be multiplied by this {@code DCalkowicieBig}.
      * @param  mc the context to use.
      * @return {@code this * multiplicand}, rounded as necessary.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DMatma multiply(DMatma multiplicand, MathContext mc) {
+    public DCalkowicieBig multiply(DCalkowicieBig multiplicand, MathContext mc) {
         if (mc.precision == 0)
             return multiply(multiplicand);
         int productScale = checkScale((long) scale + multiplicand.scale);
@@ -1322,16 +1322,16 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
      * divisor)}, and whose scale is as specified.  If rounding must
      * be performed to generate a result with the specified scale, the
      * specified rounding mode is applied.
      *
-     * <p>The new {@link #divide(DMatma, int, RoundingMode)} method
+     * <p>The new {@link #divide(DCalkowicieBig, int, RoundingMode)} method
      * should be used in preference to this legacy method.
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
-     * @param  scale scale of the {@code DMatma} quotient to be returned.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  scale scale of the {@code DCalkowicieBig} quotient to be returned.
      * @param  roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor} is zero,
@@ -1349,7 +1349,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public DMatma divide(DMatma divisor, int scale, int roundingMode) {
+    public DCalkowicieBig divide(DCalkowicieBig divisor, int scale, int roundingMode) {
         if (roundingMode < ROUND_UP || roundingMode > ROUND_UNNECESSARY)
             throw new IllegalArgumentException("Invalid rounding mode");
         if (this.intCompact != INFLATED) {
@@ -1368,13 +1368,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
      * divisor)}, and whose scale is as specified.  If rounding must
      * be performed to generate a result with the specified scale, the
      * specified rounding mode is applied.
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
-     * @param  scale scale of the {@code DMatma} quotient to be returned.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  scale scale of the {@code DCalkowicieBig} quotient to be returned.
      * @param  roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor} is zero,
@@ -1383,20 +1383,20 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *         of the division exactly.
      * @since 1.5
      */
-    public DMatma divide(DMatma divisor, int scale, RoundingMode roundingMode) {
+    public DCalkowicieBig divide(DCalkowicieBig divisor, int scale, RoundingMode roundingMode) {
         return divide(divisor, scale, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
      * divisor)}, and whose scale is {@code this.scale()}.  If
      * rounding must be performed to generate a result with the given
      * scale, the specified rounding mode is applied.
      *
-     * <p>The new {@link #divide(DMatma, RoundingMode)} method
+     * <p>The new {@link #divide(DCalkowicieBig, RoundingMode)} method
      * should be used in preference to this legacy method.
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
      * @param  roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor==0}, or
@@ -1414,17 +1414,17 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public DMatma divide(DMatma divisor, int roundingMode) {
+    public DCalkowicieBig divide(DCalkowicieBig divisor, int roundingMode) {
         return this.divide(divisor, scale, roundingMode);
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
      * divisor)}, and whose scale is {@code this.scale()}.  If
      * rounding must be performed to generate a result with the given
      * scale, the specified rounding mode is applied.
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
      * @param  roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor==0}, or
@@ -1433,25 +1433,25 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *         of the division exactly.
      * @since 1.5
      */
-    public DMatma divide(DMatma divisor, RoundingMode roundingMode) {
+    public DCalkowicieBig divide(DCalkowicieBig divisor, RoundingMode roundingMode) {
         return this.divide(divisor, scale, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
      * divisor)}, and whose preferred scale is {@code (this.scale() -
      * divisor.scale())}; if the exact quotient cannot be
      * represented (because it has a non-terminating decimal
      * expansion) an {@code ArithmeticException} is thrown.
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
      * @throws ArithmeticException if the exact quotient does not have a
      *         terminating decimal expansion
      * @return {@code this / divisor}
      * @since 1.5
      * @author Joseph D. Darcy
      */
-    public DMatma divide(DMatma divisor) {
+    public DCalkowicieBig divide(DCalkowicieBig divisor) {
         /*
          * Handle zero cases first.
          */
@@ -1479,7 +1479,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                             (long)Math.ceil(10.0*divisor.precision()/3.0),
                     Integer.MAX_VALUE),
                     RoundingMode.UNNECESSARY);
-            DMatma quotient;
+            DCalkowicieBig quotient;
             try {
                 quotient = this.divide(divisor, mc);
             } catch (ArithmeticException e) {
@@ -1489,7 +1489,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
             int quotientScale = quotient.scale();
 
-            // divide(DMatma, mc) tries to adjust the quotient to
+            // divide(DCalkowicieBig, mc) tries to adjust the quotient to
             // the desired one by removing trailing zeros; since the
             // exact divide method does not have an explicit digit
             // limit, we can add zeros too.
@@ -1501,10 +1501,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
      * divisor)}, with rounding according to the context settings.
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
      * @param  mc the context to use.
      * @return {@code this / divisor}, rounded as necessary.
      * @throws ArithmeticException if the result is inexact but the
@@ -1513,12 +1513,12 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *         non-terminating decimal expansion.
      * @since  1.5
      */
-    public DMatma divide(DMatma divisor, MathContext mc) {
+    public DCalkowicieBig divide(DCalkowicieBig divisor, MathContext mc) {
         int mcp = mc.precision;
         if (mcp == 0)
             return divide(divisor);
 
-        DMatma dividend = this;
+        DCalkowicieBig dividend = this;
         long preferredScale = (long)dividend.scale - divisor.scale;
         // Now calculate the answer.  We use the existing
         // divide-and-round method, but as this rounds to scale we have
@@ -1557,17 +1557,17 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is the integer part
+     * Returns a {@code DCalkowicieBig} whose value is the integer part
      * of the quotient {@code (this / divisor)} rounded down.  The
      * preferred scale of the result is {@code (this.scale() -
      * divisor.scale())}.
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
      * @return The integer part of {@code this / divisor}.
      * @throws ArithmeticException if {@code divisor==0}
      * @since  1.5
      */
-    public DMatma divideToIntegralValue(DMatma divisor) {
+    public DCalkowicieBig divideToIntegralValue(DCalkowicieBig divisor) {
         // Calculate preferred scale
         int preferredScale = saturateLong((long) this.scale - divisor.scale);
         if (this.compareMagnitude(divisor) < 0) {
@@ -1585,7 +1585,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                         (long)Math.ceil(10.0*divisor.precision()/3.0) +
                         Math.abs((long)this.scale() - divisor.scale()) + 2,
                 Integer.MAX_VALUE);
-        DMatma quotient = this.divide(divisor, new MathContext(maxDigits,
+        DCalkowicieBig quotient = this.divide(divisor, new MathContext(maxDigits,
                 RoundingMode.DOWN));
         if (quotient.scale > 0) {
             quotient = quotient.setScale(0, RoundingMode.DOWN);
@@ -1601,7 +1601,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is the integer part
+     * Returns a {@code DCalkowicieBig} whose value is the integer part
      * of {@code (this / divisor)}.  Since the integer part of the
      * exact quotient does not depend on the rounding mode, the
      * rounding mode does not affect the values returned by this
@@ -1611,7 +1611,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * the exact quotient needs more than {@code mc.precision}
      * digits.
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
      * @param  mc the context to use.
      * @return The integer part of {@code this / divisor}.
      * @throws ArithmeticException if {@code divisor==0}
@@ -1620,7 +1620,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @since  1.5
      * @author Joseph D. Darcy
      */
-    public DMatma divideToIntegralValue(DMatma divisor, MathContext mc) {
+    public DCalkowicieBig divideToIntegralValue(DCalkowicieBig divisor, MathContext mc) {
         if (mc.precision == 0 || // exact result
                 (this.compareMagnitude(divisor) < 0)) // zero result
             return divideToIntegralValue(divisor);
@@ -1635,7 +1635,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
          * digits.  Next, remove any fractional digits from the
          * quotient and adjust the scale to the preferred value.
          */
-        DMatma result = this.divide(divisor, new MathContext(mc.precision, RoundingMode.DOWN));
+        DCalkowicieBig result = this.divide(divisor, new MathContext(mc.precision, RoundingMode.DOWN));
 
         if (result.scale() < 0) {
             /*
@@ -1643,7 +1643,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
              * full integer portion of the exact quotient; if it does,
              * the computed remainder will be less than the divisor.
              */
-            DMatma product = result.multiply(divisor);
+            DCalkowicieBig product = result.multiply(divisor);
             // If the quotient is the full integer value,
             // |dividend-product| < |divisor|.
             if (this.subtract(product).compareMagnitude(divisor) >= 0) {
@@ -1670,31 +1670,31 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (this % divisor)}.
+     * Returns a {@code DCalkowicieBig} whose value is {@code (this % divisor)}.
      *
      * <p>The remainder is given by
      * {@code this.subtract(this.divideToIntegralValue(divisor).multiply(divisor))}.
      * Note that this is not the modulo operation (the result can be
      * negative).
      *
-     * @param  divisor value by which this {@code DMatma} is to be divided.
+     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
      * @return {@code this % divisor}.
      * @throws ArithmeticException if {@code divisor==0}
      * @since  1.5
      */
-    public DMatma remainder(DMatma divisor) {
-        DMatma divrem[] = this.divideAndRemainder(divisor);
+    public DCalkowicieBig remainder(DCalkowicieBig divisor) {
+        DCalkowicieBig divrem[] = this.divideAndRemainder(divisor);
         return divrem[1];
     }
 
-    public DMatma remainder(DMatma divisor, MathContext mc) {
-        DMatma divrem[] = this.divideAndRemainder(divisor, mc);
+    public DCalkowicieBig remainder(DCalkowicieBig divisor, MathContext mc) {
+        DCalkowicieBig divrem[] = this.divideAndRemainder(divisor, mc);
         return divrem[1];
     }
 
-    public DMatma[] divideAndRemainder(DMatma divisor) {
+    public DCalkowicieBig[] divideAndRemainder(DCalkowicieBig divisor) {
         // we use the identity  x = i * y + r to determine r
-        DMatma[] result = new DMatma[2];
+        DCalkowicieBig[] result = new DCalkowicieBig[2];
 
         result[0] = this.divideToIntegralValue(divisor);
         result[1] = this.subtract(result[0].multiply(divisor));
@@ -1702,12 +1702,12 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
 
-    public DMatma[] divideAndRemainder(DMatma divisor, MathContext mc) {
+    public DCalkowicieBig[] divideAndRemainder(DCalkowicieBig divisor, MathContext mc) {
         if (mc.precision == 0)
             return divideAndRemainder(divisor);
 
-        DMatma[] result = new DMatma[2];
-        DMatma lhs = this;
+        DCalkowicieBig[] result = new DCalkowicieBig[2];
+        DCalkowicieBig lhs = this;
 
         result[0] = lhs.divideToIntegralValue(divisor, mc);
         result[1] = lhs.subtract(result[0].multiply(divisor));
@@ -1715,7 +1715,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is
+     * Returns a {@code DCalkowicieBig} whose value is
      * <tt>(this<sup>n</sup>)</tt>, The power is computed exactly, to
      * unlimited precision.
      *
@@ -1726,23 +1726,23 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * Note that future releases may expand the allowable exponent
      * range of this method.
      *
-     * @param  n power to raise this {@code DMatma} to.
+     * @param  n power to raise this {@code DCalkowicieBig} to.
      * @return <tt>this<sup>n</sup></tt>
      * @throws ArithmeticException if {@code n} is out of range.
      * @since  1.5
      */
-    public DMatma pow(int n) {
+    public DCalkowicieBig pow(int n) {
         if (n < 0 || n > 999999999)
             throw new ArithmeticException("Invalid operation");
         // No need to calculate pow(n) if result will over/underflow.
         // Don't attempt to support "supernormal" numbers.
         int newScale = checkScale((long)scale * n);
-        return new DMatma(this.inflated().pow(n), newScale);
+        return new DCalkowicieBig(this.inflated().pow(n), newScale);
     }
 
 
     /**
-     * Returns a {@code DMatma} whose value is
+     * Returns a {@code DCalkowicieBig} whose value is
      * <tt>(this<sup>n</sup>)</tt>.  The current implementation uses
      * the core algorithm defined in ANSI standard X3.274-1996 with
      * rounding according to the context settings.  In general, the
@@ -1782,7 +1782,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *   </ul>
      * </ul>
      *
-     * @param  n power to raise this {@code DMatma} to.
+     * @param  n power to raise this {@code DCalkowicieBig} to.
      * @param  mc the context to use.
      * @return <tt>this<sup>n</sup></tt> using the ANSI standard X3.274-1996
      *         algorithm
@@ -1791,14 +1791,14 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *         of range.
      * @since  1.5
      */
-    public DMatma pow(int n, MathContext mc) {
+    public DCalkowicieBig pow(int n, MathContext mc) {
         if (mc.precision == 0)
             return pow(n);
         if (n < -999999999 || n > 999999999)
             throw new ArithmeticException("Invalid operation");
         if (n == 0)
             return ONE;                      // x**0 == 1 in X3.274
-        DMatma lhs = this;
+        DCalkowicieBig lhs = this;
         MathContext workmc = mc;           // working settings
         int mag = Math.abs(n);               // magnitude of n
         if (mc.precision > 0) {
@@ -1809,7 +1809,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                     mc.roundingMode);
         }
         // ready to carry out power calculation...
-        DMatma acc = ONE;           // accumulator
+        DCalkowicieBig acc = ONE;           // accumulator
         boolean seenbit = false;        // set once we've seen a 1-bit
         for (int i=1;;i++) {            // for each bit [top bit ignored]
             mag += mag;                 // shift left 1 bit
@@ -1831,19 +1831,19 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is the absolute value
-     * of this {@code DMatma}, and whose scale is
+     * Returns a {@code DCalkowicieBig} whose value is the absolute value
+     * of this {@code DCalkowicieBig}, and whose scale is
      * {@code this.scale()}.
      *
      * @return {@code abs(this)}
      */
-    public DMatma abs() {
+    public DCalkowicieBig abs() {
         return (signum() < 0 ? negate() : this);
     }
 
     /**
-     * Returns a {@code DMatma} whose value is the absolute value
-     * of this {@code DMatma}, with rounding according to the
+     * Returns a {@code DCalkowicieBig} whose value is the absolute value
+     * of this {@code DCalkowicieBig}, with rounding according to the
      * context settings.
      *
      * @param mc the context to use.
@@ -1852,26 +1852,26 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *         rounding mode is {@code UNNECESSARY}.
      * @since 1.5
      */
-    public DMatma abs(MathContext mc) {
+    public DCalkowicieBig abs(MathContext mc) {
         return (signum() < 0 ? negate(mc) : plus(mc));
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (-this)},
+     * Returns a {@code DCalkowicieBig} whose value is {@code (-this)},
      * and whose scale is {@code this.scale()}.
      *
      * @return {@code -this}.
      */
-    public DMatma negate() {
+    public DCalkowicieBig negate() {
         if (intCompact == INFLATED) {
-            return new DMatma(intVal.negate(), INFLATED, scale, precision);
+            return new DCalkowicieBig(intVal.negate(), INFLATED, scale, precision);
         } else {
             return valueOf(-intCompact, scale, precision);
         }
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (-this)},
+     * Returns a {@code DCalkowicieBig} whose value is {@code (-this)},
      * with rounding according to the context settings.
      *
      * @param mc the context to use.
@@ -1880,15 +1880,15 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DMatma negate(MathContext mc) {
+    public DCalkowicieBig negate(MathContext mc) {
         return negate().plus(mc);
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (+this)}, and whose
+     * Returns a {@code DCalkowicieBig} whose value is {@code (+this)}, and whose
      * scale is {@code this.scale()}.
      *
-     * <p>This method, which simply returns this {@code DMatma}
+     * <p>This method, which simply returns this {@code DCalkowicieBig}
      * is included for symmetry with the unary minus method {@link
      * #negate()}.
      *
@@ -1896,12 +1896,12 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @see #negate()
      * @since  1.5
      */
-    public DMatma plus() {
+    public DCalkowicieBig plus() {
         return this;
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (+this)},
+     * Returns a {@code DCalkowicieBig} whose value is {@code (+this)},
      * with rounding according to the context settings.
      *
      * <p>The effect of this method is identical to that of the {@link
@@ -1915,16 +1915,16 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @see    #round(MathContext)
      * @since  1.5
      */
-    public DMatma plus(MathContext mc) {
+    public DCalkowicieBig plus(MathContext mc) {
         if (mc.precision == 0)                 // no rounding please
             return this;
         return doRound(this, mc);
     }
 
     /**
-     * Returns the signum function of this {@code DMatma}.
+     * Returns the signum function of this {@code DCalkowicieBig}.
      *
-     * @return -1, 0, or 1 as the value of this {@code DMatma}
+     * @return -1, 0, or 1 as the value of this {@code DCalkowicieBig}
      *         is negative, zero, or positive.
      */
     public int signum() {
@@ -1934,26 +1934,26 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns the <i>scale</i> of this {@code DMatma}.  If zero
+     * Returns the <i>scale</i> of this {@code DCalkowicieBig}.  If zero
      * or positive, the scale is the number of digits to the right of
      * the decimal point.  If negative, the unscaled value of the
      * number is multiplied by ten to the power of the negation of the
      * scale.  For example, a scale of {@code -3} means the unscaled
      * value is multiplied by 1000.
      *
-     * @return the scale of this {@code DMatma}.
+     * @return the scale of this {@code DCalkowicieBig}.
      */
     public int scale() {
         return scale;
     }
 
     /**
-     * Returns the <i>precision</i> of this {@code DMatma}.  (The
+     * Returns the <i>precision</i> of this {@code DCalkowicieBig}.  (The
      * precision is the number of digits in the unscaled value.)
      *
      * <p>The precision of a zero value is 1.
      *
-     * @return the precision of this {@code DMatma}.
+     * @return the precision of this {@code DCalkowicieBig}.
      * @since  1.5
      */
     public int precision() {
@@ -1971,14 +1971,14 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
 
     /**
-     * Returns a {@code Matma} whose value is the <i>unscaled
-     * value</i> of this {@code DMatma}.  (Computes <tt>(this *
+     * Returns a {@code CalkowicieBig} whose value is the <i>unscaled
+     * value</i> of this {@code DCalkowicieBig}.  (Computes <tt>(this *
      * 10<sup>this.scale()</sup>)</tt>.)
      *
-     * @return the unscaled value of this {@code DMatma}.
+     * @return the unscaled value of this {@code DCalkowicieBig}.
      * @since  1.2
      */
-    public Matma unscaledValue() {
+    public CalkowicieBig unscaledValue() {
         return this.inflated();
     }
 
@@ -2000,7 +2000,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     /**
      * Rounding mode to round towards positive infinity.  If the
-     * {@code DMatma} is positive, behaves as for
+     * {@code DCalkowicieBig} is positive, behaves as for
      * {@code ROUND_UP}; if negative, behaves as for
      * {@code ROUND_DOWN}.  Note that this rounding mode never
      * decreases the calculated value.
@@ -2009,7 +2009,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     /**
      * Rounding mode to round towards negative infinity.  If the
-     * {@code DMatma} is positive, behave as for
+     * {@code DCalkowicieBig} is positive, behave as for
      * {@code ROUND_DOWN}; if negative, behave as for
      * {@code ROUND_UP}.  Note that this rounding mode never
      * increases the calculated value.
@@ -2059,7 +2059,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     // Scaling/Rounding Operations
 
     /**
-     * Returns a {@code DMatma} rounded according to the
+     * Returns a {@code DCalkowicieBig} rounded according to the
      * {@code MathContext} settings.  If the precision setting is 0 then
      * no rounding takes place.
      *
@@ -2067,40 +2067,40 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * {@link #plus(MathContext)} method.
      *
      * @param mc the context to use.
-     * @return a {@code DMatma} rounded according to the
+     * @return a {@code DCalkowicieBig} rounded according to the
      *         {@code MathContext} settings.
      * @throws ArithmeticException if the rounding mode is
      *         {@code UNNECESSARY} and the
-     *         {@code DMatma}  operation would require rounding.
+     *         {@code DCalkowicieBig}  operation would require rounding.
      * @see    #plus(MathContext)
      * @since  1.5
      */
-    public DMatma round(MathContext mc) {
+    public DCalkowicieBig round(MathContext mc) {
         return plus(mc);
     }
 
     /**
-     * Returns a {@code DMatma} whose scale is the specified
+     * Returns a {@code DCalkowicieBig} whose scale is the specified
      * value, and whose unscaled value is determined by multiplying or
-     * dividing this {@code DMatma}'s unscaled value by the
+     * dividing this {@code DCalkowicieBig}'s unscaled value by the
      * appropriate power of ten to maintain its overall value.  If the
      * scale is reduced by the operation, the unscaled value must be
      * divided (rather than multiplied), and the value may be changed;
      * in this case, the specified rounding mode is applied to the
      * division.
      *
-     * <p>Note that since DMatma objects are immutable, calls of
+     * <p>Note that since DCalkowicieBig objects are immutable, calls of
      * this method do <i>not</i> result in the original object being
      * modified, contrary to the usual convention of having methods
      * named <tt>set<i>X</i></tt> mutate field <i>{@code X}</i>.
      * Instead, {@code setScale} returns an object with the proper
      * scale; the returned object may or may not be newly allocated.
      *
-     * @param  newScale scale of the {@code DMatma} value to be returned.
+     * @param  newScale scale of the {@code DCalkowicieBig} value to be returned.
      * @param  roundingMode The rounding mode to apply.
-     * @return a {@code DMatma} whose scale is the specified value,
+     * @return a {@code DCalkowicieBig} whose scale is the specified value,
      *         and whose unscaled value is determined by multiplying or
-     *         dividing this {@code DMatma}'s unscaled value by the
+     *         dividing this {@code DCalkowicieBig}'s unscaled value by the
      *         appropriate power of ten to maintain its overall value.
      * @throws ArithmeticException if {@code roundingMode==UNNECESSARY}
      *         and the specified scaling operation would require
@@ -2108,21 +2108,21 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @see    RoundingMode
      * @since  1.5
      */
-    public DMatma setScale(int newScale, RoundingMode roundingMode) {
+    public DCalkowicieBig setScale(int newScale, RoundingMode roundingMode) {
         return setScale(newScale, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code DMatma} whose scale is the specified
+     * Returns a {@code DCalkowicieBig} whose scale is the specified
      * value, and whose unscaled value is determined by multiplying or
-     * dividing this {@code DMatma}'s unscaled value by the
+     * dividing this {@code DCalkowicieBig}'s unscaled value by the
      * appropriate power of ten to maintain its overall value.  If the
      * scale is reduced by the operation, the unscaled value must be
      * divided (rather than multiplied), and the value may be changed;
      * in this case, the specified rounding mode is applied to the
      * division.
      *
-     * <p>Note that since DMatma objects are immutable, calls of
+     * <p>Note that since DCalkowicieBig objects are immutable, calls of
      * this method do <i>not</i> result in the original object being
      * modified, contrary to the usual convention of having methods
      * named <tt>set<i>X</i></tt> mutate field <i>{@code X}</i>.
@@ -2132,11 +2132,11 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * <p>The new {@link #setScale(int, RoundingMode)} method should
      * be used in preference to this legacy method.
      *
-     * @param  newScale scale of the {@code DMatma} value to be returned.
+     * @param  newScale scale of the {@code DCalkowicieBig} value to be returned.
      * @param  roundingMode The rounding mode to apply.
-     * @return a {@code DMatma} whose scale is the specified value,
+     * @return a {@code DCalkowicieBig} whose scale is the specified value,
      *         and whose unscaled value is determined by multiplying or
-     *         dividing this {@code DMatma}'s unscaled value by the
+     *         dividing this {@code DCalkowicieBig}'s unscaled value by the
      *         appropriate power of ten to maintain its overall value.
      * @throws ArithmeticException if {@code roundingMode==ROUND_UNNECESSARY}
      *         and the specified scaling operation would require
@@ -2152,7 +2152,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public DMatma setScale(int newScale, int roundingMode) {
+    public DCalkowicieBig setScale(int newScale, int roundingMode) {
         if (roundingMode < ROUND_UP || roundingMode > ROUND_UNNECESSARY)
             throw new IllegalArgumentException("Invalid rounding mode");
 
@@ -2168,8 +2168,8 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 if ((rs = longMultiplyPowerTen(rs, raise)) != INFLATED) {
                     return valueOf(rs,newScale);
                 }
-                Matma rb = bigMultiplyPowerTen(raise);
-                return new DMatma(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
+                CalkowicieBig rb = bigMultiplyPowerTen(raise);
+                return new DCalkowicieBig(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
             } else {
                 // newScale < oldScale -- drop some digits
                 // Can't predict the precision due to the effect of rounding.
@@ -2183,8 +2183,8 @@ public class DMatma extends Number implements Comparable<DMatma> {
         } else {
             if (newScale > oldScale) {
                 int raise = checkScale((long) newScale - oldScale);
-                Matma rb = bigMultiplyPowerTen(this.intVal,raise);
-                return new DMatma(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
+                CalkowicieBig rb = bigMultiplyPowerTen(this.intVal,raise);
+                return new DCalkowicieBig(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
             } else {
                 // newScale < oldScale -- drop some digits
                 // Can't predict the precision due to the effect of rounding.
@@ -2199,16 +2199,16 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose scale is the specified
+     * Returns a {@code DCalkowicieBig} whose scale is the specified
      * value, and whose value is numerically equal to this
-     * {@code DMatma}'s.  Throws an {@code ArithmeticException}
+     * {@code DCalkowicieBig}'s.  Throws an {@code ArithmeticException}
      * if this is not possible.
      *
      * <p>This call is typically used to increase the scale, in which
-     * case it is guaranteed that there exists a {@code DMatma}
+     * case it is guaranteed that there exists a {@code DCalkowicieBig}
      * of the specified scale and the correct value.  The call can
      * also be used to reduce the scale if the caller knows that the
-     * {@code DMatma} has sufficiently many zeros at the end of
+     * {@code DCalkowicieBig} has sufficiently many zeros at the end of
      * its fractional part (i.e., factors of ten in its integer value)
      * to allow for the rescaling without changing its value.
      *
@@ -2216,7 +2216,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * versions of {@code setScale}, but saves the caller the trouble
      * of specifying a rounding mode in cases where it is irrelevant.
      *
-     * <p>Note that since {@code DMatma} objects are immutable,
+     * <p>Note that since {@code DCalkowicieBig} objects are immutable,
      * calls of this method do <i>not</i> result in the original
      * object being modified, contrary to the usual convention of
      * having methods named <tt>set<i>X</i></tt> mutate field
@@ -2224,102 +2224,102 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * object with the proper scale; the returned object may or may
      * not be newly allocated.
      *
-     * @param  newScale scale of the {@code DMatma} value to be returned.
-     * @return a {@code DMatma} whose scale is the specified value, and
+     * @param  newScale scale of the {@code DCalkowicieBig} value to be returned.
+     * @return a {@code DCalkowicieBig} whose scale is the specified value, and
      *         whose unscaled value is determined by multiplying or dividing
-     *         this {@code DMatma}'s unscaled value by the appropriate
+     *         this {@code DCalkowicieBig}'s unscaled value by the appropriate
      *         power of ten to maintain its overall value.
      * @throws ArithmeticException if the specified scaling operation would
      *         require rounding.
      * @see    #setScale(int, int)
      * @see    #setScale(int, RoundingMode)
      */
-    public DMatma setScale(int newScale) {
+    public DCalkowicieBig setScale(int newScale) {
         return setScale(newScale, ROUND_UNNECESSARY);
     }
 
     // Decimal Point Motion Operations
 
     /**
-     * Returns a {@code DMatma} which is equivalent to this one
+     * Returns a {@code DCalkowicieBig} which is equivalent to this one
      * with the decimal point moved {@code n} places to the left.  If
      * {@code n} is non-negative, the call merely adds {@code n} to
      * the scale.  If {@code n} is negative, the call is equivalent
-     * to {@code movePointRight(-n)}.  The {@code DMatma}
+     * to {@code movePointRight(-n)}.  The {@code DCalkowicieBig}
      * returned by this call has value <tt>(this &times;
      * 10<sup>-n</sup>)</tt> and scale {@code max(this.scale()+n,
      * 0)}.
      *
      * @param  n number of places to move the decimal point to the left.
-     * @return a {@code DMatma} which is equivalent to this one with the
+     * @return a {@code DCalkowicieBig} which is equivalent to this one with the
      *         decimal point moved {@code n} places to the left.
      * @throws ArithmeticException if scale overflows.
      */
-    public DMatma movePointLeft(int n) {
+    public DCalkowicieBig movePointLeft(int n) {
         // Cannot use movePointRight(-n) in case of n==Integer.MIN_VALUE
         int newScale = checkScale((long)scale + n);
-        DMatma num = new DMatma(intVal, intCompact, newScale, 0);
+        DCalkowicieBig num = new DCalkowicieBig(intVal, intCompact, newScale, 0);
         return num.scale < 0 ? num.setScale(0, ROUND_UNNECESSARY) : num;
     }
 
     /**
-     * Returns a {@code DMatma} which is equivalent to this one
+     * Returns a {@code DCalkowicieBig} which is equivalent to this one
      * with the decimal point moved {@code n} places to the right.
      * If {@code n} is non-negative, the call merely subtracts
      * {@code n} from the scale.  If {@code n} is negative, the call
      * is equivalent to {@code movePointLeft(-n)}.  The
-     * {@code DMatma} returned by this call has value <tt>(this
+     * {@code DCalkowicieBig} returned by this call has value <tt>(this
      * &times; 10<sup>n</sup>)</tt> and scale {@code max(this.scale()-n,
      * 0)}.
      *
      * @param  n number of places to move the decimal point to the right.
-     * @return a {@code DMatma} which is equivalent to this one
+     * @return a {@code DCalkowicieBig} which is equivalent to this one
      *         with the decimal point moved {@code n} places to the right.
      * @throws ArithmeticException if scale overflows.
      */
-    public DMatma movePointRight(int n) {
+    public DCalkowicieBig movePointRight(int n) {
         // Cannot use movePointLeft(-n) in case of n==Integer.MIN_VALUE
         int newScale = checkScale((long)scale - n);
-        DMatma num = new DMatma(intVal, intCompact, newScale, 0);
+        DCalkowicieBig num = new DCalkowicieBig(intVal, intCompact, newScale, 0);
         return num.scale < 0 ? num.setScale(0, ROUND_UNNECESSARY) : num;
     }
 
     /**
-     * Returns a DMatma whose numerical value is equal to
+     * Returns a DCalkowicieBig whose numerical value is equal to
      * ({@code this} * 10<sup>n</sup>).  The scale of
      * the result is {@code (this.scale() - n)}.
      *
      * @param n the exponent power of ten to scale by
-     * @return a DMatma whose numerical value is equal to
+     * @return a DCalkowicieBig whose numerical value is equal to
      * ({@code this} * 10<sup>n</sup>)
      * @throws ArithmeticException if the scale would be
      *         outside the range of a 32-bit integer.
      *
      * @since 1.5
      */
-    public DMatma scaleByPowerOfTen(int n) {
-        return new DMatma(intVal, intCompact,
+    public DCalkowicieBig scaleByPowerOfTen(int n) {
+        return new DCalkowicieBig(intVal, intCompact,
                 checkScale((long)scale - n), precision);
     }
 
     /**
-     * Returns a {@code DMatma} which is numerically equal to
+     * Returns a {@code DCalkowicieBig} which is numerically equal to
      * this one but with any trailing zeros removed from the
      * representation.  For example, stripping the trailing zeros from
-     * the {@code DMatma} value {@code 600.0}, which has
-     * [{@code Matma}, {@code scale}] components equals to
-     * [6000, 1], yields {@code 6E2} with [{@code Matma},
+     * the {@code DCalkowicieBig} value {@code 600.0}, which has
+     * [{@code CalkowicieBig}, {@code scale}] components equals to
+     * [6000, 1], yields {@code 6E2} with [{@code CalkowicieBig},
      * {@code scale}] components equals to [6, -2].  If
-     * this DMatma is numerically equal to zero, then
-     * {@code DMatma.ZERO} is returned.
+     * this DCalkowicieBig is numerically equal to zero, then
+     * {@code DCalkowicieBig.ZERO} is returned.
      *
-     * @return a numerically equal {@code DMatma} with any
+     * @return a numerically equal {@code DCalkowicieBig} with any
      * trailing zeros removed.
      * @since 1.5
      */
-    public DMatma stripTrailingZeros() {
+    public DCalkowicieBig stripTrailingZeros() {
         if (intCompact == 0 || (intVal != null && intVal.signum() == 0)) {
-            return DMatma.ZERO;
+            return DCalkowicieBig.ZERO;
         } else if (intCompact != INFLATED) {
             return createAndStripZerosToMatchScale(intCompact, scale, Long.MIN_VALUE);
         } else {
@@ -2330,8 +2330,8 @@ public class DMatma extends Number implements Comparable<DMatma> {
     // Comparison Operations
 
     /**
-     * Compares this {@code DMatma} with the specified
-     * {@code DMatma}.  Two {@code DMatma} objects that are
+     * Compares this {@code DCalkowicieBig} with the specified
+     * {@code DCalkowicieBig}.  Two {@code DCalkowicieBig} objects that are
      * equal in value but have a different scale (like 2.0 and 2.00)
      * are considered equal by this method.  This method is provided
      * in preference to individual methods for each of the six boolean
@@ -2341,12 +2341,12 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * {@code (x.compareTo(y)} &lt;<i>op</i>&gt; {@code 0)}, where
      * &lt;<i>op</i>&gt; is one of the six comparison operators.
      *
-     * @param  val {@code DMatma} to which this {@code DMatma} is
+     * @param  val {@code DCalkowicieBig} to which this {@code DCalkowicieBig} is
      *         to be compared.
-     * @return -1, 0, or 1 as this {@code DMatma} is numerically
+     * @return -1, 0, or 1 as this {@code DCalkowicieBig} is numerically
      *          less than, equal to, or greater than {@code val}.
      */
-    public int compareTo(DMatma val) {
+    public int compareTo(DCalkowicieBig val) {
         // Quick path for equal scale and non-inflated case.
         if (scale == val.scale) {
             long xs = intCompact;
@@ -2367,7 +2367,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     /**
      * Version of compareTo that ignores sign.
      */
-    private int compareMagnitude(DMatma val) {
+    private int compareMagnitude(DCalkowicieBig val) {
         // Match scales, avoid unnecessary inflation
         long ys = val.intCompact;
         long xs = this.intCompact;
@@ -2385,7 +2385,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 return -1;
             if (xae > yae)
                 return 1;
-            Matma rb = null;
+            CalkowicieBig rb = null;
             if (sdiff < 0) {
                 // The cases sdiff <= Integer.MIN_VALUE intentionally fall through.
                 if ( sdiff > Integer.MIN_VALUE &&
@@ -2417,9 +2417,9 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     @Override
     public boolean equals(Object x) {
-        if (!(x instanceof DMatma))
+        if (!(x instanceof DCalkowicieBig))
             return false;
-        DMatma xDec = (DMatma) x;
+        DCalkowicieBig xDec = (DCalkowicieBig) x;
         if (x == this)
             return true;
         if (scale != xDec.scale)
@@ -2437,24 +2437,24 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
 
-    public DMatma min(DMatma val) {
+    public DCalkowicieBig min(DCalkowicieBig val) {
         return (compareTo(val) <= 0 ? this : val);
     }
 
 
-    public DMatma max(DMatma val) {
+    public DCalkowicieBig max(DCalkowicieBig val) {
         return (compareTo(val) >= 0 ? this : val);
     }
 
     // Hash Function
 
     /**
-     * Returns the hash code for this {@code DMatma}.  Note that
-     * two {@code DMatma} objects that are numerically equal but
+     * Returns the hash code for this {@code DCalkowicieBig}.  Note that
+     * two {@code DCalkowicieBig} objects that are numerically equal but
      * differ in scale (like 2.0 and 2.00) will generally <i>not</i>
      * have the same hash code.
      *
-     * @return hash code for this {@code DMatma}.
+     * @return hash code for this {@code DCalkowicieBig}.
      * @see #equals(Object)
      */
     @Override
@@ -2471,12 +2471,12 @@ public class DMatma extends Number implements Comparable<DMatma> {
     // Format Converters
 
     /**
-     * Returns the string representation of this {@code DMatma},
+     * Returns the string representation of this {@code DCalkowicieBig},
      * using scientific notation if an exponent is needed.
      *
-     * <p>A standard canonical string form of the {@code DMatma}
+     * <p>A standard canonical string form of the {@code DCalkowicieBig}
      * is created as though by the following steps: first, the
-     * absolute value of the unscaled value of the {@code DMatma}
+     * absolute value of the unscaled value of the {@code DCalkowicieBig}
      * is converted to a string in base ten using the characters
      * {@code '0'} through {@code '9'} with no leading zeros (except
      * if its value is zero, in which case a single {@code '0'}
@@ -2504,7 +2504,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * <p>Otherwise (that is, if the scale is negative, or the
      * adjusted exponent is less than {@code -6}), the number will be
      * converted to a character form using exponential notation.  In
-     * this case, if the converted {@code Matma} has more than
+     * this case, if the converted {@code CalkowicieBig} has more than
      * one digit a decimal point is inserted after the first digit.
      * An exponent in character form is then suffixed to the converted
      * unscaled value (perhaps with inserted decimal point); this
@@ -2539,12 +2539,12 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * <ol>
      *
      * <li>There is a one-to-one mapping between the distinguishable
-     * {@code DMatma} values and the result of this conversion.
-     * That is, every distinguishable {@code DMatma} value
+     * {@code DCalkowicieBig} values and the result of this conversion.
+     * That is, every distinguishable {@code DCalkowicieBig} value
      * (unscaled value and scale) has a unique string representation
      * as a result of using {@code toString}.  If that string
-     * representation is converted back to a {@code DMatma} using
-     * the {@link #DMatma(String)} constructor, then the original
+     * representation is converted back to a {@code DCalkowicieBig} using
+     * the {@link #DCalkowicieBig(String)} constructor, then the original
      * value will be recovered.
      *
      * <li>The string produced for a given number is always the same;
@@ -2557,7 +2557,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * <li>The {@link #toEngineeringString} method may be used for
      * presenting numbers with exponents in engineering notation, and the
      * {@link #setScale(int,RoundingMode) setScale} method may be used for
-     * rounding a {@code DMatma} so it has a known number of digits after
+     * rounding a {@code DCalkowicieBig} so it has a known number of digits after
      * the decimal point.
      *
      * <li>The digit-to-character mapping provided by
@@ -2565,9 +2565,9 @@ public class DMatma extends Number implements Comparable<DMatma> {
      *
      * </ol>
      *
-     * @return string representation of this {@code DMatma}.
+     * @return string representation of this {@code DCalkowicieBig}.
      * @see    Character#forDigit
-     * @see    #DMatma(String)
+     * @see    #DCalkowicieBig(String)
      */
     @Override
     public String toString() {
@@ -2578,10 +2578,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a string representation of this {@code DMatma},
+     * Returns a string representation of this {@code DCalkowicieBig},
      * using engineering notation if an exponent is needed.
      *
-     * <p>Returns a string that represents the {@code DMatma} as
+     * <p>Returns a string that represents the {@code DCalkowicieBig} as
      * described in the {@link #toString()} method, except that if
      * exponential notation is used, the power of ten is adjusted to
      * be a multiple of three (engineering notation) such that the
@@ -2591,13 +2591,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * that the scale of the zero value is preserved.  Note that
      * unlike the output of {@link #toString()}, the output of this
      * method is <em>not</em> guaranteed to recover the same [integer,
-     * scale] pair of this {@code DMatma} if the output string is
-     * converting back to a {@code DMatma} using the {@linkplain
-     * #DMatma(String) string constructor}.  The result of this method meets
+     * scale] pair of this {@code DCalkowicieBig} if the output string is
+     * converting back to a {@code DCalkowicieBig} using the {@linkplain
+     * #DCalkowicieBig(String) string constructor}.  The result of this method meets
      * the weaker constraint of always producing a numerically equal
      * result from applying the string constructor to the method's output.
      *
-     * @return string representation of this {@code DMatma}, using
+     * @return string representation of this {@code DCalkowicieBig}, using
      *         engineering notation if an exponent is needed.
      * @since  1.5
      */
@@ -2606,7 +2606,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a string representation of this {@code DMatma}
+     * Returns a string representation of this {@code DCalkowicieBig}
      * without an exponent field.  For values with a positive scale,
      * the number of digits to the right of the decimal point is used
      * to indicate scale.  For values with a zero or negative scale,
@@ -2621,18 +2621,18 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * zero or positive.
      *
      * Note that if the result of this method is passed to the
-     * {@linkplain #DMatma(String) string constructor}, only the
-     * numerical value of this {@code DMatma} will necessarily be
-     * recovered; the representation of the new {@code DMatma}
+     * {@linkplain #DCalkowicieBig(String) string constructor}, only the
+     * numerical value of this {@code DCalkowicieBig} will necessarily be
+     * recovered; the representation of the new {@code DCalkowicieBig}
      * may have a different scale.  In particular, if this
-     * {@code DMatma} has a negative scale, the string resulting
+     * {@code DCalkowicieBig} has a negative scale, the string resulting
      * from this method will have a scale of zero when processed by
      * the string constructor.
      *
      * (This method behaves analogously to the {@code toString}
      * method in 1.4 and earlier releases.)
      *
-     * @return a string representation of this {@code DMatma}
+     * @return a string representation of this {@code DCalkowicieBig}
      * without an exponent field.
      * @since 1.5
      * @see #toString()
@@ -2696,72 +2696,72 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Converts this {@code DMatma} to a {@code Matma}.
+     * Converts this {@code DCalkowicieBig} to a {@code CalkowicieBig}.
      * This conversion is analogous to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code long} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
      * any fractional part of this
-     * {@code DMatma} will be discarded.  Note that this
+     * {@code DCalkowicieBig} will be discarded.  Note that this
      * conversion can lose information about the precision of the
-     * {@code DMatma} value.
+     * {@code DCalkowicieBig} value.
      * <p>
      * To have an exception thrown if the conversion is inexact (in
      * other words if a nonzero fractional part is discarded), use the
      * {@link #toBigIntegerExact()} method.
      *
-     * @return this {@code DMatma} converted to a {@code Matma}.
+     * @return this {@code DCalkowicieBig} converted to a {@code CalkowicieBig}.
      */
-    public Matma toMatma() {
+    public CalkowicieBig toCalkowicieBig() {
         // force to an integer, quietly
         return this.setScale(0, ROUND_DOWN).inflated();
     }
 
     /**
-     * Converts this {@code DMatma} to a {@code Matma},
+     * Converts this {@code DCalkowicieBig} to a {@code CalkowicieBig},
      * checking for lost information.  An exception is thrown if this
-     * {@code DMatma} has a nonzero fractional part.
+     * {@code DCalkowicieBig} has a nonzero fractional part.
      *
-     * @return this {@code DMatma} converted to a {@code Matma}.
+     * @return this {@code DCalkowicieBig} converted to a {@code CalkowicieBig}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part.
      * @since  1.5
      */
-    public Matma toBigIntegerExact() {
+    public CalkowicieBig toBigIntegerExact() {
         // round to an integer, with Exception if decimal part non-0
         return this.setScale(0, ROUND_UNNECESSARY).inflated();
     }
 
     /**
-     * Converts this {@code DMatma} to a {@code long}.
+     * Converts this {@code DCalkowicieBig} to a {@code long}.
      * This conversion is analogous to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code short} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
      * any fractional part of this
-     * {@code DMatma} will be discarded, and if the resulting
-     * "{@code Matma}" is too big to fit in a
+     * {@code DCalkowicieBig} will be discarded, and if the resulting
+     * "{@code CalkowicieBig}" is too big to fit in a
      * {@code long}, only the low-order 64 bits are returned.
      * Note that this conversion can lose information about the
-     * overall magnitude and precision of this {@code DMatma} value as well
+     * overall magnitude and precision of this {@code DCalkowicieBig} value as well
      * as return a result with the opposite sign.
      *
-     * @return this {@code DMatma} converted to a {@code long}.
+     * @return this {@code DCalkowicieBig} converted to a {@code long}.
      */
     public long longValue(){
         return (intCompact != INFLATED && scale == 0) ?
                 intCompact:
-                toMatma().longValue();
+                toCalkowicieBig().longValue();
     }
 
     /**
-     * Converts this {@code DMatma} to a {@code long}, checking
-     * for lost information.  If this {@code DMatma} has a
+     * Converts this {@code DCalkowicieBig} to a {@code long}, checking
+     * for lost information.  If this {@code DCalkowicieBig} has a
      * nonzero fractional part or is out of the possible range for a
      * {@code long} result then an {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code DMatma} converted to a {@code long}.
+     * @return this {@code DCalkowicieBig} converted to a {@code long}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part, or will not fit in a {@code long}.
      * @since  1.5
@@ -2779,21 +2779,21 @@ public class DMatma extends Number implements Comparable<DMatma> {
         if ((this.precision() - this.scale) <= 0)
             throw new ArithmeticException("Rounding necessary");
         // round to an integer, with Exception if decimal part non-0
-        DMatma num = this.setScale(0, ROUND_UNNECESSARY);
+        DCalkowicieBig num = this.setScale(0, ROUND_UNNECESSARY);
         if (num.precision() >= 19) // need to check carefully
             LongOverflow.check(num);
         return num.inflated().longValue();
     }
 
     private static class LongOverflow {
-        /** Matma equal to Long.MIN_VALUE. */
-        private static final Matma LONGMIN = Matma.valueOf(Long.MIN_VALUE);
+        /** CalkowicieBig equal to Long.MIN_VALUE. */
+        private static final CalkowicieBig LONGMIN = CalkowicieBig.valueOf(Long.MIN_VALUE);
 
-        /** Matma equal to Long.MAX_VALUE. */
-        private static final Matma LONGMAX = Matma.valueOf(Long.MAX_VALUE);
+        /** CalkowicieBig equal to Long.MAX_VALUE. */
+        private static final CalkowicieBig LONGMAX = CalkowicieBig.valueOf(Long.MAX_VALUE);
 
-        public static void check(DMatma num) {
-            Matma intVal = num.inflated();
+        public static void check(DCalkowicieBig num) {
+            CalkowicieBig intVal = num.inflated();
             if (intVal.compareTo(LONGMIN) < 0 ||
                     intVal.compareTo(LONGMAX) > 0)
                 throw new ArithmeticException("Overflow");
@@ -2801,35 +2801,35 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Converts this {@code DMatma} to an {@code int}.
+     * Converts this {@code DCalkowicieBig} to an {@code int}.
      * This conversion is analogous to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code short} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
      * any fractional part of this
-     * {@code DMatma} will be discarded, and if the resulting
-     * "{@code Matma}" is too big to fit in an
+     * {@code DCalkowicieBig} will be discarded, and if the resulting
+     * "{@code CalkowicieBig}" is too big to fit in an
      * {@code int}, only the low-order 32 bits are returned.
      * Note that this conversion can lose information about the
-     * overall magnitude and precision of this {@code DMatma}
+     * overall magnitude and precision of this {@code DCalkowicieBig}
      * value as well as return a result with the opposite sign.
      *
-     * @return this {@code DMatma} converted to an {@code int}.
+     * @return this {@code DCalkowicieBig} converted to an {@code int}.
      */
     public int intValue() {
         return  (intCompact != INFLATED && scale == 0) ?
                 (int)intCompact :
-                toMatma().intValue();
+                toCalkowicieBig().intValue();
     }
 
     /**
-     * Converts this {@code DMatma} to an {@code int}, checking
-     * for lost information.  If this {@code DMatma} has a
+     * Converts this {@code DCalkowicieBig} to an {@code int}, checking
+     * for lost information.  If this {@code DCalkowicieBig} has a
      * nonzero fractional part or is out of the possible range for an
      * {@code int} result then an {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code DMatma} converted to an {@code int}.
+     * @return this {@code DCalkowicieBig} converted to an {@code int}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part, or will not fit in an {@code int}.
      * @since  1.5
@@ -2843,13 +2843,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Converts this {@code DMatma} to a {@code short}, checking
-     * for lost information.  If this {@code DMatma} has a
+     * Converts this {@code DCalkowicieBig} to a {@code short}, checking
+     * for lost information.  If this {@code DCalkowicieBig} has a
      * nonzero fractional part or is out of the possible range for a
      * {@code short} result then an {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code DMatma} converted to a {@code short}.
+     * @return this {@code DCalkowicieBig} converted to a {@code short}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part, or will not fit in a {@code short}.
      * @since  1.5
@@ -2863,13 +2863,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Converts this {@code DMatma} to a {@code byte}, checking
-     * for lost information.  If this {@code DMatma} has a
+     * Converts this {@code DCalkowicieBig} to a {@code byte}, checking
+     * for lost information.  If this {@code DCalkowicieBig} has a
      * nonzero fractional part or is out of the possible range for a
      * {@code byte} result then an {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code DMatma} converted to a {@code byte}.
+     * @return this {@code DCalkowicieBig} converted to a {@code byte}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part, or will not fit in a {@code byte}.
      * @since  1.5
@@ -2883,20 +2883,20 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Converts this {@code DMatma} to a {@code float}.
+     * Converts this {@code DCalkowicieBig} to a {@code float}.
      * This conversion is similar to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code float} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this {@code DMatma} has too great a
+     * if this {@code DCalkowicieBig} has too great a
      * magnitude to represent as a {@code float}, it will be
      * converted to {@link Float#NEGATIVE_INFINITY} or {@link
      * Float#POSITIVE_INFINITY} as appropriate.  Note that even when
      * the return value is finite, this conversion can lose
-     * information about the precision of the {@code DMatma}
+     * information about the precision of the {@code DCalkowicieBig}
      * value.
      *
-     * @return this {@code DMatma} converted to a {@code float}.
+     * @return this {@code DCalkowicieBig} converted to a {@code float}.
      */
     public float floatValue(){
         if(intCompact != INFLATED) {
@@ -2926,20 +2926,20 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Converts this {@code DMatma} to a {@code double}.
+     * Converts this {@code DCalkowicieBig} to a {@code double}.
      * This conversion is similar to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code float} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this {@code DMatma} has too great a
+     * if this {@code DCalkowicieBig} has too great a
      * magnitude represent as a {@code double}, it will be
      * converted to {@link Double#NEGATIVE_INFINITY} or {@link
      * Double#POSITIVE_INFINITY} as appropriate.  Note that even when
      * the return value is finite, this conversion can lose
-     * information about the precision of the {@code DMatma}
+     * information about the precision of the {@code DCalkowicieBig}
      * value.
      *
-     * @return this {@code DMatma} converted to a {@code double}.
+     * @return this {@code DCalkowicieBig} converted to a {@code double}.
      */
     public double doubleValue(){
         if(intCompact != INFLATED) {
@@ -2990,9 +2990,9 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     /**
      * Returns the size of an ulp, a unit in the last place, of this
-     * {@code DMatma}.  An ulp of a nonzero {@code DMatma}
+     * {@code DCalkowicieBig}.  An ulp of a nonzero {@code DCalkowicieBig}
      * value is the positive distance between this value and the
-     * {@code DMatma} value next larger in magnitude with the
+     * {@code DCalkowicieBig} value next larger in magnitude with the
      * same number of digits.  An ulp of a zero value is numerically
      * equal to 1 with the scale of {@code this}.  The result is
      * stored with the same scale as {@code this} so the result
@@ -3002,19 +3002,19 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * @return the size of an ulp of {@code this}
      * @since 1.5
      */
-    public DMatma ulp() {
-        return DMatma.valueOf(1, this.scale(), 1);
+    public DCalkowicieBig ulp() {
+        return DCalkowicieBig.valueOf(1, this.scale(), 1);
     }
 
-    // Private class to build a string representation for DMatma object.
+    // Private class to build a string representation for DCalkowicieBig object.
     // "StringBuilderHelper" is constructed as a thread local variable so it is
     // thread safe. The StringBuilder field acts as a buffer to hold the temporary
-    // representation of DMatma. The cmpCharArray holds all the characters for
-    // the compact representation of DMatma (except for '-' sign' if it is
+    // representation of DCalkowicieBig. The cmpCharArray holds all the characters for
+    // the compact representation of DCalkowicieBig (except for '-' sign' if it is
     // negative) if its intCompact field is not INFLATED. It is shared by all
     // calls to toString() and its variants in that particular thread.
     static class StringBuilderHelper {
-        final StringBuilder sb;    // Placeholder for DMatma string
+        final StringBuilder sb;    // Placeholder for DCalkowicieBig string
         final char[] cmpCharArray; // character array to place the intCompact
 
         StringBuilderHelper() {
@@ -3106,13 +3106,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Lay out this {@code DMatma} into a {@code char[]} array.
+     * Lay out this {@code DCalkowicieBig} into a {@code char[]} array.
      * The Java 1.2 equivalent to this was called {@code getValueString}.
      *
      * @param  sci {@code true} for Scientific exponential notation;
      *          {@code false} for Engineering
      * @return string with canonical string representation of this
-     *         {@code DMatma}
+     *         {@code DCalkowicieBig}
      */
     private String layoutChars(boolean sci) {
         if (scale == 0)                      // zero scale is trivial
@@ -3215,37 +3215,37 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Return 10 to the power n, as a {@code Matma}.
+     * Return 10 to the power n, as a {@code CalkowicieBig}.
      *
      * @param  n the power of ten to be returned (>=0)
-     * @return a {@code Matma} with the value (10<sup>n</sup>)
+     * @return a {@code CalkowicieBig} with the value (10<sup>n</sup>)
      */
-    private static Matma bigTenToThe(int n) {
+    private static CalkowicieBig bigTenToThe(int n) {
         if (n < 0)
-            return Matma.ZERO;
+            return CalkowicieBig.ZERO;
 
         if (n < BIG_TEN_POWERS_TABLE_MAX) {
-            Matma[] pows = BIG_TEN_POWERS_TABLE;
+            CalkowicieBig[] pows = BIG_TEN_POWERS_TABLE;
             if (n < pows.length)
                 return pows[n];
             else
                 return expandBigIntegerTenPowers(n);
         }
 
-        return Matma.TEN.pow(n);
+        return CalkowicieBig.TEN.pow(n);
     }
 
     /**
      * Expand the BIG_TEN_POWERS_TABLE array to contain at least 10**n.
      *
      * @param n the power of ten to be returned (>=0)
-     * @return a {@code DMatma} with the value (10<sup>n</sup>) and
+     * @return a {@code DCalkowicieBig} with the value (10<sup>n</sup>) and
      *         in the meantime, the BIG_TEN_POWERS_TABLE array gets
      *         expanded to the size greater than n.
      */
-    private static Matma expandBigIntegerTenPowers(int n) {
-        synchronized(DMatma.class) {
-            Matma[] pows = BIG_TEN_POWERS_TABLE;
+    private static CalkowicieBig expandBigIntegerTenPowers(int n) {
+        synchronized(DCalkowicieBig.class) {
+            CalkowicieBig[] pows = BIG_TEN_POWERS_TABLE;
             int curLen = pows.length;
             // The following comparison and the above synchronized statement is
             // to prevent multiple threads from expanding the same array.
@@ -3255,7 +3255,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                     newLen <<= 1;
                 pows = Arrays.copyOf(pows, newLen);
                 for (int i = curLen; i < newLen; i++)
-                    pows[i] = pows[i - 1].multiply(Matma.TEN);
+                    pows[i] = pows[i - 1].multiply(CalkowicieBig.TEN);
                 // Based on the following facts:
                 // 1. pows is a private local varible;
                 // 2. the following store is a volatile store.
@@ -3288,26 +3288,26 @@ public class DMatma extends Number implements Comparable<DMatma> {
             1000000000000000000L   // 18 / 10^18
     };
 
-    private static volatile Matma BIG_TEN_POWERS_TABLE[] = {
-            Matma.ONE,
-            Matma.valueOf(10),
-            Matma.valueOf(100),
-            Matma.valueOf(1000),
-            Matma.valueOf(10000),
-            Matma.valueOf(100000),
-            Matma.valueOf(1000000),
-            Matma.valueOf(10000000),
-            Matma.valueOf(100000000),
-            Matma.valueOf(1000000000),
-            Matma.valueOf(10000000000L),
-            Matma.valueOf(100000000000L),
-            Matma.valueOf(1000000000000L),
-            Matma.valueOf(10000000000000L),
-            Matma.valueOf(100000000000000L),
-            Matma.valueOf(1000000000000000L),
-            Matma.valueOf(10000000000000000L),
-            Matma.valueOf(100000000000000000L),
-            Matma.valueOf(1000000000000000000L)
+    private static volatile CalkowicieBig BIG_TEN_POWERS_TABLE[] = {
+            CalkowicieBig.ONE,
+            CalkowicieBig.valueOf(10),
+            CalkowicieBig.valueOf(100),
+            CalkowicieBig.valueOf(1000),
+            CalkowicieBig.valueOf(10000),
+            CalkowicieBig.valueOf(100000),
+            CalkowicieBig.valueOf(1000000),
+            CalkowicieBig.valueOf(10000000),
+            CalkowicieBig.valueOf(100000000),
+            CalkowicieBig.valueOf(1000000000),
+            CalkowicieBig.valueOf(10000000000L),
+            CalkowicieBig.valueOf(100000000000L),
+            CalkowicieBig.valueOf(1000000000000L),
+            CalkowicieBig.valueOf(10000000000000L),
+            CalkowicieBig.valueOf(100000000000000L),
+            CalkowicieBig.valueOf(1000000000000000L),
+            CalkowicieBig.valueOf(10000000000000000L),
+            CalkowicieBig.valueOf(100000000000000000L),
+            CalkowicieBig.valueOf(1000000000000000000L)
     };
 
     private static final int BIG_TEN_POWERS_TABLE_INITLEN =
@@ -3360,7 +3360,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * Compute this * 10 ^ n.
      * Needed mainly to allow special casing to trap zero value
      */
-    private Matma bigMultiplyPowerTen(int n) {
+    private CalkowicieBig bigMultiplyPowerTen(int n) {
         if (n <= 0)
             return this.inflated();
 
@@ -3371,30 +3371,30 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns appropriate Matma from intVal field if intVal is
+     * Returns appropriate CalkowicieBig from intVal field if intVal is
      * null, i.e. the compact representation is in use.
      */
-    private Matma inflated() {
+    private CalkowicieBig inflated() {
         if (intVal == null) {
-            return Matma.valueOf(intCompact);
+            return CalkowicieBig.valueOf(intCompact);
         }
         return intVal;
     }
 
     /**
-     * Match the scales of two {@code DMatma}s to align their
+     * Match the scales of two {@code DCalkowicieBig}s to align their
      * least significant digits.
      *
      * <p>If the scales of val[0] and val[1] differ, rescale
-     * (non-destructively) the lower-scaled {@code DMatma} so
+     * (non-destructively) the lower-scaled {@code DCalkowicieBig} so
      * they match.  That is, the lower-scaled reference will be
      * replaced by a reference to a new object with the same scale as
-     * the other {@code DMatma}.
+     * the other {@code DCalkowicieBig}.
      *
      * @param  val array of two elements referring to the two
-     *         {@code DMatma}s to be aligned.
+     *         {@code DCalkowicieBig}s to be aligned.
      */
-    private static void matchScale(DMatma[] val) {
+    private static void matchScale(DCalkowicieBig[] val) {
         if (val[0].scale == val[1].scale) {
             return;
         } else if (val[0].scale < val[1].scale) {
@@ -3406,7 +3406,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
 
     /**
-     * Reconstitute the {@code DMatma} instance from a stream (that is,
+     * Reconstitute the {@code DCalkowicieBig} instance from a stream (that is,
      * deserialize it).
      *
      * @param s the stream being read.
@@ -3434,7 +3434,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
          * downward from the LONG_TEN_POWERS_TABLE that we need
          * anyway.
          */
-        assert x != DMatma.INFLATED;
+        assert x != DCalkowicieBig.INFLATED;
         if (x < 0)
             x = -x;
         if (x < 10) // must screen for 0, might as well 10
@@ -3446,13 +3446,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns the length of the absolute value of a Matma, in
+     * Returns the length of the absolute value of a CalkowicieBig, in
      * decimal digits.
      *
-     * @param b the Matma
+     * @param b the CalkowicieBig
      * @return the length of the unscaled value, in decimal digits
      */
-    private static int bigDigitLength(Matma b) {
+    private static int bigDigitLength(CalkowicieBig b) {
         /*
          * Same idea as the long version, but we need a better
          * approximation of log10(2). Using 646456993/2^31
@@ -3465,7 +3465,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Check a scale for Underflow or Overflow.  If this DMatma is
+     * Check a scale for Underflow or Overflow.  If this DCalkowicieBig is
      * nonzero, throw an exception if the scale is outof range. If this
      * is zero, saturate the scale to the extreme value of the right
      * sign if the scale is out of range.
@@ -3479,7 +3479,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
         int asInt = (int)val;
         if (asInt != val) {
             asInt = val>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-            Matma b;
+            CalkowicieBig b;
             if (intCompact != 0 &&
                     ((b = intVal) == null || b.signum() != 0))
                 throw new ArithmeticException(asInt>0 ? "Underflow":"Overflow");
@@ -3488,11 +3488,11 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns the compact value for given {@code Matma}, or
+     * Returns the compact value for given {@code CalkowicieBig}, or
      * INFLATED if too big. Relies on internal representation of
-     * {@code Matma}.
+     * {@code CalkowicieBig}.
      */
-    private static long compactValFor(Matma b) {
+    private static long compactValFor(CalkowicieBig b) {
         int[] m = b.mag;
         int len = m.length;
         if (len == 0)
@@ -3523,7 +3523,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     /*
      * Internal printing routine
      */
-    private static void print(String name, DMatma bd) {
+    private static void print(String name, DCalkowicieBig bd) {
         System.err.format("%s:\tintCompact %d\tintVal %d\tscale %d\tprecision %d%n",
                 name,
                 bd.intCompact,
@@ -3533,7 +3533,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Check internal invariants of this DMatma.  These invariants
+     * Check internal invariants of this DCalkowicieBig.  These invariants
      * include:
      *
      * <ul>
@@ -3549,9 +3549,9 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * </ul>
      *
      * Note: Since this is an audit method, we are not supposed to change the
-     * state of this DMatma object.
+     * state of this DCalkowicieBig object.
      */
-    private DMatma audit() {
+    private DCalkowicieBig audit() {
         if (intCompact == INFLATED) {
             if (intVal == null) {
                 print("audit", this);
@@ -3599,7 +3599,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
         return asInt;
     }
 
-    private static int checkScale(Matma intVal, long val) {
+    private static int checkScale(CalkowicieBig intVal, long val) {
         int asInt = (int)val;
         if (asInt != val) {
             asInt = val>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
@@ -3610,23 +3610,23 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} rounded according to the MathContext
+     * Returns a {@code DCalkowicieBig} rounded according to the MathContext
      * settings;
-     * If rounding is needed a new {@code DMatma} is created and returned.
+     * If rounding is needed a new {@code DCalkowicieBig} is created and returned.
      *
      * @param val the value to be rounded
      * @param mc the context to use.
-     * @return a {@code DMatma} rounded according to the MathContext
+     * @return a {@code DCalkowicieBig} rounded according to the MathContext
      *         settings.  May return {@code value}, if no rounding needed.
      * @throws ArithmeticException if the rounding mode is
      *         {@code RoundingMode.UNNECESSARY} and the
      *         result is inexact.
      */
-    private static DMatma doRound(DMatma val, MathContext mc) {
+    private static DCalkowicieBig doRound(DCalkowicieBig val, MathContext mc) {
         int mcp = mc.precision;
         boolean wasDivided = false;
         if (mcp > 0) {
-            Matma intVal = val.intVal;
+            CalkowicieBig intVal = val.intVal;
             long compactVal = val.intCompact;
             int scale = val.scale;
             int prec = val.precision();
@@ -3658,16 +3658,16 @@ public class DMatma extends Number implements Comparable<DMatma> {
                     intVal = null;
                 }
             }
-            return wasDivided ? new DMatma(intVal,compactVal,scale,prec) : val;
+            return wasDivided ? new DCalkowicieBig(intVal,compactVal,scale,prec) : val;
         }
         return val;
     }
 
     /*
-     * Returns a {@code DMatma} created from {@code long} value with
+     * Returns a {@code DCalkowicieBig} created from {@code long} value with
      * given scale rounded according to the MathContext settings
      */
-    private static DMatma doRound(long compactVal, int scale, MathContext mc) {
+    private static DCalkowicieBig doRound(long compactVal, int scale, MathContext mc) {
         int mcp = mc.precision;
         if (mcp > 0 && mcp < 19) {
             int prec = longDigitLength(compactVal);
@@ -3684,10 +3684,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /*
-     * Returns a {@code DMatma} created from {@code Matma} value with
+     * Returns a {@code DCalkowicieBig} created from {@code CalkowicieBig} value with
      * given scale rounded according to the MathContext settings
      */
-    private static DMatma doRound(Matma intVal, int scale, MathContext mc) {
+    private static DCalkowicieBig doRound(CalkowicieBig intVal, int scale, MathContext mc) {
         int mcp = mc.precision;
         int prec = 0;
         if (mcp > 0) {
@@ -3720,13 +3720,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 return valueOf(compactVal,scale,prec);
             }
         }
-        return new DMatma(intVal,INFLATED,scale,prec);
+        return new DCalkowicieBig(intVal,INFLATED,scale,prec);
     }
 
     /*
-     * Divides {@code Matma} value by ten power.
+     * Divides {@code CalkowicieBig} value by ten power.
      */
-    private static Matma divideAndRoundByTenPow(Matma intVal, int tenPow, int roundingMode) {
+    private static CalkowicieBig divideAndRoundByTenPow(CalkowicieBig intVal, int tenPow, int roundingMode) {
         if (tenPow < LONG_TEN_POWERS_TABLE.length)
             intVal = divideAndRound(intVal, LONG_TEN_POWERS_TABLE[tenPow], roundingMode);
         else
@@ -3737,13 +3737,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
     /**
      * Internally used for division operation for division {@code long} by
      * {@code long}.
-     * The returned {@code DMatma} object is the quotient whose scale is set
+     * The returned {@code DCalkowicieBig} object is the quotient whose scale is set
      * to the passed in scale. If the remainder is not zero, it will be rounded
      * based on the passed in roundingMode. Also, if the remainder is zero and
      * the last parameter, i.e. preferredScale is NOT equal to scale, the
      * trailing zeros of the result is stripped to match the preferredScale.
      */
-    private static DMatma divideAndRound(long ldividend, long ldivisor, int scale, int roundingMode,
+    private static DCalkowicieBig divideAndRound(long ldividend, long ldivisor, int scale, int roundingMode,
                                          int preferredScale) {
 
         int qsign; // quotient sign
@@ -3849,52 +3849,52 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Divides {@code Matma} value by {@code long} value and
+     * Divides {@code CalkowicieBig} value by {@code long} value and
      * do rounding based on the passed in roundingMode.
      */
-    private static Matma divideAndRound(Matma bdividend, long ldivisor, int roundingMode) {
+    private static CalkowicieBig divideAndRound(CalkowicieBig bdividend, long ldivisor, int roundingMode) {
         boolean isRemainderZero; // record remainder is zero or not
         int qsign; // quotient sign
         long r = 0; // store quotient & remainder in long
-        MutMatma mq = null; // store quotient
+        MutCalkowicieBig mq = null; // store quotient
         // Descend into mutables for faster remainder checks
-        MutMatma mdividend = new MutMatma(bdividend.mag);
-        mq = new MutMatma();
+        MutCalkowicieBig mdividend = new MutCalkowicieBig(bdividend.mag);
+        mq = new MutCalkowicieBig();
         r = mdividend.divide(ldivisor, mq);
         isRemainderZero = (r == 0);
         qsign = (ldivisor < 0) ? -bdividend.signum : bdividend.signum;
         if (!isRemainderZero) {
             if(needIncrement(ldivisor, roundingMode, qsign, mq, r)) {
-                mq.add(MutMatma.ONE);
+                mq.add(MutCalkowicieBig.ONE);
             }
         }
-        return mq.toMatma(qsign);
+        return mq.toCalkowicieBig(qsign);
     }
 
     /**
-     * Internally used for division operation for division {@code Matma}
+     * Internally used for division operation for division {@code CalkowicieBig}
      * by {@code long}.
-     * The returned {@code DMatma} object is the quotient whose scale is set
+     * The returned {@code DCalkowicieBig} object is the quotient whose scale is set
      * to the passed in scale. If the remainder is not zero, it will be rounded
      * based on the passed in roundingMode. Also, if the remainder is zero and
      * the last parameter, i.e. preferredScale is NOT equal to scale, the
      * trailing zeros of the result is stripped to match the preferredScale.
      */
-    private static DMatma divideAndRound(Matma bdividend,
+    private static DCalkowicieBig divideAndRound(CalkowicieBig bdividend,
                                          long ldivisor, int scale, int roundingMode, int preferredScale) {
         boolean isRemainderZero; // record remainder is zero or not
         int qsign; // quotient sign
         long r = 0; // store quotient & remainder in long
-        MutMatma mq = null; // store quotient
+        MutCalkowicieBig mq = null; // store quotient
         // Descend into mutables for faster remainder checks
-        MutMatma mdividend = new MutMatma(bdividend.mag);
-        mq = new MutMatma();
+        MutCalkowicieBig mdividend = new MutCalkowicieBig(bdividend.mag);
+        mq = new MutCalkowicieBig();
         r = mdividend.divide(ldivisor, mq);
         isRemainderZero = (r == 0);
         qsign = (ldivisor < 0) ? -bdividend.signum : bdividend.signum;
         if (!isRemainderZero) {
             if(needIncrement(ldivisor, roundingMode, qsign, mq, r)) {
-                mq.add(MutMatma.ONE);
+                mq.add(MutCalkowicieBig.ONE);
             }
             return mq.toBigDecimal(qsign, scale);
         } else {
@@ -3903,7 +3903,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 if(compactVal!=INFLATED) {
                     return createAndStripZerosToMatchScale(compactVal, scale, preferredScale);
                 }
-                Matma intVal =  mq.toMatma(qsign);
+                CalkowicieBig intVal =  mq.toCalkowicieBig(qsign);
                 return createAndStripZerosToMatchScale(intVal,scale, preferredScale);
             } else {
                 return mq.toBigDecimal(qsign, scale);
@@ -3915,7 +3915,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * Tests if quotient has to be incremented according the roundingMode
      */
     private static boolean needIncrement(long ldivisor, int roundingMode,
-                                         int qsign, MutMatma mq, long r) {
+                                         int qsign, MutCalkowicieBig mq, long r) {
         assert r != 0L;
 
         int cmpFracHalf;
@@ -3929,50 +3929,50 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Divides {@code Matma} value by {@code Matma} value and
+     * Divides {@code CalkowicieBig} value by {@code CalkowicieBig} value and
      * do rounding based on the passed in roundingMode.
      */
-    private static Matma divideAndRound(Matma bdividend, Matma bdivisor, int roundingMode) {
+    private static CalkowicieBig divideAndRound(CalkowicieBig bdividend, CalkowicieBig bdivisor, int roundingMode) {
         boolean isRemainderZero; // record remainder is zero or not
         int qsign; // quotient sign
         // Descend into mutables for faster remainder checks
-        MutMatma mdividend = new MutMatma(bdividend.mag);
-        MutMatma mq = new MutMatma();
-        MutMatma mdivisor = new MutMatma(bdivisor.mag);
-        MutMatma mr = mdividend.divide(mdivisor, mq);
+        MutCalkowicieBig mdividend = new MutCalkowicieBig(bdividend.mag);
+        MutCalkowicieBig mq = new MutCalkowicieBig();
+        MutCalkowicieBig mdivisor = new MutCalkowicieBig(bdivisor.mag);
+        MutCalkowicieBig mr = mdividend.divide(mdivisor, mq);
         isRemainderZero = mr.isZero();
         qsign = (bdividend.signum != bdivisor.signum) ? -1 : 1;
         if (!isRemainderZero) {
             if (needIncrement(mdivisor, roundingMode, qsign, mq, mr)) {
-                mq.add(MutMatma.ONE);
+                mq.add(MutCalkowicieBig.ONE);
             }
         }
-        return mq.toMatma(qsign);
+        return mq.toCalkowicieBig(qsign);
     }
 
     /**
-     * Internally used for division operation for division {@code Matma}
-     * by {@code Matma}.
-     * The returned {@code DMatma} object is the quotient whose scale is set
+     * Internally used for division operation for division {@code CalkowicieBig}
+     * by {@code CalkowicieBig}.
+     * The returned {@code DCalkowicieBig} object is the quotient whose scale is set
      * to the passed in scale. If the remainder is not zero, it will be rounded
      * based on the passed in roundingMode. Also, if the remainder is zero and
      * the last parameter, i.e. preferredScale is NOT equal to scale, the
      * trailing zeros of the result is stripped to match the preferredScale.
      */
-    private static DMatma divideAndRound(Matma bdividend, Matma bdivisor, int scale, int roundingMode,
+    private static DCalkowicieBig divideAndRound(CalkowicieBig bdividend, CalkowicieBig bdivisor, int scale, int roundingMode,
                                          int preferredScale) {
         boolean isRemainderZero; // record remainder is zero or not
         int qsign; // quotient sign
         // Descend into mutables for faster remainder checks
-        MutMatma mdividend = new MutMatma(bdividend.mag);
-        MutMatma mq = new MutMatma();
-        MutMatma mdivisor = new MutMatma(bdivisor.mag);
-        MutMatma mr = mdividend.divide(mdivisor, mq);
+        MutCalkowicieBig mdividend = new MutCalkowicieBig(bdividend.mag);
+        MutCalkowicieBig mq = new MutCalkowicieBig();
+        MutCalkowicieBig mdivisor = new MutCalkowicieBig(bdivisor.mag);
+        MutCalkowicieBig mr = mdividend.divide(mdivisor, mq);
         isRemainderZero = mr.isZero();
         qsign = (bdividend.signum != bdivisor.signum) ? -1 : 1;
         if (!isRemainderZero) {
             if (needIncrement(mdivisor, roundingMode, qsign, mq, mr)) {
-                mq.add(MutMatma.ONE);
+                mq.add(MutCalkowicieBig.ONE);
             }
             return mq.toBigDecimal(qsign, scale);
         } else {
@@ -3981,7 +3981,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 if (compactVal != INFLATED) {
                     return createAndStripZerosToMatchScale(compactVal, scale, preferredScale);
                 }
-                Matma intVal = mq.toMatma(qsign);
+                CalkowicieBig intVal = mq.toCalkowicieBig(qsign);
                 return createAndStripZerosToMatchScale(intVal, scale, preferredScale);
             } else {
                 return mq.toBigDecimal(qsign, scale);
@@ -3992,8 +3992,8 @@ public class DMatma extends Number implements Comparable<DMatma> {
     /**
      * Tests if quotient has to be incremented according the roundingMode
      */
-    private static boolean needIncrement(MutMatma mdivisor, int roundingMode,
-                                         int qsign, MutMatma mq, MutMatma mr) {
+    private static boolean needIncrement(MutCalkowicieBig mdivisor, int roundingMode,
+                                         int qsign, MutCalkowicieBig mq, MutCalkowicieBig mr) {
         assert !mr.isZero();
         int cmpFracHalf = mr.compareHalf(mdivisor);
         return commonNeedIncrement(roundingMode, qsign, cmpFracHalf, mq.isOdd());
@@ -4001,20 +4001,20 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
     /**
      * Remove insignificant trailing zeros from this
-     * {@code Matma} value until the preferred scale is reached or no
+     * {@code CalkowicieBig} value until the preferred scale is reached or no
      * more zeros can be removed.  If the preferred scale is less than
      * Integer.MIN_VALUE, all the trailing zeros will be removed.
      *
-     * @return new {@code DMatma} with a scale possibly reduced
+     * @return new {@code DCalkowicieBig} with a scale possibly reduced
      * to be closed to the preferred scale.
      */
-    private static DMatma createAndStripZerosToMatchScale(Matma intVal, int scale, long preferredScale) {
-        Matma qr[]; // quotient-remainder pair
-        while (intVal.compareMagnitude(Matma.TEN) >= 0
+    private static DCalkowicieBig createAndStripZerosToMatchScale(CalkowicieBig intVal, int scale, long preferredScale) {
+        CalkowicieBig qr[]; // quotient-remainder pair
+        while (intVal.compareMagnitude(CalkowicieBig.TEN) >= 0
                 && scale > preferredScale) {
             if (intVal.testBit(0))
                 break; // odd number cannot end in 0
-            qr = intVal.divideAndRemainder(Matma.TEN);
+            qr = intVal.divideAndRemainder(CalkowicieBig.TEN);
             if (qr[1].signum() != 0)
                 break; // non-0 remainder
             intVal = qr[0];
@@ -4029,10 +4029,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * more zeros can be removed.  If the preferred scale is less than
      * Integer.MIN_VALUE, all the trailing zeros will be removed.
      *
-     * @return new {@code DMatma} with a scale possibly reduced
+     * @return new {@code DCalkowicieBig} with a scale possibly reduced
      * to be closed to the preferred scale.
      */
-    private static DMatma createAndStripZerosToMatchScale(long compactVal, int scale, long preferredScale) {
+    private static DCalkowicieBig createAndStripZerosToMatchScale(long compactVal, int scale, long preferredScale) {
         while (Math.abs(compactVal) >= 10L && scale > preferredScale) {
             if ((compactVal & 1L) != 0L)
                 break; // odd number cannot end in 0
@@ -4045,7 +4045,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
         return valueOf(compactVal, scale);
     }
 
-    private static DMatma stripZerosToMatchScale(Matma intVal, long intCompact, int scale, int preferredScale) {
+    private static DCalkowicieBig stripZerosToMatchScale(CalkowicieBig intVal, long intCompact, int scale, int preferredScale) {
         if(intCompact!=INFLATED) {
             return createAndStripZerosToMatchScale(intCompact, scale, preferredScale);
         } else {
@@ -4067,14 +4067,14 @@ public class DMatma extends Number implements Comparable<DMatma> {
         return INFLATED;
     }
 
-    private static DMatma add(long xs, long ys, int scale){
+    private static DCalkowicieBig add(long xs, long ys, int scale){
         long sum = add(xs, ys);
         if (sum!=INFLATED)
-            return DMatma.valueOf(sum, scale);
-        return new DMatma(Matma.valueOf(xs).add(ys), scale);
+            return DCalkowicieBig.valueOf(sum, scale);
+        return new DCalkowicieBig(CalkowicieBig.valueOf(xs).add(ys), scale);
     }
 
-    private static DMatma add(final long xs, int scale1, final long ys, int scale2) {
+    private static DCalkowicieBig add(final long xs, int scale1, final long ys, int scale2) {
         long sdiff = (long) scale1 - scale2;
         if (sdiff == 0) {
             return add(xs, ys, scale1);
@@ -4084,9 +4084,9 @@ public class DMatma extends Number implements Comparable<DMatma> {
             if (scaledX != INFLATED) {
                 return add(scaledX, ys, scale2);
             } else {
-                Matma bigsum = bigMultiplyPowerTen(xs,raise).add(ys);
+                CalkowicieBig bigsum = bigMultiplyPowerTen(xs,raise).add(ys);
                 return ((xs^ys)>=0) ? // same sign test
-                        new DMatma(bigsum, INFLATED, scale2, 0)
+                        new DCalkowicieBig(bigsum, INFLATED, scale2, 0)
                         : valueOf(bigsum, scale2, 0);
             }
         } else {
@@ -4095,19 +4095,19 @@ public class DMatma extends Number implements Comparable<DMatma> {
             if (scaledY != INFLATED) {
                 return add(xs, scaledY, scale1);
             } else {
-                Matma bigsum = bigMultiplyPowerTen(ys,raise).add(xs);
+                CalkowicieBig bigsum = bigMultiplyPowerTen(ys,raise).add(xs);
                 return ((xs^ys)>=0) ?
-                        new DMatma(bigsum, INFLATED, scale1, 0)
+                        new DCalkowicieBig(bigsum, INFLATED, scale1, 0)
                         : valueOf(bigsum, scale1, 0);
             }
         }
     }
 
-    private static DMatma add(final long xs, int scale1, Matma snd, int scale2) {
+    private static DCalkowicieBig add(final long xs, int scale1, CalkowicieBig snd, int scale2) {
         int rscale = scale1;
         long sdiff = (long)rscale - scale2;
         boolean sameSigns =  (Long.signum(xs) == snd.signum);
-        Matma sum;
+        CalkowicieBig sum;
         if (sdiff < 0) {
             int raise = checkScale(xs,-sdiff);
             rscale = scale2;
@@ -4123,11 +4123,11 @@ public class DMatma extends Number implements Comparable<DMatma> {
             sum = snd.add(xs);
         }
         return (sameSigns) ?
-                new DMatma(sum, INFLATED, rscale, 0) :
+                new DCalkowicieBig(sum, INFLATED, rscale, 0) :
                 valueOf(sum, rscale, 0);
     }
 
-    private static DMatma add(Matma fst, int scale1, Matma snd, int scale2) {
+    private static DCalkowicieBig add(CalkowicieBig fst, int scale1, CalkowicieBig snd, int scale2) {
         int rscale = scale1;
         long sdiff = (long)rscale - scale2;
         if (sdiff != 0) {
@@ -4140,19 +4140,19 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 snd = bigMultiplyPowerTen(snd,raise);
             }
         }
-        Matma sum = fst.add(snd);
+        CalkowicieBig sum = fst.add(snd);
         return (fst.signum == snd.signum) ?
-                new DMatma(sum, INFLATED, rscale, 0) :
+                new DCalkowicieBig(sum, INFLATED, rscale, 0) :
                 valueOf(sum, rscale, 0);
     }
 
-    private static Matma bigMultiplyPowerTen(long value, int n) {
+    private static CalkowicieBig bigMultiplyPowerTen(long value, int n) {
         if (n <= 0)
-            return Matma.valueOf(value);
+            return CalkowicieBig.valueOf(value);
         return bigTenToThe(n).multiply(value);
     }
 
-    private static Matma bigMultiplyPowerTen(Matma value, int n) {
+    private static CalkowicieBig bigMultiplyPowerTen(CalkowicieBig value, int n) {
         if (n <= 0)
             return value;
         if(n<LONG_TEN_POWERS_TABLE.length) {
@@ -4162,13 +4162,13 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (xs /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      *
      * Fast path - used only when (xscale <= yscale && yscale < 18
      *  && mc.presision<18) {
      */
-    private static DMatma divideSmallFastPath(final long xs, int xscale,
+    private static DCalkowicieBig divideSmallFastPath(final long xs, int xscale,
                                               final long ys, int yscale,
                                               long preferredScale, MathContext mc) {
         int mcp = mc.precision;
@@ -4178,7 +4178,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
         int xraise = yscale - xscale; // xraise >=0
         long scaledX = (xraise==0) ? xs :
                 longMultiplyPowerTen(xs, xraise); // can't overflow here!
-        DMatma quotient;
+        DCalkowicieBig quotient;
 
         int cmp = longCompareMagnitude(scaledX, ys);
         if(cmp > 0) { // satisfy constraint (b)
@@ -4194,7 +4194,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                         quotient = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[mcp-1], scaledX, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
                     }
                     if(quotient==null) {
-                        Matma rb = bigMultiplyPowerTen(scaledX,mcp-1);
+                        CalkowicieBig rb = bigMultiplyPowerTen(scaledX,mcp-1);
                         quotient = divideAndRound(rb, ys,
                                 scl, roundingMode, checkScaleNonZero(preferredScale));
                     }
@@ -4210,8 +4210,8 @@ public class DMatma extends Number implements Comparable<DMatma> {
                     int raise = checkScaleNonZero((long) newScale - yscale);
                     long scaledYs;
                     if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                        Matma rb = bigMultiplyPowerTen(ys,raise);
-                        quotient = divideAndRound(Matma.valueOf(xs),
+                        CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
+                        quotient = divideAndRound(CalkowicieBig.valueOf(xs),
                                 rb, scl, roundingMode,checkScaleNonZero(preferredScale));
                     } else {
                         quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
@@ -4234,7 +4234,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                         quotient = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[mcp], scaledX, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
                     }
                     if(quotient==null) {
-                        Matma rb = bigMultiplyPowerTen(scaledX,mcp);
+                        CalkowicieBig rb = bigMultiplyPowerTen(scaledX,mcp);
                         quotient = divideAndRound(rb, ys,
                                 scl, roundingMode, checkScaleNonZero(preferredScale));
                     }
@@ -4248,10 +4248,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (xs /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      */
-    private static DMatma divide(final long xs, int xscale, final long ys, int yscale, long preferredScale, MathContext mc) {
+    private static DCalkowicieBig divide(final long xs, int xscale, final long ys, int yscale, long preferredScale, MathContext mc) {
         int mcp = mc.precision;
         if(xscale <= yscale && yscale < 18 && mcp<18) {
             return divideSmallFastPath(xs, xscale, ys, yscale, preferredScale, mc);
@@ -4262,14 +4262,14 @@ public class DMatma extends Number implements Comparable<DMatma> {
         int roundingMode = mc.roundingMode.oldMode;
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
-        // return DMatma object whose scale will be set to 'scl'.
+        // return DCalkowicieBig object whose scale will be set to 'scl'.
         int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
-        DMatma quotient;
+        DCalkowicieBig quotient;
         if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
             int raise = checkScaleNonZero((long) mcp + yscale - xscale);
             long scaledXs;
             if ((scaledXs = longMultiplyPowerTen(xs, raise)) == INFLATED) {
-                Matma rb = bigMultiplyPowerTen(xs,raise);
+                CalkowicieBig rb = bigMultiplyPowerTen(xs,raise);
                 quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
             } else {
                 quotient = divideAndRound(scaledXs, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
@@ -4283,8 +4283,8 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 int raise = checkScaleNonZero((long) newScale - yscale);
                 long scaledYs;
                 if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                    Matma rb = bigMultiplyPowerTen(ys,raise);
-                    quotient = divideAndRound(Matma.valueOf(xs),
+                    CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
+                    quotient = divideAndRound(CalkowicieBig.valueOf(xs),
                             rb, scl, roundingMode,checkScaleNonZero(preferredScale));
                 } else {
                     quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
@@ -4296,10 +4296,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (xs /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      */
-    private static DMatma divide(Matma xs, int xscale, long ys, int yscale, long preferredScale, MathContext mc) {
+    private static DCalkowicieBig divide(CalkowicieBig xs, int xscale, long ys, int yscale, long preferredScale, MathContext mc) {
         // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
         if ((-compareMagnitudeNormalized(ys, yscale, xs, xscale)) > 0) {// satisfy constraint (b)
             yscale -= 1; // [that is, divisor *= 10]
@@ -4309,12 +4309,12 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
-        // return DMatma object whose scale will be set to 'scl'.
-        DMatma quotient;
+        // return DCalkowicieBig object whose scale will be set to 'scl'.
+        DCalkowicieBig quotient;
         int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
         if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
             int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            Matma rb = bigMultiplyPowerTen(xs,raise);
+            CalkowicieBig rb = bigMultiplyPowerTen(xs,raise);
             quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
         } else {
             int newScale = checkScaleNonZero((long) xscale - mcp);
@@ -4325,7 +4325,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 int raise = checkScaleNonZero((long) newScale - yscale);
                 long scaledYs;
                 if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                    Matma rb = bigMultiplyPowerTen(ys,raise);
+                    CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
                     quotient = divideAndRound(xs, rb, scl, roundingMode,checkScaleNonZero(preferredScale));
                 } else {
                     quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
@@ -4337,10 +4337,10 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (xs /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      */
-    private static DMatma divide(long xs, int xscale, Matma ys, int yscale, long preferredScale, MathContext mc) {
+    private static DCalkowicieBig divide(long xs, int xscale, CalkowicieBig ys, int yscale, long preferredScale, MathContext mc) {
         // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
         if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
             yscale -= 1; // [that is, divisor *= 10]
@@ -4350,28 +4350,28 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
-        // return DMatma object whose scale will be set to 'scl'.
-        DMatma quotient;
+        // return DCalkowicieBig object whose scale will be set to 'scl'.
+        DCalkowicieBig quotient;
         int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
         if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
             int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            Matma rb = bigMultiplyPowerTen(xs,raise);
+            CalkowicieBig rb = bigMultiplyPowerTen(xs,raise);
             quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
         } else {
             int newScale = checkScaleNonZero((long) xscale - mcp);
             int raise = checkScaleNonZero((long) newScale - yscale);
-            Matma rb = bigMultiplyPowerTen(ys,raise);
-            quotient = divideAndRound(Matma.valueOf(xs), rb, scl, roundingMode,checkScaleNonZero(preferredScale));
+            CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
+            quotient = divideAndRound(CalkowicieBig.valueOf(xs), rb, scl, roundingMode,checkScaleNonZero(preferredScale));
         }
         // doRound, here, only affects 1000000000 case.
         return doRound(quotient, mc);
     }
 
     /**
-     * Returns a {@code DMatma} whose value is {@code (xs /
+     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      */
-    private static DMatma divide(Matma xs, int xscale, Matma ys, int yscale, long preferredScale, MathContext mc) {
+    private static DCalkowicieBig divide(CalkowicieBig xs, int xscale, CalkowicieBig ys, int yscale, long preferredScale, MathContext mc) {
         // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
         if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
             yscale -= 1; // [that is, divisor *= 10]
@@ -4381,17 +4381,17 @@ public class DMatma extends Number implements Comparable<DMatma> {
 
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
-        // return DMatma object whose scale will be set to 'scl'.
-        DMatma quotient;
+        // return DCalkowicieBig object whose scale will be set to 'scl'.
+        DCalkowicieBig quotient;
         int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
         if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
             int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            Matma rb = bigMultiplyPowerTen(xs,raise);
+            CalkowicieBig rb = bigMultiplyPowerTen(xs,raise);
             quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
         } else {
             int newScale = checkScaleNonZero((long) xscale - mcp);
             int raise = checkScaleNonZero((long) newScale - yscale);
-            Matma rb = bigMultiplyPowerTen(ys,raise);
+            CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
             quotient = divideAndRound(xs, rb, scl, roundingMode,checkScaleNonZero(preferredScale));
         }
         // doRound, here, only affects 1000000000 case.
@@ -4402,7 +4402,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * performs divideAndRound for (dividend0*dividend1, divisor)
      * returns null if quotient can't fit into long value;
      */
-    private static DMatma multiplyDivideAndRound(long dividend0, long dividend1, long divisor, int scale, int roundingMode,
+    private static DCalkowicieBig multiplyDivideAndRound(long dividend0, long dividend1, long divisor, int scale, int roundingMode,
                                                  int preferredScale) {
         int qsign = Long.signum(dividend0)*Long.signum(dividend1)*Long.signum(divisor);
         dividend0 = Math.abs(dividend0);
@@ -4440,7 +4440,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * returns null if quotient can't fit into long value;
      * Specialized version of Knuth's division
      */
-    private static DMatma divideAndRound128(final long dividendHi, final long dividendLo, long divisor, int sign,
+    private static DCalkowicieBig divideAndRound128(final long dividendHi, final long dividendLo, long divisor, int sign,
                                             int scale, int roundingMode, int preferredScale) {
         if (dividendHi >= divisor) {
             return null;
@@ -4503,19 +4503,19 @@ public class DMatma extends Number implements Comparable<DMatma> {
         if((int)q1 < 0) {
             // result (which is positive and unsigned here)
             // can't fit into long due to sign bit is used for value
-            MutMatma mq = new MutMatma(new int[]{(int)q1, (int)q0});
+            MutCalkowicieBig mq = new MutCalkowicieBig(new int[]{(int)q1, (int)q0});
             if (roundingMode == ROUND_DOWN && scale == preferredScale) {
                 return mq.toBigDecimal(sign, scale);
             }
             long r = mulsub(u1, u0, v1, v0, q0) >>> shift;
             if (r != 0) {
                 if(needIncrement(divisor >>> shift, roundingMode, sign, mq, r)){
-                    mq.add(MutMatma.ONE);
+                    mq.add(MutCalkowicieBig.ONE);
                 }
                 return mq.toBigDecimal(sign, scale);
             } else {
                 if (preferredScale != scale) {
-                    Matma intVal =  mq.toMatma(sign);
+                    CalkowicieBig intVal =  mq.toCalkowicieBig(sign);
                     return createAndStripZerosToMatchScale(intVal,scale, preferredScale);
                 } else {
                     return mq.toBigDecimal(sign, scale);
@@ -4546,7 +4546,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
      * calculate divideAndRound for ldividend*10^raise / divisor
      * when abs(dividend)==abs(divisor);
      */
-    private static DMatma roundedTenPower(int qsign, int raise, int scale, int preferredScale) {
+    private static DCalkowicieBig roundedTenPower(int qsign, int raise, int scale, int preferredScale) {
         if (scale > preferredScale) {
             int diff = scale - preferredScale;
             if(diff < raise) {
@@ -4559,15 +4559,15 @@ public class DMatma extends Number implements Comparable<DMatma> {
         }
     }
 
-    static DMatma scaledTenPow(int n, int sign, int scale) {
+    static DCalkowicieBig scaledTenPow(int n, int sign, int scale) {
         if (n < LONG_TEN_POWERS_TABLE.length)
             return valueOf(sign*LONG_TEN_POWERS_TABLE[n],scale);
         else {
-            Matma unscaledVal = bigTenToThe(n);
+            CalkowicieBig unscaledVal = bigTenToThe(n);
             if(sign==-1) {
                 unscaledVal = unscaledVal.negate();
             }
-            return new DMatma(unscaledVal, INFLATED, scale, n+1);
+            return new DCalkowicieBig(unscaledVal, INFLATED, scale, n+1);
         }
     }
 
@@ -4638,7 +4638,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     // Compare Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-    private static int compareMagnitudeNormalized(long xs, int xscale, Matma ys, int yscale) {
+    private static int compareMagnitudeNormalized(long xs, int xscale, CalkowicieBig ys, int yscale) {
         // assert "ys can't be represented as long"
         if (xs == 0)
             return -1;
@@ -4652,7 +4652,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
     }
 
     // Compare Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-    private static int compareMagnitudeNormalized(Matma xs, int xscale, Matma ys, int yscale) {
+    private static int compareMagnitudeNormalized(CalkowicieBig xs, int xscale, CalkowicieBig ys, int yscale) {
         int sdiff = xscale - yscale;
         if (sdiff < 0) {
             return bigMultiplyPowerTen(xs, -sdiff).compareMagnitude(ys);
@@ -4671,29 +4671,29 @@ public class DMatma extends Number implements Comparable<DMatma> {
         return INFLATED;
     }
 
-    private static DMatma multiply(long x, long y, int scale) {
+    private static DCalkowicieBig multiply(long x, long y, int scale) {
         long product = multiply(x, y);
         if(product!=INFLATED) {
             return valueOf(product,scale);
         }
-        return new DMatma(Matma.valueOf(x).multiply(y),INFLATED,scale,0);
+        return new DCalkowicieBig(CalkowicieBig.valueOf(x).multiply(y),INFLATED,scale,0);
     }
 
-    private static DMatma multiply(long x, Matma y, int scale) {
+    private static DCalkowicieBig multiply(long x, CalkowicieBig y, int scale) {
         if(x==0) {
             return zeroValueOf(scale);
         }
-        return new DMatma(y.multiply(x),INFLATED,scale,0);
+        return new DCalkowicieBig(y.multiply(x),INFLATED,scale,0);
     }
 
-    private static DMatma multiply(Matma x, Matma y, int scale) {
-        return new DMatma(x.multiply(y),INFLATED,scale,0);
+    private static DCalkowicieBig multiply(CalkowicieBig x, CalkowicieBig y, int scale) {
+        return new DCalkowicieBig(x.multiply(y),INFLATED,scale,0);
     }
 
     /**
      * Multiplies two long values and rounds according {@code MathContext}
      */
-    private static DMatma multiplyAndRound(long x, long y, int scale, MathContext mc) {
+    private static DCalkowicieBig multiplyAndRound(long x, long y, int scale, MathContext mc) {
         long product = multiply(x, y);
         if(product!=INFLATED) {
             return doRound(product, scale, mc);
@@ -4729,33 +4729,33 @@ public class DMatma extends Number implements Comparable<DMatma> {
         m3 = ((product>>>32) + m3) & LONG_MASK;
         final long mHi = make64(m3,m2);
         final long mLo = make64(m1,m0);
-        DMatma res = doRound128(mHi, mLo, rsign, scale, mc);
+        DCalkowicieBig res = doRound128(mHi, mLo, rsign, scale, mc);
         if(res!=null) {
             return res;
         }
-        res = new DMatma(Matma.valueOf(x).multiply(y*rsign), INFLATED, scale, 0);
+        res = new DCalkowicieBig(CalkowicieBig.valueOf(x).multiply(y*rsign), INFLATED, scale, 0);
         return doRound(res,mc);
     }
 
-    private static DMatma multiplyAndRound(long x, Matma y, int scale, MathContext mc) {
+    private static DCalkowicieBig multiplyAndRound(long x, CalkowicieBig y, int scale, MathContext mc) {
         if(x==0) {
             return zeroValueOf(scale);
         }
         return doRound(y.multiply(x), scale, mc);
     }
 
-    private static DMatma multiplyAndRound(Matma x, Matma y, int scale, MathContext mc) {
+    private static DCalkowicieBig multiplyAndRound(CalkowicieBig x, CalkowicieBig y, int scale, MathContext mc) {
         return doRound(x.multiply(y), scale, mc);
     }
 
     /**
      * rounds 128-bit value according {@code MathContext}
-     * returns null if result can't be repsented as compact DMatma.
+     * returns null if result can't be repsented as compact DCalkowicieBig.
      */
-    private static DMatma doRound128(long hi, long lo, int sign, int scale, MathContext mc) {
+    private static DCalkowicieBig doRound128(long hi, long lo, int sign, int scale, MathContext mc) {
         int mcp = mc.precision;
         int drop;
-        DMatma res = null;
+        DCalkowicieBig res = null;
         if(((drop = precision(hi, lo) - mcp) > 0)&&(drop<LONG_TEN_POWERS_TABLE.length)) {
             scale = checkScaleNonZero((long)scale - drop);
             res = divideAndRound128(hi, lo, LONG_TEN_POWERS_TABLE[drop], sign, scale, mc.roundingMode.oldMode, scale);
@@ -4817,7 +4817,7 @@ public class DMatma extends Number implements Comparable<DMatma> {
         return (lo0+Long.MIN_VALUE) <(lo1+Long.MIN_VALUE);
     }
 
-    private static DMatma divide(long dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
+    private static DCalkowicieBig divide(long dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
         if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
             int newScale = scale + divisorScale;
             int raise = newScale - dividendScale;
@@ -4826,12 +4826,12 @@ public class DMatma extends Number implements Comparable<DMatma> {
                 if ((xs = longMultiplyPowerTen(xs, raise)) != INFLATED) {
                     return divideAndRound(xs, divisor, scale, roundingMode, scale);
                 }
-                DMatma q = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[raise], dividend, divisor, scale, roundingMode, scale);
+                DCalkowicieBig q = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[raise], dividend, divisor, scale, roundingMode, scale);
                 if(q!=null) {
                     return q;
                 }
             }
-            Matma scaledDividend = bigMultiplyPowerTen(dividend, raise);
+            CalkowicieBig scaledDividend = bigMultiplyPowerTen(dividend, raise);
             return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
         } else {
             int newScale = checkScale(divisor,(long)dividendScale - scale);
@@ -4842,16 +4842,16 @@ public class DMatma extends Number implements Comparable<DMatma> {
                     return divideAndRound(dividend, ys, scale, roundingMode, scale);
                 }
             }
-            Matma scaledDivisor = bigMultiplyPowerTen(divisor, raise);
-            return divideAndRound(Matma.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
+            CalkowicieBig scaledDivisor = bigMultiplyPowerTen(divisor, raise);
+            return divideAndRound(CalkowicieBig.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
         }
     }
 
-    private static DMatma divide(Matma dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
+    private static DCalkowicieBig divide(CalkowicieBig dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
         if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
             int newScale = scale + divisorScale;
             int raise = newScale - dividendScale;
-            Matma scaledDividend = bigMultiplyPowerTen(dividend, raise);
+            CalkowicieBig scaledDividend = bigMultiplyPowerTen(dividend, raise);
             return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
         } else {
             int newScale = checkScale(divisor,(long)dividendScale - scale);
@@ -4862,35 +4862,35 @@ public class DMatma extends Number implements Comparable<DMatma> {
                     return divideAndRound(dividend, ys, scale, roundingMode, scale);
                 }
             }
-            Matma scaledDivisor = bigMultiplyPowerTen(divisor, raise);
+            CalkowicieBig scaledDivisor = bigMultiplyPowerTen(divisor, raise);
             return divideAndRound(dividend, scaledDivisor, scale, roundingMode, scale);
         }
     }
 
-    private static DMatma divide(long dividend, int dividendScale, Matma divisor, int divisorScale, int scale, int roundingMode) {
+    private static DCalkowicieBig divide(long dividend, int dividendScale, CalkowicieBig divisor, int divisorScale, int scale, int roundingMode) {
         if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
             int newScale = scale + divisorScale;
             int raise = newScale - dividendScale;
-            Matma scaledDividend = bigMultiplyPowerTen(dividend, raise);
+            CalkowicieBig scaledDividend = bigMultiplyPowerTen(dividend, raise);
             return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
         } else {
             int newScale = checkScale(divisor,(long)dividendScale - scale);
             int raise = newScale - divisorScale;
-            Matma scaledDivisor = bigMultiplyPowerTen(divisor, raise);
-            return divideAndRound(Matma.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
+            CalkowicieBig scaledDivisor = bigMultiplyPowerTen(divisor, raise);
+            return divideAndRound(CalkowicieBig.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
         }
     }
 
-    private static DMatma divide(Matma dividend, int dividendScale, Matma divisor, int divisorScale, int scale, int roundingMode) {
+    private static DCalkowicieBig divide(CalkowicieBig dividend, int dividendScale, CalkowicieBig divisor, int divisorScale, int scale, int roundingMode) {
         if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
             int newScale = scale + divisorScale;
             int raise = newScale - dividendScale;
-            Matma scaledDividend = bigMultiplyPowerTen(dividend, raise);
+            CalkowicieBig scaledDividend = bigMultiplyPowerTen(dividend, raise);
             return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
         } else {
             int newScale = checkScale(divisor,(long)dividendScale - scale);
             int raise = newScale - divisorScale;
-            Matma scaledDivisor = bigMultiplyPowerTen(divisor, raise);
+            CalkowicieBig scaledDivisor = bigMultiplyPowerTen(divisor, raise);
             return divideAndRound(dividend, scaledDivisor, scale, roundingMode, scale);
         }
     }

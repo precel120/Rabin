@@ -1,38 +1,38 @@
 import java.util.Random;
-import Library.Matma;
+import Library.CalkowicieBig;
 import java.util.Vector;
 
 public class Szyfruj {
 
-    private Matma p;
-    private Matma q;
+    private CalkowicieBig p;
+    private CalkowicieBig q;
     public byte[] tekstJawny;
-    private Matma n;
-    private Matma[] m;
+    private CalkowicieBig n;
+    private CalkowicieBig[] m;
     private String tekst;
 
     public Szyfruj(byte[] tekstJawny){
         this.tekstJawny=tekstJawny;
     }
 
-    public Matma getPrime() {
+    public CalkowicieBig getPrime() {
 
-        Matma a;
+        CalkowicieBig a;
         Random rnd = new Random();
-        Matma trzy=Matma.valueOf(3);
-        Matma cztery=Matma.valueOf(4);
+        CalkowicieBig trzy=CalkowicieBig.valueOf(3);
+        CalkowicieBig cztery=CalkowicieBig.valueOf(4);
         do{
-            a = Matma.probablePrime(1024,rnd);
+            a = CalkowicieBig.probablePrime(1024,rnd);
         }while(!(a.mod(cztery).equals(trzy)));
 
         return a;
     }
 
-    public Matma[] szyfruj()
+    public CalkowicieBig[] szyfruj()
     {
 
         int i=0,j=0,blockSize=256;
-        m=new Matma[(tekstJawny.length/blockSize)+1];
+        m=new CalkowicieBig[(tekstJawny.length/blockSize)+1];
 
         byte[] pom=new byte[blockSize];
 
@@ -43,18 +43,18 @@ public class Szyfruj {
         {
             System.arraycopy(tekstJawny, i, pom, tekstLength, blockSize-tekstLength);
             //BigInteger pom2=new BigInteger(pom);
-            m[j]=new Matma(pom);
+            m[j]=new CalkowicieBig(pom);
             i=i+(blockSize-tekstLength);
             j++;
         }
         System.arraycopy(tekstJawny,i,pom,tekstLength,tekstJawny.length-i);
-        m[j]=new Matma(pom);
+        m[j]=new CalkowicieBig(pom);
         j++;
         //System.out.println(m[0]);
         /*byte[] tabB=m[0].toByteArray();
         String tabS=new String(tabB);
         System.out.println(tabS);*/
-        Matma[] c=new Matma[j];
+        CalkowicieBig[] c=new CalkowicieBig[j];
         // m = new BigInteger(tekstJawny);
 
         do {
@@ -62,7 +62,7 @@ public class Szyfruj {
             q = getPrime();
             if(p.compareTo(q) == -1)
             {
-                Matma pom2;
+                CalkowicieBig pom2;
                 pom2 = p;
                 p = q;
                 q = pom2;
@@ -79,29 +79,29 @@ public class Szyfruj {
         return c;
     }
 
-    public byte[] deszyfruj(Matma[] zaszyfr)
+    public byte[] deszyfruj(CalkowicieBig[] zaszyfr)
     {
-        Matma x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
+        CalkowicieBig x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
         byte[] result= new byte[zaszyfr.length*256];
         for(int i=0; i<zaszyfr.length;i++) {
 
 
             x_p = zaszyfr[i].mod(p);
             x_q = zaszyfr[i].mod(q);
-            y_p1 = new Matma(String.valueOf(x_p));
+            y_p1 = new CalkowicieBig(String.valueOf(x_p));
 
-            y_p1 = x_p.modPow(p.add(Matma.valueOf(1)).divide(Matma.valueOf(4)), p);
+            y_p1 = x_p.modPow(p.add(CalkowicieBig.valueOf(1)).divide(CalkowicieBig.valueOf(4)), p);
             y_p2 = p.subtract(y_p1);
 
-            y_q1 = x_q.modPow(q.add(Matma.valueOf(1)).divide(Matma.valueOf(4)), q);
+            y_q1 = x_q.modPow(q.add(CalkowicieBig.valueOf(1)).divide(CalkowicieBig.valueOf(4)), q);
             y_q2 = q.subtract(y_q1);
 
-            Matma[] uv=chinol();
+            CalkowicieBig[] uv=chinol();
 
             m_1 = p.multiply(uv[0]).multiply(y_q1).subtract(q.multiply(uv[1]).multiply(y_p1)).mod(n);
             m_2 = p.multiply(uv[0]).multiply(y_q1).subtract(q.multiply(uv[1]).multiply(y_p2)).mod(n);
-            m_3 = m_1.multiply((Matma.valueOf(-1))).mod(n);
-            m_4 = m_2.multiply((Matma.valueOf(-1))).mod(n);
+            m_3 = m_1.multiply((CalkowicieBig.valueOf(-1))).mod(n);
+            m_4 = m_2.multiply((CalkowicieBig.valueOf(-1))).mod(n);
             //m_2 = m_3.multiply(BigInteger.valueOf(-1)).mod(n);
             //m_4 = m_1.multiply((BigInteger.valueOf(-1))).mod(n);
 
@@ -144,11 +144,11 @@ public class Szyfruj {
     }*/
 
 
-    public Matma[] chinol(){
+    public CalkowicieBig[] chinol(){
 
-        Matma d = new Matma(String.valueOf(p));
-        Matma e = new Matma(String.valueOf(q));
-        Matma u, v;
+        CalkowicieBig d = new CalkowicieBig(String.valueOf(p));
+        CalkowicieBig e = new CalkowicieBig(String.valueOf(q));
+        CalkowicieBig u, v;
 
         /*if(d.compareTo(e) == -1)
         {
@@ -158,19 +158,19 @@ public class Szyfruj {
             e = pom;
         }*/
 
-        Vector<Matma> P = new Vector<>();
-        Vector<Matma> Q = new Vector<>();
-        Vector<Matma> q = new Vector<>();
+        Vector<CalkowicieBig> P = new Vector<>();
+        Vector<CalkowicieBig> Q = new Vector<>();
+        Vector<CalkowicieBig> q = new Vector<>();
 
-        P.addElement(Matma.valueOf(0));
-        P.addElement(Matma.valueOf(1));
-        Q.addElement(Matma.valueOf(1));
-        Q.addElement(Matma.valueOf(0));
+        P.addElement(CalkowicieBig.valueOf(0));
+        P.addElement(CalkowicieBig.valueOf(1));
+        Q.addElement(CalkowicieBig.valueOf(1));
+        Q.addElement(CalkowicieBig.valueOf(0));
 
-        while(e.compareTo(Matma.valueOf(0)) != 0) {
+        while(e.compareTo(CalkowicieBig.valueOf(0)) != 0) {
             q.addElement(d.divide(e));
 
-            Matma pom = new Matma(String.valueOf(d));
+            CalkowicieBig pom = new CalkowicieBig(String.valueOf(d));
             d = e;
             e = pom.mod(e);
         }
@@ -186,11 +186,11 @@ public class Szyfruj {
 
         if(q.size()%2 == 0)
         {
-            u = u.multiply(Matma.valueOf(-1));
-            v = v.multiply(Matma.valueOf(-1));
+            u = u.multiply(CalkowicieBig.valueOf(-1));
+            v = v.multiply(CalkowicieBig.valueOf(-1));
         }
 
-        Matma[] result=new Matma[2];
+        CalkowicieBig[] result=new CalkowicieBig[2];
         //result = p.multiply(u).multiply(b).subtract(this.q.multiply(v).multiply(a)).mod(n);
         result[0]=u;
         result[1]=v;
@@ -198,7 +198,7 @@ public class Szyfruj {
     }
 
 
-    public boolean sprawdzanko(Matma m)
+    public boolean sprawdzanko(CalkowicieBig m)
     {
         byte[] textArray = tekst.getBytes();
         byte[] mArray = m.toByteArray();

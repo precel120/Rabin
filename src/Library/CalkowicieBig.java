@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class Matma extends Number implements Comparable<Matma> {
+public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
 
     public class FloatConsts {
@@ -180,22 +180,22 @@ public class Matma extends Number implements Comparable<Matma> {
         }
     }
     /**
-     * The signum of this Matma: -1 for negative, 0 for zero, or
-     * 1 for positive.  Note that the Matma zero <i>must</i> have
+     * The signum of this CalkowicieBig: -1 for negative, 0 for zero, or
+     * 1 for positive.  Note that the CalkowicieBig zero <i>must</i> have
      * a signum of 0.  This is necessary to ensures that there is exactly one
-     * representation for each Matma value.
+     * representation for each CalkowicieBig value.
      *
      * @serial
      */
     final int signum;
 
     /**
-     * The magnitude of this Matma, in <i>big-endian</i> order: the
+     * The magnitude of this CalkowicieBig, in <i>big-endian</i> order: the
      * zeroth element of this array is the most-significant int of the
      * magnitude.  The magnitude must be "minimal" in that the most-significant
      * int ({@code mag[0]}) must be non-zero.  This is necessary to
-     * ensure that there is exactly one representation for each Matma
-     * value.  Note that this implies that the Matma zero has a
+     * ensure that there is exactly one representation for each CalkowicieBig
+     * value.  Note that this implies that the CalkowicieBig zero has a
      * zero-length mag array.
      */
     final int[] mag;
@@ -205,7 +205,7 @@ public class Matma extends Number implements Comparable<Matma> {
     // aren't needed).
 
     /**
-     * One plus the bitCount of this Matma. Zeros means unitialized.
+     * One plus the bitCount of this CalkowicieBig. Zeros means unitialized.
      *
      * @serial
      * @see #bitCount
@@ -216,7 +216,7 @@ public class Matma extends Number implements Comparable<Matma> {
     private int bitCount;
 
     /**
-     * One plus the bitLength of this Matma. Zeros means unitialized.
+     * One plus the bitLength of this CalkowicieBig. Zeros means unitialized.
      * (either value is acceptable).
      *
      * @serial
@@ -228,7 +228,7 @@ public class Matma extends Number implements Comparable<Matma> {
     private int bitLength;
 
     /**
-     * Two plus the lowest set bit of this Matma, as returned by
+     * Two plus the lowest set bit of this CalkowicieBig, as returned by
      * getLowestSetBit().
      *
      * @serial
@@ -241,7 +241,7 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * Two plus the index of the lowest-order int in the magnitude of this
-     * Matma that contains a nonzero int, or -2 (either value is acceptable).
+     * CalkowicieBig that contains a nonzero int, or -2 (either value is acceptable).
      * The least significant int has int-number 0, the next int in order of
      * increasing significance has int-number 1, and so forth.
      * @deprecated Deprecated since logical value is offset from stored
@@ -256,7 +256,7 @@ public class Matma extends Number implements Comparable<Matma> {
     final static long LONG_MASK = 0xffffffffL;
 
     /**
-     * This constant limits {@code mag.length} of Matmas to the supported
+     * This constant limits {@code mag.length} of CalkowicieBigs to the supported
      * range.
      */
     private static final int MAX_MAG_LENGTH = Integer.MAX_VALUE / Integer.SIZE + 1; // (1 << 26)
@@ -328,7 +328,7 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * The threshold value for using squaring code to perform multiplication
-     * of a {@code Matma} instance by itself.  If the number of ints in
+     * of a {@code CalkowicieBig} instance by itself.  If the number of ints in
      * the number are larger than this value, {@code multiply(this)} will
      * return {@code square()}.
      */
@@ -347,17 +347,17 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * Translates a byte array containing the two's-complement binary
-     * representation of a Matma into a Matma.  The input array is
+     * representation of a CalkowicieBig into a CalkowicieBig.  The input array is
      * assumed to be in <i>big-endian</i> byte-order: the most significant
      * byte is in the zeroth element.
      *
      * @param  val big-endian two's-complement binary representation of
-     *         Matma.
+     *         CalkowicieBig.
      * @throws NumberFormatException {@code val} is zero bytes long.
      */
-    public Matma(byte[] val) {
+    public CalkowicieBig(byte[] val) {
         if (val.length == 0)
-            throw new NumberFormatException("Zero length Matma");
+            throw new NumberFormatException("Zero length CalkowicieBig");
 
         if (val[0] < 0) {
             mag = makePositive(val);
@@ -373,13 +373,13 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * This private constructor translates an int array containing the
-     * two's-complement binary representation of a Matma into a
-     * Matma. The input array is assumed to be in <i>big-endian</i>
+     * two's-complement binary representation of a CalkowicieBig into a
+     * CalkowicieBig. The input array is assumed to be in <i>big-endian</i>
      * int-order: the most significant int is in the zeroth element.
      */
-    private Matma(int[] val) {
+    private CalkowicieBig(int[] val) {
         if (val.length == 0)
-            throw new NumberFormatException("Zero length Matma");
+            throw new NumberFormatException("Zero length CalkowicieBig");
 
         if (val[0] < 0) {
             mag = makePositive(val);
@@ -394,12 +394,12 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Translates the sign-magnitude representation of a Matma into a
-     * Matma.  The sign is represented as an integer signum value: -1 for
+     * Translates the sign-magnitude representation of a CalkowicieBig into a
+     * CalkowicieBig.  The sign is represented as an integer signum value: -1 for
      * negative, 0 for zero, or 1 for positive.  The magnitude is a byte array
      * in <i>big-endian</i> byte-order: the most significant byte is in the
      * zeroth element.  A zero-length magnitude array is permissible, and will
-     * result in a Matma value of 0, whether signum is -1, 0 or 1.
+     * result in a CalkowicieBig value of 0, whether signum is -1, 0 or 1.
      *
      * @param  signum signum of the number (-1 for negative, 0 for zero, 1
      *         for positive).
@@ -409,7 +409,7 @@ public class Matma extends Number implements Comparable<Matma> {
      *         legal values (-1, 0, and 1), or {@code signum} is 0 and
      *         {@code magnitude} contains one or more non-zero bytes.
      */
-    public Matma(int signum, byte[] magnitude) {
+    public CalkowicieBig(int signum, byte[] magnitude) {
         this.mag = stripLeadingZeroBytes(magnitude);
 
         if (signum < -1 || signum > 1)
@@ -429,11 +429,11 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * A constructor for internal use that translates the sign-magnitude
-     * representation of a Matma into a Matma. It checks the
+     * representation of a CalkowicieBig into a CalkowicieBig. It checks the
      * arguments and copies the magnitude so this constructor would be
      * safe for external use.
      */
-    private Matma(int signum, int[] magnitude) {
+    private CalkowicieBig(int signum, int[] magnitude) {
         this.mag = stripLeadingZeroInts(magnitude);
 
         if (signum < -1 || signum > 1)
@@ -452,30 +452,30 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Translates the String representation of a Matma in the
-     * specified radix into a Matma.  The String representation
+     * Translates the String representation of a CalkowicieBig in the
+     * specified radix into a CalkowicieBig.  The String representation
      * consists of an optional minus or plus sign followed by a
      * sequence of one or more digits in the specified radix.  The
      * character-to-digit mapping is provided by {@code
      * Character.digit}.  The String may not contain any extraneous
      * characters (whitespace, for example).
      *
-     * @param val String representation of Matma.
+     * @param val String representation of CalkowicieBig.
      * @param radix radix to be used in interpreting {@code val}.
      * @throws NumberFormatException {@code val} is not a valid representation
-     *         of a Matma in the specified radix, or {@code radix} is
+     *         of a CalkowicieBig in the specified radix, or {@code radix} is
      *         outside the range from {@link Character#MIN_RADIX} to
      *         {@link Character#MAX_RADIX}, inclusive.
      * @see    Character#digit
      */
-    public Matma(String val, int radix) {
+    public CalkowicieBig(String val, int radix) {
         int cursor = 0, numDigits;
         final int len = val.length();
 
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
             throw new NumberFormatException("Radix out of range");
         if (len == 0)
-            throw new NumberFormatException("Zero length Matma");
+            throw new NumberFormatException("Zero length CalkowicieBig");
 
         // Check for at most one leading sign
         int sign = 1;
@@ -494,7 +494,7 @@ public class Matma extends Number implements Comparable<Matma> {
             cursor = 1;
         }
         if (cursor == len)
-            throw new NumberFormatException("Zero length Matma");
+            throw new NumberFormatException("Zero length CalkowicieBig");
 
         // Skip leading zeros and compute number of digits in magnitude
         while (cursor < len &&
@@ -547,10 +547,10 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /*
-     * Constructs a new Matma using a char array with radix=10.
+     * Constructs a new CalkowicieBig using a char array with radix=10.
      * Sign is precalculated outside and not allowed in the val.
      */
-    Matma(char[] val, int sign, int len) {
+    CalkowicieBig(char[] val, int sign, int len) {
         int cursor = 0, numDigits;
 
         // Skip leading zeros and compute number of digits in magnitude
@@ -648,36 +648,36 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Translates the decimal String representation of a Matma into a
-     * Matma.  The String representation consists of an optional minus
+     * Translates the decimal String representation of a CalkowicieBig into a
+     * CalkowicieBig.  The String representation consists of an optional minus
      * sign followed by a sequence of one or more decimal digits.  The
      * character-to-digit mapping is provided by {@code Character.digit}.
      * The String may not contain any extraneous characters (whitespace, for
      * example).
      *
-     * @param val decimal String representation of Matma.
+     * @param val decimal String representation of CalkowicieBig.
      * @throws NumberFormatException {@code val} is not a valid representation
-     *         of a Matma.
+     *         of a CalkowicieBig.
      * @see    Character#digit
      */
-    public Matma(String val) {
+    public CalkowicieBig(String val) {
         this(val, 10);
     }
 
     /**
-     * Constructs a randomly generated Matma, uniformly distributed over
+     * Constructs a randomly generated CalkowicieBig, uniformly distributed over
      * the range 0 to (2<sup>{@code numBits}</sup> - 1), inclusive.
      * The uniformity of the distribution assumes that a fair source of random
      * bits is provided in {@code rnd}.  Note that this constructor always
-     * constructs a non-negative Matma.
+     * constructs a non-negative CalkowicieBig.
      *
-     * @param  numBits maximum bitLength of the new Matma.
+     * @param  numBits maximum bitLength of the new CalkowicieBig.
      * @param  rnd source of randomness to be used in computing the new
-     *         Matma.
+     *         CalkowicieBig.
      * @throws IllegalArgumentException {@code numBits} is negative.
      * @see #bitLength()
      */
-    public Matma(int numBits, Random rnd) {
+    public CalkowicieBig(int numBits, Random rnd) {
         this(1, randomBits(numBits, rnd));
     }
 
@@ -697,16 +697,16 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Constructs a randomly generated positive Matma that is probably
+     * Constructs a randomly generated positive CalkowicieBig that is probably
      * prime, with the specified bitLength.
      *
      * <p>It is recommended that the {@link #probablePrime probablePrime}
      * method be used in preference to this constructor unless there
      * is a compelling need to specify a certainty.
      *
-     * @param  bitLength bitLength of the returned Matma.
+     * @param  bitLength bitLength of the returned CalkowicieBig.
      * @param  certainty a measure of the uncertainty that the caller is
-     *         willing to tolerate.  The probability that the new Matma
+     *         willing to tolerate.  The probability that the new CalkowicieBig
      *         represents a prime number will exceed
      *         (1 - 1/2<sup>{@code certainty}</sup>).  The execution time of
      *         this constructor is proportional to the value of this parameter.
@@ -715,8 +715,8 @@ public class Matma extends Number implements Comparable<Matma> {
      * @throws ArithmeticException {@code bitLength < 2} or {@code bitLength} is too large.
      * @see    #bitLength()
      */
-    public Matma(int bitLength, int certainty, Random rnd) {
-        Matma prime;
+    public CalkowicieBig(int bitLength, int certainty, Random rnd) {
+        CalkowicieBig prime;
 
         if (bitLength < 2)
             throw new ArithmeticException("bitLength < 2");
@@ -736,19 +736,19 @@ public class Matma extends Number implements Comparable<Matma> {
     private static final int DEFAULT_PRIME_CERTAINTY = 100;
 
     /**
-     * Returns a positive Matma that is probably prime, with the
-     * specified bitLength. The probability that a Matma returned
+     * Returns a positive CalkowicieBig that is probably prime, with the
+     * specified bitLength. The probability that a CalkowicieBig returned
      * by this method is composite does not exceed 2<sup>-100</sup>.
      *
-     * @param  bitLength bitLength of the returned Matma.
+     * @param  bitLength bitLength of the returned CalkowicieBig.
      * @param  rnd source of random bits used to select candidates to be
      *         tested for primality.
-     * @return a Matma of {@code bitLength} bits that is probably prime
+     * @return a CalkowicieBig of {@code bitLength} bits that is probably prime
      * @throws ArithmeticException {@code bitLength < 2} or {@code bitLength} is too large.
      * @see    #bitLength()
      * @since 1.4
      */
-    public static Matma probablePrime(int bitLength, Random rnd) {
+    public static CalkowicieBig probablePrime(int bitLength, Random rnd) {
         if (bitLength < 2)
             throw new ArithmeticException("bitLength < 2");
 
@@ -764,7 +764,7 @@ public class Matma extends Number implements Comparable<Matma> {
      *
      * This method assumes bitLength > 1.
      */
-    private static Matma smallPrime(int bitLength, int certainty, Random rnd) {
+    private static CalkowicieBig smallPrime(int bitLength, int certainty, Random rnd) {
         int magLen = (bitLength + 31) >>> 5;
         int temp[] = new int[magLen];
         int highBit = 1 << ((bitLength+31) & 0x1f);  // High bit of high int
@@ -778,7 +778,7 @@ public class Matma extends Number implements Comparable<Matma> {
             if (bitLength > 2)
                 temp[magLen-1] |= 1;  // Make odd if bitlen > 2
 
-            Matma p = new Matma(temp, 1);
+            CalkowicieBig p = new CalkowicieBig(temp, 1);
 
             // Do cheap "pre-test" if applicable
             if (bitLength > 6) {
@@ -799,7 +799,7 @@ public class Matma extends Number implements Comparable<Matma> {
         }
     }
 
-    private static final Matma SMALL_PRIME_PRODUCT
+    private static final CalkowicieBig SMALL_PRIME_PRODUCT
             = valueOf(3L*5*7*11*13*17*19*23*29*31*37*41);
 
     /**
@@ -808,20 +808,20 @@ public class Matma extends Number implements Comparable<Matma> {
      * a sieve to eliminate most composites before using a more expensive
      * test.
      */
-    private static Matma largePrime(int bitLength, int certainty, Random rnd) {
-        Matma p;
-        p = new Matma(bitLength, rnd).setBit(bitLength-1);
+    private static CalkowicieBig largePrime(int bitLength, int certainty, Random rnd) {
+        CalkowicieBig p;
+        p = new CalkowicieBig(bitLength, rnd).setBit(bitLength-1);
         p.mag[p.mag.length-1] &= 0xfffffffe;
 
         // Use a sieve length likely to contain the next prime number
         int searchLen = getPrimeSearchLen(bitLength);
         BitSieve searchSieve = new BitSieve(p, searchLen);
-        Matma candidate = searchSieve.retrieve(p, certainty, rnd);
+        CalkowicieBig candidate = searchSieve.retrieve(p, certainty, rnd);
 
         while ((candidate == null) || (candidate.bitLength() != bitLength)) {
-            p = p.add(Matma.valueOf(2*searchLen));
+            p = p.add(CalkowicieBig.valueOf(2*searchLen));
             if (p.bitLength() != bitLength)
-                p = new Matma(bitLength, rnd).setBit(bitLength-1);
+                p = new CalkowicieBig(bitLength, rnd).setBit(bitLength-1);
             p.mag[p.mag.length-1] &= 0xfffffffe;
             searchSieve = new BitSieve(p, searchLen);
             candidate = searchSieve.retrieve(p, certainty, rnd);
@@ -830,18 +830,18 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns the first integer greater than this {@code Matma} that
+     * Returns the first integer greater than this {@code CalkowicieBig} that
      * is probably prime.  The probability that the number returned by this
      * method is composite does not exceed 2<sup>-100</sup>. This method will
      * never skip over a prime when searching: if it returns {@code p}, there
      * is no prime {@code q} such that {@code this < q < p}.
      *
-     * @return the first integer greater than this {@code Matma} that
+     * @return the first integer greater than this {@code CalkowicieBig} that
      *         is probably prime.
      * @throws ArithmeticException {@code this < 0} or {@code this} is too large.
      * @since 1.5
      */
-    public Matma nextProbablePrime() {
+    public CalkowicieBig nextProbablePrime() {
         if (this.signum < 0)
             throw new ArithmeticException("start < 0: " + this);
 
@@ -849,7 +849,7 @@ public class Matma extends Number implements Comparable<Matma> {
         if ((this.signum == 0) || this.equals(ONE))
             return TWO;
 
-        Matma result = this.add(ONE);
+        CalkowicieBig result = this.add(ONE);
 
         // Fastpath for small numbers
         if (result.bitLength() < SMALL_PRIME_THRESHOLD) {
@@ -891,11 +891,11 @@ public class Matma extends Number implements Comparable<Matma> {
 
         while (true) {
             BitSieve searchSieve = new BitSieve(result, searchLen);
-            Matma candidate = searchSieve.retrieve(result,
+            CalkowicieBig candidate = searchSieve.retrieve(result,
                     DEFAULT_PRIME_CERTAINTY, null);
             if (candidate != null)
                 return candidate;
-            result = result.add(Matma.valueOf(2 * searchLen));
+            result = result.add(CalkowicieBig.valueOf(2 * searchLen));
         }
     }
 
@@ -907,17 +907,17 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns {@code true} if this Matma is probably prime,
+     * Returns {@code true} if this CalkowicieBig is probably prime,
      * {@code false} if it's definitely composite.
      *
      * This method assumes bitLength > 2.
      *
      * @param  certainty a measure of the uncertainty that the caller is
      *         willing to tolerate: if the call returns {@code true}
-     *         the probability that this Matma is prime exceeds
+     *         the probability that this CalkowicieBig is prime exceeds
      *         {@code (1 - 1/2<sup>certainty</sup>)}.  The execution time of
      *         this method is proportional to the value of this parameter.
-     * @return {@code true} if this Matma is probably prime,
+     * @return {@code true} if this CalkowicieBig is probably prime,
      *         {@code false} if it's definitely composite.
      */
     boolean primeToCertainty(int certainty, Random random) {
@@ -951,13 +951,13 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns true iff this Matma is a Lucas-Lehmer probable prime.
+     * Returns true iff this CalkowicieBig is a Lucas-Lehmer probable prime.
      *
      * The following assumptions are made:
-     * This Matma is a positive, odd number.
+     * This CalkowicieBig is a positive, odd number.
      */
     private boolean passesLucasLehmer() {
-        Matma thisPlusOne = this.add(ONE);
+        CalkowicieBig thisPlusOne = this.add(ONE);
 
         // Step 1
         int d = 5;
@@ -967,7 +967,7 @@ public class Matma extends Number implements Comparable<Matma> {
         }
 
         // Step 2
-        Matma u = lucasLehmerSequence(d, thisPlusOne, this);
+        CalkowicieBig u = lucasLehmerSequence(d, thisPlusOne, this);
 
         // Step 3
         return u.mod(this).equals(ZERO);
@@ -977,7 +977,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * Computes Jacobi(p,n).
      * Assumes n positive, odd, n>=3.
      */
-    private static int jacobiSymbol(int p, Matma n) {
+    private static int jacobiSymbol(int p, CalkowicieBig n) {
         if (p == 0)
             return 0;
 
@@ -1007,7 +1007,7 @@ public class Matma extends Number implements Comparable<Matma> {
         if ((p & u & 2) != 0)   // p = u = 3 (mod 4)?
             j = -j;
         // And reduce u mod p
-        u = n.mod(Matma.valueOf(p)).intValue();
+        u = n.mod(CalkowicieBig.valueOf(p)).intValue();
 
         // Now compute Jacobi(u,p), u < p
         while (u != 0) {
@@ -1031,10 +1031,10 @@ public class Matma extends Number implements Comparable<Matma> {
         return 0;
     }
 
-    private static Matma lucasLehmerSequence(int z, Matma k, Matma n) {
-        Matma d = Matma.valueOf(z);
-        Matma u = ONE; Matma u2;
-        Matma v = ONE; Matma v2;
+    private static CalkowicieBig lucasLehmerSequence(int z, CalkowicieBig k, CalkowicieBig n) {
+        CalkowicieBig d = CalkowicieBig.valueOf(z);
+        CalkowicieBig u = ONE; CalkowicieBig u2;
+        CalkowicieBig v = ONE; CalkowicieBig v2;
 
         for (int i=k.bitLength()-2; i >= 0; i--) {
             u2 = u.multiply(v).mod(n);
@@ -1064,18 +1064,18 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns true iff this Matma passes the specified number of
+     * Returns true iff this CalkowicieBig passes the specified number of
      * Miller-Rabin tests. This test is taken from the DSA spec (NIST FIPS
      * 186-2).
      *
      * The following assumptions are made:
-     * This Matma is a positive, odd number greater than 2.
+     * This CalkowicieBig is a positive, odd number greater than 2.
      * iterations<=50.
      */
     private boolean passesMillerRabin(int iterations, Random rnd) {
         // Find a and m such that m is odd and this == 1 + 2**a * m
-        Matma thisMinusOne = this.subtract(ONE);
-        Matma m = thisMinusOne;
+        CalkowicieBig thisMinusOne = this.subtract(ONE);
+        CalkowicieBig m = thisMinusOne;
         int a = m.getLowestSetBit();
         m = m.shiftRight(a);
 
@@ -1085,13 +1085,13 @@ public class Matma extends Number implements Comparable<Matma> {
         }
         for (int i=0; i < iterations; i++) {
             // Generate a uniform random on (1, this)
-            Matma b;
+            CalkowicieBig b;
             do {
-                b = new Matma(this.bitLength(), rnd);
+                b = new CalkowicieBig(this.bitLength(), rnd);
             } while (b.compareTo(ONE) <= 0 || b.compareTo(this) >= 0);
 
             int j = 0;
-            Matma z = b.modPow(m, this);
+            CalkowicieBig z = b.modPow(m, this);
             while (!((j == 0 && z.equals(ONE)) || z.equals(thisMinusOne))) {
                 if (j > 0 && z.equals(ONE) || ++j == a)
                     return false;
@@ -1106,7 +1106,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * with the arguments reversed in two ways: it assumes that its
      * arguments are correct, and it doesn't copy the magnitude array.
      */
-    Matma(int[] magnitude, int signum) {
+    CalkowicieBig(int[] magnitude, int signum) {
         this.signum = (magnitude.length == 0 ? 0 : signum);
         this.mag = magnitude;
         if (mag.length >= MAX_MAG_LENGTH) {
@@ -1118,7 +1118,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * This private constructor is for internal use and assumes that its
      * arguments are correct.
      */
-    private Matma(byte[] magnitude, int signum) {
+    private CalkowicieBig(byte[] magnitude, int signum) {
         this.signum = (magnitude.length == 0 ? 0 : signum);
         this.mag = stripLeadingZeroBytes(magnitude);
         if (mag.length >= MAX_MAG_LENGTH) {
@@ -1127,7 +1127,7 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Throws an {@code ArithmeticException} if the {@code Matma} would be
+     * Throws an {@code ArithmeticException} if the {@code CalkowicieBig} would be
      * out of the supported range.
      *
      * @throws ArithmeticException if {@code this} exceeds the supported range.
@@ -1139,21 +1139,21 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     private static void reportOverflow() {
-        throw new ArithmeticException("Matma would overflow supported range");
+        throw new ArithmeticException("CalkowicieBig would overflow supported range");
     }
 
     //Static Factory Methods
 
     /**
-     * Returns a Matma whose value is equal to that of the
+     * Returns a CalkowicieBig whose value is equal to that of the
      * specified {@code long}.  This "static factory method" is
      * provided in preference to a ({@code long}) constructor
-     * because it allows for reuse of frequently used Matmas.
+     * because it allows for reuse of frequently used CalkowicieBigs.
      *
-     * @param  val value of the Matma to return.
-     * @return a Matma with the specified value.
+     * @param  val value of the CalkowicieBig to return.
+     * @return a CalkowicieBig with the specified value.
      */
-    public static Matma valueOf(long val) {
+    public static CalkowicieBig valueOf(long val) {
         // If -MAX_CONSTANT < val < MAX_CONSTANT, return stashed constant
         if (val == 0)
             return ZERO;
@@ -1162,13 +1162,13 @@ public class Matma extends Number implements Comparable<Matma> {
         else if (val < 0 && val >= -MAX_CONSTANT)
             return negConst[(int) -val];
 
-        return new Matma(val);
+        return new CalkowicieBig(val);
     }
 
     /**
-     * Constructs a Matma with the specified value, which may not be zero.
+     * Constructs a CalkowicieBig with the specified value, which may not be zero.
      */
-    private Matma(long val) {
+    private CalkowicieBig(long val) {
         if (val < 0) {
             val = -val;
             signum = -1;
@@ -1188,12 +1188,12 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma with the given two's complement representation.
+     * Returns a CalkowicieBig with the given two's complement representation.
      * Assumes that the input array will not be modified (the returned
-     * Matma will reference the input array if feasible).
+     * CalkowicieBig will reference the input array if feasible).
      */
-    private static Matma valueOf(int val[]) {
-        return (val[0] > 0 ? new Matma(val, 1) : new Matma(val));
+    private static CalkowicieBig valueOf(int val[]) {
+        return (val[0] > 0 ? new CalkowicieBig(val, 1) : new CalkowicieBig(val));
     }
 
     // Constants
@@ -1202,15 +1202,15 @@ public class Matma extends Number implements Comparable<Matma> {
      * Initialize static constant array when class is loaded.
      */
     private final static int MAX_CONSTANT = 16;
-    private static Matma posConst[] = new Matma[MAX_CONSTANT+1];
-    private static Matma negConst[] = new Matma[MAX_CONSTANT+1];
+    private static CalkowicieBig posConst[] = new CalkowicieBig[MAX_CONSTANT+1];
+    private static CalkowicieBig negConst[] = new CalkowicieBig[MAX_CONSTANT+1];
 
     /**
      * The cache of powers of each radix.  This allows us to not have to
      * recalculate powers of radix^(2^n) more than once.  This speeds
      * Schoenhage recursive base conversion significantly.
      */
-    private static volatile Matma[][] powerCache;
+    private static volatile CalkowicieBig[][] powerCache;
 
     /** The cache of logarithms of radices for base conversion. */
     private static final double[] logCache;
@@ -1222,8 +1222,8 @@ public class Matma extends Number implements Comparable<Matma> {
         for (int i = 1; i <= MAX_CONSTANT; i++) {
             int[] magnitude = new int[1];
             magnitude[0] = i;
-            posConst[i] = new Matma(magnitude,  1);
-            negConst[i] = new Matma(magnitude, -1);
+            posConst[i] = new CalkowicieBig(magnitude,  1);
+            negConst[i] = new CalkowicieBig(magnitude, -1);
         }
 
         /*
@@ -1231,61 +1231,61 @@ public class Matma extends Number implements Comparable<Matma> {
          * with just the very first value.  Additional values will be created
          * on demand.
          */
-        powerCache = new Matma[Character.MAX_RADIX+1][];
+        powerCache = new CalkowicieBig[Character.MAX_RADIX+1][];
         logCache = new double[Character.MAX_RADIX+1];
 
         for (int i=Character.MIN_RADIX; i <= Character.MAX_RADIX; i++) {
-            powerCache[i] = new Matma[] { Matma.valueOf(i) };
+            powerCache[i] = new CalkowicieBig[] { CalkowicieBig.valueOf(i) };
             logCache[i] = Math.log(i);
         }
     }
 
     /**
-     * The Matma constant zero.
+     * The CalkowicieBig constant zero.
      *
      * @since   1.2
      */
-    public static final Matma ZERO = new Matma(new int[0], 0);
+    public static final CalkowicieBig ZERO = new CalkowicieBig(new int[0], 0);
 
     /**
-     * The Matma constant one.
+     * The CalkowicieBig constant one.
      *
      * @since   1.2
      */
-    public static final Matma ONE = valueOf(1);
+    public static final CalkowicieBig ONE = valueOf(1);
 
     /**
-     * The Matma constant two.  (Not exported.)
+     * The CalkowicieBig constant two.  (Not exported.)
      */
-    private static final Matma TWO = valueOf(2);
+    private static final CalkowicieBig TWO = valueOf(2);
 
     /**
-     * The Matma constant -1.  (Not exported.)
+     * The CalkowicieBig constant -1.  (Not exported.)
      */
-    private static final Matma NEGATIVE_ONE = valueOf(-1);
+    private static final CalkowicieBig NEGATIVE_ONE = valueOf(-1);
 
     /**
-     * The Matma constant ten.
+     * The CalkowicieBig constant ten.
      *
      * @since   1.5
      */
-    public static final Matma TEN = valueOf(10);
+    public static final CalkowicieBig TEN = valueOf(10);
 
     // Arithmetic Operations
 
     /**
-     * Returns a Matma whose value is {@code (this + val)}.
+     * Returns a CalkowicieBig whose value is {@code (this + val)}.
      *
-     * @param  val value to be added to this Matma.
+     * @param  val value to be added to this CalkowicieBig.
      * @return {@code this + val}
      */
-    public Matma add(Matma val) {
+    public CalkowicieBig add(CalkowicieBig val) {
         if (val.signum == 0)
             return this;
         if (signum == 0)
             return val;
         if (val.signum == signum)
-            return new Matma(add(mag, val.mag), signum);
+            return new CalkowicieBig(add(mag, val.mag), signum);
 
         int cmp = compareMagnitude(val);
         if (cmp == 0)
@@ -1294,26 +1294,26 @@ public class Matma extends Number implements Comparable<Matma> {
                 : subtract(val.mag, mag));
         resultMag = trustedStripLeadingZeroInts(resultMag);
 
-        return new Matma(resultMag, cmp == signum ? 1 : -1);
+        return new CalkowicieBig(resultMag, cmp == signum ? 1 : -1);
     }
 
     /**
-     * Package private methods used by DMatma code to add a Matma
+     * Package private methods used by DCalkowicieBig code to add a CalkowicieBig
      * with a long. Assumes val is not equal to INFLATED.
      */
-    Matma add(long val) {
+    CalkowicieBig add(long val) {
         if (val == 0)
             return this;
         if (signum == 0)
             return valueOf(val);
         if (Long.signum(val) == signum)
-            return new Matma(add(mag, Math.abs(val)), signum);
+            return new CalkowicieBig(add(mag, Math.abs(val)), signum);
         int cmp = compareMagnitude(val);
         if (cmp == 0)
             return ZERO;
         int[] resultMag = (cmp > 0 ? subtract(mag, Math.abs(val)) : subtract(Math.abs(val), mag));
         resultMag = trustedStripLeadingZeroInts(resultMag);
-        return new Matma(resultMag, cmp == signum ? 1 : -1);
+        return new CalkowicieBig(resultMag, cmp == signum ? 1 : -1);
     }
 
     /**
@@ -1476,18 +1476,18 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is {@code (this - val)}.
+     * Returns a CalkowicieBig whose value is {@code (this - val)}.
      *
-     * @param  val value to be subtracted from this Matma.
+     * @param  val value to be subtracted from this CalkowicieBig.
      * @return {@code this - val}
      */
-    public Matma subtract(Matma val) {
+    public CalkowicieBig subtract(CalkowicieBig val) {
         if (val.signum == 0)
             return this;
         if (signum == 0)
             return val.negate();
         if (val.signum != signum)
-            return new Matma(add(mag, val.mag), signum);
+            return new CalkowicieBig(add(mag, val.mag), signum);
 
         int cmp = compareMagnitude(val);
         if (cmp == 0)
@@ -1495,7 +1495,7 @@ public class Matma extends Number implements Comparable<Matma> {
         int[] resultMag = (cmp > 0 ? subtract(mag, val.mag)
                 : subtract(val.mag, mag));
         resultMag = trustedStripLeadingZeroInts(resultMag);
-        return new Matma(resultMag, cmp == signum ? 1 : -1);
+        return new CalkowicieBig(resultMag, cmp == signum ? 1 : -1);
     }
 
     /**
@@ -1531,15 +1531,15 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is {@code (this * val)}.
+     * Returns a CalkowicieBig whose value is {@code (this * val)}.
      *
      * @implNote An implementation may offer better algorithmic
      * performance when {@code val == this}.
      *
-     * @param  val value to be multiplied by this Matma.
+     * @param  val value to be multiplied by this CalkowicieBig.
      * @return {@code this * val}
      */
-    public Matma multiply(Matma val) {
+    public CalkowicieBig multiply(CalkowicieBig val) {
         if (val.signum == 0 || signum == 0)
             return ZERO;
 
@@ -1562,7 +1562,7 @@ public class Matma extends Number implements Comparable<Matma> {
             int[] result = multiplyToLen(mag, xlen,
                     val.mag, ylen, null);
             result = trustedStripLeadingZeroInts(result);
-            return new Matma(result, resultSign);
+            return new CalkowicieBig(result, resultSign);
         } else {
             if ((xlen < TOOM_COOK_THRESHOLD) && (ylen < TOOM_COOK_THRESHOLD)) {
                 return multiplyKaratsuba(this, val);
@@ -1572,9 +1572,9 @@ public class Matma extends Number implements Comparable<Matma> {
         }
     }
 
-    private static Matma multiplyByInt(int[] x, int y, int sign) {
+    private static CalkowicieBig multiplyByInt(int[] x, int y, int sign) {
         if (Integer.bitCount(y) == 1) {
-            return new Matma(shiftLeft(x,Integer.numberOfTrailingZeros(y)), sign);
+            return new CalkowicieBig(shiftLeft(x,Integer.numberOfTrailingZeros(y)), sign);
         }
         int xlen = x.length;
         int[] rmag =  new int[xlen + 1];
@@ -1591,18 +1591,18 @@ public class Matma extends Number implements Comparable<Matma> {
         } else {
             rmag[rstart] = (int)carry;
         }
-        return new Matma(rmag, sign);
+        return new CalkowicieBig(rmag, sign);
     }
 
     /**
-     * Package private methods used by DMatma code to multiply a Matma
+     * Package private methods used by DCalkowicieBig code to multiply a CalkowicieBig
      * with a long. Assumes v is not equal to INFLATED.
      */
-    Matma multiply(long v) {
+    CalkowicieBig multiply(long v) {
         if (v == 0 || signum == 0)
             return ZERO;
-        if (v == DMatma.INFLATED)
-            return multiply(Matma.valueOf(v));
+        if (v == DCalkowicieBig.INFLATED)
+            return multiply(CalkowicieBig.valueOf(v));
         int rsign = (v > 0 ? signum : -signum);
         if (v < 0)
             v = -v;
@@ -1633,7 +1633,7 @@ public class Matma extends Number implements Comparable<Matma> {
         }
         if (carry == 0L)
             rmag = Arrays.copyOfRange(rmag, 1, rmag.length);
-        return new Matma(rmag, rsign);
+        return new CalkowicieBig(rmag, rsign);
     }
 
     /**
@@ -1671,7 +1671,7 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Multiplies two Matmas using the Karatsuba multiplication
+     * Multiplies two CalkowicieBigs using the Karatsuba multiplication
      * algorithm.  This is a recursive divide-and-conquer algorithm which is
      * more efficient for large numbers than what is commonly called the
      * "grade-school" algorithm used in multiplyToLen.  If the numbers to be
@@ -1685,7 +1685,7 @@ public class Matma extends Number implements Comparable<Matma> {
      *
      * See:  http://en.wikipedia.org/wiki/Karatsuba_algorithm
      */
-    private static Matma multiplyKaratsuba(Matma x, Matma y) {
+    private static CalkowicieBig multiplyKaratsuba(CalkowicieBig x, CalkowicieBig y) {
         int xlen = x.mag.length;
         int ylen = y.mag.length;
 
@@ -1694,19 +1694,19 @@ public class Matma extends Number implements Comparable<Matma> {
 
         // xl and yl are the lower halves of x and y respectively,
         // xh and yh are the upper halves.
-        Matma xl = x.getLower(half);
-        Matma xh = x.getUpper(half);
-        Matma yl = y.getLower(half);
-        Matma yh = y.getUpper(half);
+        CalkowicieBig xl = x.getLower(half);
+        CalkowicieBig xh = x.getUpper(half);
+        CalkowicieBig yl = y.getLower(half);
+        CalkowicieBig yh = y.getUpper(half);
 
-        Matma p1 = xh.multiply(yh);  // p1 = xh*yh
-        Matma p2 = xl.multiply(yl);  // p2 = xl*yl
+        CalkowicieBig p1 = xh.multiply(yh);  // p1 = xh*yh
+        CalkowicieBig p2 = xl.multiply(yl);  // p2 = xl*yl
 
         // p3=(xh+xl)*(yh+yl)
-        Matma p3 = xh.add(xl).multiply(yh.add(yl));
+        CalkowicieBig p3 = xh.add(xl).multiply(yh.add(yl));
 
         // result = p1 * 2^(32*2*half) + (p3 - p1 - p2) * 2^(32*half) + p2
-        Matma result = p1.shiftLeft(32*half).add(p3.subtract(p1).subtract(p2)).shiftLeft(32*half).add(p2);
+        CalkowicieBig result = p1.shiftLeft(32*half).add(p3.subtract(p1).subtract(p2)).shiftLeft(32*half).add(p2);
 
         if (x.signum != y.signum) {
             return result.negate();
@@ -1716,7 +1716,7 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Multiplies two Matmas using a 3-way Toom-Cook multiplication
+     * Multiplies two CalkowicieBigs using a 3-way Toom-Cook multiplication
      * algorithm.  This is a recursive divide-and-conquer algorithm which is
      * more efficient for large numbers than what is commonly called the
      * "grade-school" algorithm used in multiplyToLen.  If the numbers to be
@@ -1743,7 +1743,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * LNCS #4547. Springer, Madrid, Spain, June 21-22, 2007.
      *
      */
-    private static Matma multiplyToomCook3(Matma a, Matma b) {
+    private static CalkowicieBig multiplyToomCook3(CalkowicieBig a, CalkowicieBig b) {
         int alen = a.mag.length;
         int blen = b.mag.length;
 
@@ -1757,7 +1757,7 @@ public class Matma extends Number implements Comparable<Matma> {
 
         // Obtain slices of the numbers. a2 and b2 are the most significant
         // bits of the numbers a and b, and a0 and b0 the least significant.
-        Matma a0, a1, a2, b0, b1, b2;
+        CalkowicieBig a0, a1, a2, b0, b1, b2;
         a2 = a.getToomSlice(k, r, 0, largest);
         a1 = a.getToomSlice(k, r, 1, largest);
         a0 = a.getToomSlice(k, r, 2, largest);
@@ -1765,7 +1765,7 @@ public class Matma extends Number implements Comparable<Matma> {
         b1 = b.getToomSlice(k, r, 1, largest);
         b0 = b.getToomSlice(k, r, 2, largest);
 
-        Matma v0, v1, v2, vm1, vinf, t1, t2, tm1, da1, db1;
+        CalkowicieBig v0, v1, v2, vm1, vinf, t1, t2, tm1, da1, db1;
 
         v0 = a0.multiply(b0);
         da1 = a2.add(a0);
@@ -1795,7 +1795,7 @@ public class Matma extends Number implements Comparable<Matma> {
         // Number of bits to shift left.
         int ss = k*32;
 
-        Matma result = vinf.shiftLeft(ss).add(t2).shiftLeft(ss).add(t1).shiftLeft(ss).add(tm1).shiftLeft(ss).add(v0);
+        CalkowicieBig result = vinf.shiftLeft(ss).add(t2).shiftLeft(ss).add(t1).shiftLeft(ss).add(tm1).shiftLeft(ss).add(v0);
 
         if (a.signum != b.signum) {
             return result.negate();
@@ -1806,7 +1806,7 @@ public class Matma extends Number implements Comparable<Matma> {
 
 
     /**
-     * Returns a slice of a Matma for use in Toom-Cook multiplication.
+     * Returns a slice of a CalkowicieBig for use in Toom-Cook multiplication.
      *
      * @param lowerSize The size of the lower-order bit slices.
      * @param upperSize The size of the higher-order bit slices.
@@ -1818,7 +1818,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * slices to the appropriate position when multiplying different-sized
      * numbers.
      */
-    private Matma getToomSlice(int lowerSize, int upperSize, int slice,
+    private CalkowicieBig getToomSlice(int lowerSize, int upperSize, int slice,
                                int fullsize) {
         int start, end, sliceSize, len, offset;
 
@@ -1855,7 +1855,7 @@ public class Matma extends Number implements Comparable<Matma> {
         int intSlice[] = new int[sliceSize];
         System.arraycopy(mag, start, intSlice, 0, sliceSize);
 
-        return new Matma(trustedStripLeadingZeroInts(intSlice), 1);
+        return new CalkowicieBig(trustedStripLeadingZeroInts(intSlice), 1);
     }
 
     /**
@@ -1866,7 +1866,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * undefined.  Note that this is expected to be called with positive
      * arguments only.
      */
-    private Matma exactDivideBy3() {
+    private CalkowicieBig exactDivideBy3() {
         int len = mag.length;
         int[] result = new int[len];
         long x, w, q, borrow;
@@ -1895,14 +1895,14 @@ public class Matma extends Number implements Comparable<Matma> {
             }
         }
         result = trustedStripLeadingZeroInts(result);
-        return new Matma(result, signum);
+        return new CalkowicieBig(result, signum);
     }
 
     /**
-     * Returns a new Matma representing n lower ints of the number.
+     * Returns a new CalkowicieBig representing n lower ints of the number.
      * This is used by Karatsuba multiplication and Karatsuba squaring.
      */
-    private Matma getLower(int n) {
+    private CalkowicieBig getLower(int n) {
         int len = mag.length;
 
         if (len <= n) {
@@ -1912,15 +1912,15 @@ public class Matma extends Number implements Comparable<Matma> {
         int lowerInts[] = new int[n];
         System.arraycopy(mag, len-n, lowerInts, 0, n);
 
-        return new Matma(trustedStripLeadingZeroInts(lowerInts), 1);
+        return new CalkowicieBig(trustedStripLeadingZeroInts(lowerInts), 1);
     }
 
     /**
-     * Returns a new Matma representing mag.length-n upper
+     * Returns a new CalkowicieBig representing mag.length-n upper
      * ints of the number.  This is used by Karatsuba multiplication and
      * Karatsuba squaring.
      */
-    private Matma getUpper(int n) {
+    private CalkowicieBig getUpper(int n) {
         int len = mag.length;
 
         if (len <= n) {
@@ -1931,17 +1931,17 @@ public class Matma extends Number implements Comparable<Matma> {
         int upperInts[] = new int[upperLen];
         System.arraycopy(mag, 0, upperInts, 0, upperLen);
 
-        return new Matma(trustedStripLeadingZeroInts(upperInts), 1);
+        return new CalkowicieBig(trustedStripLeadingZeroInts(upperInts), 1);
     }
 
     // Squaring
 
     /**
-     * Returns a Matma whose value is {@code (this<sup>2</sup>)}.
+     * Returns a CalkowicieBig whose value is {@code (this<sup>2</sup>)}.
      *
      * @return {@code this<sup>2</sup>}
      */
-    private Matma square() {
+    private CalkowicieBig square() {
         if (signum == 0) {
             return ZERO;
         }
@@ -1949,7 +1949,7 @@ public class Matma extends Number implements Comparable<Matma> {
 
         if (len < KARATSUBA_SQUARE_THRESHOLD) {
             int[] z = squareToLen(mag, len, null);
-            return new Matma(trustedStripLeadingZeroInts(z), 1);
+            return new CalkowicieBig(trustedStripLeadingZeroInts(z), 1);
         } else {
             if (len < TOOM_COOK_SQUARE_THRESHOLD) {
                 return squareKaratsuba();
@@ -2061,33 +2061,33 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Squares a Matma using the Karatsuba squaring algorithm.  It should
+     * Squares a CalkowicieBig using the Karatsuba squaring algorithm.  It should
      * be used when both numbers are larger than a certain threshold (found
      * experimentally).  It is a recursive divide-and-conquer algorithm that
      * has better asymptotic performance than the algorithm used in
      * squareToLen.
      */
-    private Matma squareKaratsuba() {
+    private CalkowicieBig squareKaratsuba() {
         int half = (mag.length+1) / 2;
 
-        Matma xl = getLower(half);
-        Matma xh = getUpper(half);
+        CalkowicieBig xl = getLower(half);
+        CalkowicieBig xh = getUpper(half);
 
-        Matma xhs = xh.square();  // xhs = xh^2
-        Matma xls = xl.square();  // xls = xl^2
+        CalkowicieBig xhs = xh.square();  // xhs = xh^2
+        CalkowicieBig xls = xl.square();  // xls = xl^2
 
         // xh^2 << 64  +  (((xl+xh)^2 - (xh^2 + xl^2)) << 32) + xl^2
         return xhs.shiftLeft(half*32).add(xl.add(xh).square().subtract(xhs.add(xls))).shiftLeft(half*32).add(xls);
     }
 
     /**
-     * Squares a Matma using the 3-way Toom-Cook squaring algorithm.  It
+     * Squares a CalkowicieBig using the 3-way Toom-Cook squaring algorithm.  It
      * should be used when both numbers are larger than a certain threshold
      * (found experimentally).  It is a recursive divide-and-conquer algorithm
      * that has better asymptotic performance than the algorithm used in
      * squareToLen or squareKaratsuba.
      */
-    private Matma squareToomCook3() {
+    private CalkowicieBig squareToomCook3() {
         int len = mag.length;
 
         // k is the size (in ints) of the lower-order slices.
@@ -2098,11 +2098,11 @@ public class Matma extends Number implements Comparable<Matma> {
 
         // Obtain slices of the numbers. a2 is the most significant
         // bits of the number, and a0 the least significant.
-        Matma a0, a1, a2;
+        CalkowicieBig a0, a1, a2;
         a2 = getToomSlice(k, r, 0, len);
         a1 = getToomSlice(k, r, 1, len);
         a0 = getToomSlice(k, r, 2, len);
-        Matma v0, v1, v2, vm1, vinf, t1, t2, tm1, da1;
+        CalkowicieBig v0, v1, v2, vm1, vinf, t1, t2, tm1, da1;
 
         v0 = a0.square();
         da1 = a2.add(a0);
@@ -2135,13 +2135,13 @@ public class Matma extends Number implements Comparable<Matma> {
     // Division
 
     /**
-     * Returns a Matma whose value is {@code (this / val)}.
+     * Returns a CalkowicieBig whose value is {@code (this / val)}.
      *
-     * @param  val value by which this Matma is to be divided.
+     * @param  val value by which this CalkowicieBig is to be divided.
      * @return {@code this / val}
      * @throws ArithmeticException if {@code val} is zero.
      */
-    public Matma divide(Matma val) {
+    public CalkowicieBig divide(CalkowicieBig val) {
         if (val.mag.length < BURNIKEL_ZIEGLER_THRESHOLD ||
                 mag.length - val.mag.length < BURNIKEL_ZIEGLER_OFFSET) {
             return divideKnuth(val);
@@ -2151,34 +2151,34 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is {@code (this / val)} using an O(n^2) algorithm from Knuth.
+     * Returns a CalkowicieBig whose value is {@code (this / val)} using an O(n^2) algorithm from Knuth.
      *
-     * @param  val value by which this Matma is to be divided.
+     * @param  val value by which this CalkowicieBig is to be divided.
      * @return {@code this / val}
      * @throws ArithmeticException if {@code val} is zero.
-     * @see MutMatma#divideKnuth(MutMatma, MutMatma, boolean)
+     * @see MutCalkowicieBig#divideKnuth(MutCalkowicieBig, MutCalkowicieBig, boolean)
      */
-    private Matma divideKnuth(Matma val) {
-        MutMatma q = new MutMatma(),
-                a = new MutMatma(this.mag),
-                b = new MutMatma(val.mag);
+    private CalkowicieBig divideKnuth(CalkowicieBig val) {
+        MutCalkowicieBig q = new MutCalkowicieBig(),
+                a = new MutCalkowicieBig(this.mag),
+                b = new MutCalkowicieBig(val.mag);
 
         a.divideKnuth(b, q, false);
-        return q.toMatma(this.signum * val.signum);
+        return q.toCalkowicieBig(this.signum * val.signum);
     }
 
     /**
-     * Returns an array of two Matmas containing {@code (this / val)}
+     * Returns an array of two CalkowicieBigs containing {@code (this / val)}
      * followed by {@code (this % val)}.
      *
-     * @param  val value by which this Matma is to be divided, and the
+     * @param  val value by which this CalkowicieBig is to be divided, and the
      *         remainder computed.
-     * @return an array of two Matmas: the quotient {@code (this / val)}
+     * @return an array of two CalkowicieBigs: the quotient {@code (this / val)}
      *         is the initial element, and the remainder {@code (this % val)}
      *         is the final element.
      * @throws ArithmeticException if {@code val} is zero.
      */
-    public Matma[] divideAndRemainder(Matma val) {
+    public CalkowicieBig[] divideAndRemainder(CalkowicieBig val) {
         if (val.mag.length < BURNIKEL_ZIEGLER_THRESHOLD ||
                 mag.length - val.mag.length < BURNIKEL_ZIEGLER_OFFSET) {
             return divideAndRemainderKnuth(val);
@@ -2188,26 +2188,26 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /** Long division */
-    private Matma[] divideAndRemainderKnuth(Matma val) {
-        Matma[] result = new Matma[2];
-        MutMatma q = new MutMatma(),
-                a = new MutMatma(this.mag),
-                b = new MutMatma(val.mag);
-        MutMatma r = a.divideKnuth(b, q);
-        result[0] = q.toMatma(this.signum == val.signum ? 1 : -1);
-        result[1] = r.toMatma(this.signum);
+    private CalkowicieBig[] divideAndRemainderKnuth(CalkowicieBig val) {
+        CalkowicieBig[] result = new CalkowicieBig[2];
+        MutCalkowicieBig q = new MutCalkowicieBig(),
+                a = new MutCalkowicieBig(this.mag),
+                b = new MutCalkowicieBig(val.mag);
+        MutCalkowicieBig r = a.divideKnuth(b, q);
+        result[0] = q.toCalkowicieBig(this.signum == val.signum ? 1 : -1);
+        result[1] = r.toCalkowicieBig(this.signum);
         return result;
     }
 
     /**
-     * Returns a Matma whose value is {@code (this % val)}.
+     * Returns a CalkowicieBig whose value is {@code (this % val)}.
      *
-     * @param  val value by which this Matma is to be divided, and the
+     * @param  val value by which this CalkowicieBig is to be divided, and the
      *         remainder computed.
      * @return {@code this % val}
      * @throws ArithmeticException if {@code val} is zero.
      */
-    public Matma remainder(Matma val) {
+    public CalkowicieBig remainder(CalkowicieBig val) {
         if (val.mag.length < BURNIKEL_ZIEGLER_THRESHOLD ||
                 mag.length - val.mag.length < BURNIKEL_ZIEGLER_OFFSET) {
             return remainderKnuth(val);
@@ -2217,12 +2217,12 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /** Long division */
-    private Matma remainderKnuth(Matma val) {
-        MutMatma q = new MutMatma(),
-                a = new MutMatma(this.mag),
-                b = new MutMatma(val.mag);
+    private CalkowicieBig remainderKnuth(CalkowicieBig val) {
+        MutCalkowicieBig q = new MutCalkowicieBig(),
+                a = new MutCalkowicieBig(this.mag),
+                b = new MutCalkowicieBig(val.mag);
 
-        return a.divideKnuth(b, q).toMatma(this.signum);
+        return a.divideKnuth(b, q).toCalkowicieBig(this.signum);
     }
 
     /**
@@ -2230,7 +2230,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * @param  val the divisor
      * @return {@code this / val}
      */
-    private Matma divideBurnikelZiegler(Matma val) {
+    private CalkowicieBig divideBurnikelZiegler(CalkowicieBig val) {
         return divideAndRemainderBurnikelZiegler(val)[0];
     }
 
@@ -2239,7 +2239,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * @param val the divisor
      * @return {@code this % val}
      */
-    private Matma remainderBurnikelZiegler(Matma val) {
+    private CalkowicieBig remainderBurnikelZiegler(CalkowicieBig val) {
         return divideAndRemainderBurnikelZiegler(val)[1];
     }
 
@@ -2249,24 +2249,24 @@ public class Matma extends Number implements Comparable<Matma> {
      * @param val the divisor
      * @return an array containing the quotient and remainder
      */
-    private Matma[] divideAndRemainderBurnikelZiegler(Matma val) {
-        MutMatma q = new MutMatma();
-        MutMatma r = new MutMatma(this).divideAndRemainderBurnikelZiegler(new MutMatma(val), q);
-        Matma qBigInt = q.isZero() ? ZERO : q.toMatma(signum*val.signum);
-        Matma rBigInt = r.isZero() ? ZERO : r.toMatma(signum);
-        return new Matma[] {qBigInt, rBigInt};
+    private CalkowicieBig[] divideAndRemainderBurnikelZiegler(CalkowicieBig val) {
+        MutCalkowicieBig q = new MutCalkowicieBig();
+        MutCalkowicieBig r = new MutCalkowicieBig(this).divideAndRemainderBurnikelZiegler(new MutCalkowicieBig(val), q);
+        CalkowicieBig qBigInt = q.isZero() ? ZERO : q.toCalkowicieBig(signum*val.signum);
+        CalkowicieBig rBigInt = r.isZero() ? ZERO : r.toCalkowicieBig(signum);
+        return new CalkowicieBig[] {qBigInt, rBigInt};
     }
 
     /**
-     * Returns a Matma whose value is <tt>(this<sup>exponent</sup>)</tt>.
-     * Note that {@code exponent} is an integer rather than a Matma.
+     * Returns a CalkowicieBig whose value is <tt>(this<sup>exponent</sup>)</tt>.
+     * Note that {@code exponent} is an integer rather than a CalkowicieBig.
      *
-     * @param  exponent exponent to which this Matma is to be raised.
+     * @param  exponent exponent to which this CalkowicieBig is to be raised.
      * @return <tt>this<sup>exponent</sup></tt>
      * @throws ArithmeticException {@code exponent} is negative.  (This would
      *         cause the operation to yield a non-integer value.)
      */
-    public Matma pow(int exponent) {
+    public CalkowicieBig pow(int exponent) {
         if (exponent < 0) {
             throw new ArithmeticException("Negative exponent");
         }
@@ -2274,7 +2274,7 @@ public class Matma extends Number implements Comparable<Matma> {
             return (exponent == 0 ? ONE : this);
         }
 
-        Matma partToSquare = this.abs();
+        CalkowicieBig partToSquare = this.abs();
 
         // Factor out powers of two from the base, as the exponentiation of
         // these can be done by left shifts only.
@@ -2351,7 +2351,7 @@ public class Matma extends Number implements Comparable<Matma> {
             // Large number algorithm.  This is basically identical to
             // the algorithm above, but calls multiply() and square()
             // which may use more efficient algorithms for large numbers.
-            Matma answer = ONE;
+            CalkowicieBig answer = ONE;
 
             int workingExponent = exponent;
             // Perform exponentiation using repeated squaring trick
@@ -2379,25 +2379,25 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is the greatest common divisor of
+     * Returns a CalkowicieBig whose value is the greatest common divisor of
      * {@code abs(this)} and {@code abs(val)}.  Returns 0 if
      * {@code this == 0 && val == 0}.
      *
      * @param  val value with which the GCD is to be computed.
      * @return {@code GCD(abs(this), abs(val))}
      */
-    public Matma gcd(Matma val) {
+    public CalkowicieBig gcd(CalkowicieBig val) {
         if (val.signum == 0)
             return this.abs();
         else if (this.signum == 0)
             return val.abs();
 
-        MutMatma a = new MutMatma(this);
-        MutMatma b = new MutMatma(val);
+        MutCalkowicieBig a = new MutCalkowicieBig(this);
+        MutCalkowicieBig b = new MutCalkowicieBig(val);
 
-        MutMatma result = a.hybridGCD(b);
+        MutCalkowicieBig result = a.hybridGCD(b);
 
-        return result.toMatma(1);
+        return result.toCalkowicieBig(1);
     }
 
     /**
@@ -2471,28 +2471,28 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is the absolute value of this
-     * Matma.
+     * Returns a CalkowicieBig whose value is the absolute value of this
+     * CalkowicieBig.
      *
      * @return {@code abs(this)}
      */
-    public Matma abs() {
+    public CalkowicieBig abs() {
         return (signum >= 0 ? this : this.negate());
     }
 
     /**
-     * Returns a Matma whose value is {@code (-this)}.
+     * Returns a CalkowicieBig whose value is {@code (-this)}.
      *
      * @return {@code -this}
      */
-    public Matma negate() {
-        return new Matma(this.mag, -this.signum);
+    public CalkowicieBig negate() {
+        return new CalkowicieBig(this.mag, -this.signum);
     }
 
     /**
-     * Returns the signum function of this Matma.
+     * Returns the signum function of this CalkowicieBig.
      *
-     * @return -1, 0 or 1 as the value of this Matma is negative, zero or
+     * @return -1, 0 or 1 as the value of this CalkowicieBig is negative, zero or
      *         positive.
      */
     public int signum() {
@@ -2502,25 +2502,25 @@ public class Matma extends Number implements Comparable<Matma> {
     // Modular Arithmetic Operations
 
     /**
-     * Returns a Matma whose value is {@code (this mod m}).  This method
+     * Returns a CalkowicieBig whose value is {@code (this mod m}).  This method
      * differs from {@code remainder} in that it always returns a
-     * <i>non-negative</i> Matma.
+     * <i>non-negative</i> CalkowicieBig.
      *
      * @param  m the modulus.
      * @return {@code this mod m}
      * @throws ArithmeticException {@code m} &le; 0
      * @see    #remainder
      */
-    public Matma mod(Matma m) {
+    public CalkowicieBig mod(CalkowicieBig m) {
         if (m.signum <= 0)
-            throw new ArithmeticException("Matma: modulus not positive");
+            throw new ArithmeticException("CalkowicieBig: modulus not positive");
 
-        Matma result = this.remainder(m);
+        CalkowicieBig result = this.remainder(m);
         return (result.signum >= 0 ? result : result.add(m));
     }
 
     /**
-     * Returns a Matma whose value is
+     * Returns a CalkowicieBig whose value is
      * <tt>(this<sup>exponent</sup> mod m)</tt>.  (Unlike {@code pow}, this
      * method permits negative exponents.)
      *
@@ -2528,13 +2528,13 @@ public class Matma extends Number implements Comparable<Matma> {
      * @param  m the modulus.
      * @return <tt>this<sup>exponent</sup> mod m</tt>
      * @throws ArithmeticException {@code m} &le; 0 or the exponent is
-     *         negative and this Matma is not <i>relatively
+     *         negative and this CalkowicieBig is not <i>relatively
      *         prime</i> to {@code m}.
      * @see    #modInverse
      */
-    public Matma modPow(Matma exponent, Matma m) {
+    public CalkowicieBig modPow(CalkowicieBig exponent, CalkowicieBig m) {
         if (m.signum <= 0)
-            throw new ArithmeticException("Matma: modulus not positive");
+            throw new ArithmeticException("CalkowicieBig: modulus not positive");
 
         // Trivial cases
         if (exponent.signum == 0)
@@ -2553,9 +2553,9 @@ public class Matma extends Number implements Comparable<Matma> {
         if ((invertResult = (exponent.signum < 0)))
             exponent = exponent.negate();
 
-        Matma base = (this.signum < 0 || this.compareTo(m) >= 0
+        CalkowicieBig base = (this.signum < 0 || this.compareTo(m) >= 0
                 ? this.mod(m) : this);
-        Matma result;
+        CalkowicieBig result;
         if (m.testBit(0)) { // odd modulus
             result = base.oddModPow(exponent, m);
         } else {
@@ -2568,34 +2568,34 @@ public class Matma extends Number implements Comparable<Matma> {
             // Tear m apart into odd part (m1) and power of 2 (m2)
             int p = m.getLowestSetBit();   // Max pow of 2 that divides m
 
-            Matma m1 = m.shiftRight(p);  // m/2**p
-            Matma m2 = ONE.shiftLeft(p); // 2**p
+            CalkowicieBig m1 = m.shiftRight(p);  // m/2**p
+            CalkowicieBig m2 = ONE.shiftLeft(p); // 2**p
 
             // Calculate new base from m1
-            Matma base2 = (this.signum < 0 || this.compareTo(m1) >= 0
+            CalkowicieBig base2 = (this.signum < 0 || this.compareTo(m1) >= 0
                     ? this.mod(m1) : this);
 
             // Caculate (base ** exponent) mod m1.
-            Matma a1 = (m1.equals(ONE) ? ZERO :
+            CalkowicieBig a1 = (m1.equals(ONE) ? ZERO :
                     base2.oddModPow(exponent, m1));
 
             // Calculate (this ** exponent) mod m2
-            Matma a2 = base.modPow2(exponent, p);
+            CalkowicieBig a2 = base.modPow2(exponent, p);
 
             // Combine results using Chinese Remainder Theorem
-            Matma y1 = m2.modInverse(m1);
-            Matma y2 = m1.modInverse(m2);
+            CalkowicieBig y1 = m2.modInverse(m1);
+            CalkowicieBig y2 = m1.modInverse(m2);
 
             if (m.mag.length < MAX_MAG_LENGTH / 2) {
                 result = a1.multiply(m2).multiply(y1).add(a2.multiply(m1).multiply(y2)).mod(m);
             } else {
-                MutMatma t1 = new MutMatma();
-                new MutMatma(a1.multiply(m2)).multiply(new MutMatma(y1), t1);
-                MutMatma t2 = new MutMatma();
-                new MutMatma(a2.multiply(m1)).multiply(new MutMatma(y2), t2);
+                MutCalkowicieBig t1 = new MutCalkowicieBig();
+                new MutCalkowicieBig(a1.multiply(m2)).multiply(new MutCalkowicieBig(y1), t1);
+                MutCalkowicieBig t2 = new MutCalkowicieBig();
+                new MutCalkowicieBig(a2.multiply(m1)).multiply(new MutCalkowicieBig(y2), t2);
                 t1.add(t2);
-                MutMatma q = new MutMatma();
-                result = t1.divide(new MutMatma(m), q).toMatma();
+                MutCalkowicieBig q = new MutCalkowicieBig();
+                result = t1.divide(new MutCalkowicieBig(m), q).toCalkowicieBig();
             }
         }
 
@@ -2675,10 +2675,10 @@ public class Matma extends Number implements Comparable<Matma> {
             Integer.MAX_VALUE}; // Sentinel
 
     /**
-     * Returns a Matma whose value is x to the power of y mod z.
+     * Returns a CalkowicieBig whose value is x to the power of y mod z.
      * Assumes: z is odd && x < z.
      */
-    private Matma oddModPow(Matma y, Matma z) {
+    private CalkowicieBig oddModPow(CalkowicieBig y, CalkowicieBig z) {
         /*
          * The algorithm is adapted from Colin Plumb's C library.
          *
@@ -2781,18 +2781,18 @@ public class Matma extends Number implements Comparable<Matma> {
         // Compute the modular inverse of the least significant 64-bit
         // digit of the modulus
         long n0 = (mod[modLen-1] & LONG_MASK) + ((mod[modLen-2] & LONG_MASK) << 32);
-        long inv = -MutMatma.inverseMod64(n0);
+        long inv = -MutCalkowicieBig.inverseMod64(n0);
 
         // Convert base to Montgomery form
         int[] a = leftShift(base, base.length, modLen << 5);
 
-        MutMatma q = new MutMatma(),
-                a2 = new MutMatma(a),
-                b2 = new MutMatma(mod);
-        b2.normalize(); // MutMatma.divide() assumes that its
+        MutCalkowicieBig q = new MutCalkowicieBig(),
+                a2 = new MutCalkowicieBig(a),
+                b2 = new MutCalkowicieBig(mod);
+        b2.normalize(); // MutCalkowicieBig.divide() assumes that its
         // divisor is in normal form.
 
-        MutMatma r= a2.divide(b2, q);
+        MutCalkowicieBig r= a2.divide(b2, q);
         table[0] = r.toIntArray();
 
         // Pad table[0] with leading zeros so its length is at least modLen
@@ -2907,7 +2907,7 @@ public class Matma extends Number implements Comparable<Matma> {
 
         t2 = Arrays.copyOf(b, modLen);
 
-        return new Matma(1, t2);
+        return new CalkowicieBig(1, t2);
     }
 
     /**
@@ -3034,15 +3034,15 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is (this ** exponent) mod (2**p)
+     * Returns a CalkowicieBig whose value is (this ** exponent) mod (2**p)
      */
-    private Matma modPow2(Matma exponent, int p) {
+    private CalkowicieBig modPow2(CalkowicieBig exponent, int p) {
         /*
          * Perform exponentiation using repeated squaring trick, chopping off
          * high order bits as indicated by modulus.
          */
-        Matma result = ONE;
-        Matma baseToPow2 = this.mod2(p);
+        CalkowicieBig result = ONE;
+        CalkowicieBig baseToPow2 = this.mod2(p);
         int expOffset = 0;
 
         int limit = exponent.bitLength();
@@ -3062,10 +3062,10 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is this mod(2**p).
-     * Assumes that this {@code Matma >= 0} and {@code p > 0}.
+     * Returns a CalkowicieBig whose value is this mod(2**p).
+     * Assumes that this {@code CalkowicieBig >= 0} and {@code p > 0}.
      */
-    private Matma mod2(int p) {
+    private CalkowicieBig mod2(int p) {
         if (bitLength() <= p)
             return this;
 
@@ -3078,44 +3078,44 @@ public class Matma extends Number implements Comparable<Matma> {
         int excessBits = (numInts << 5) - p;
         mag[0] &= (1L << (32-excessBits)) - 1;
 
-        return (mag[0] == 0 ? new Matma(1, mag) : new Matma(mag, 1));
+        return (mag[0] == 0 ? new CalkowicieBig(1, mag) : new CalkowicieBig(mag, 1));
     }
 
     /**
-     * Returns a Matma whose value is {@code (this}<sup>-1</sup> {@code mod m)}.
+     * Returns a CalkowicieBig whose value is {@code (this}<sup>-1</sup> {@code mod m)}.
      *
      * @param  m the modulus.
      * @return {@code this}<sup>-1</sup> {@code mod m}.
-     * @throws ArithmeticException {@code  m} &le; 0, or this Matma
-     *         has no multiplicative inverse mod m (that is, this Matma
+     * @throws ArithmeticException {@code  m} &le; 0, or this CalkowicieBig
+     *         has no multiplicative inverse mod m (that is, this CalkowicieBig
      *         is not <i>relatively prime</i> to m).
      */
-    public Matma modInverse(Matma m) {
+    public CalkowicieBig modInverse(CalkowicieBig m) {
         if (m.signum != 1)
-            throw new ArithmeticException("Matma: modulus not positive");
+            throw new ArithmeticException("CalkowicieBig: modulus not positive");
 
         if (m.equals(ONE))
             return ZERO;
 
         // Calculate (this mod m)
-        Matma modVal = this;
+        CalkowicieBig modVal = this;
         if (signum < 0 || (this.compareMagnitude(m) >= 0))
             modVal = this.mod(m);
 
         if (modVal.equals(ONE))
             return ONE;
 
-        MutMatma a = new MutMatma(modVal);
-        MutMatma b = new MutMatma(m);
+        MutCalkowicieBig a = new MutCalkowicieBig(modVal);
+        MutCalkowicieBig b = new MutCalkowicieBig(m);
 
-        MutMatma result = a.mutableModInverse(b);
-        return result.toMatma(1);
+        MutCalkowicieBig result = a.mutableModInverse(b);
+        return result.toCalkowicieBig(1);
     }
 
     // Shift Operations
 
     /**
-     * Returns a Matma whose value is {@code (this << n)}.
+     * Returns a CalkowicieBig whose value is {@code (this << n)}.
      * The shift distance, {@code n}, may be negative, in which case
      * this method performs a right shift.
      * (Computes <tt>floor(this * 2<sup>n</sup>)</tt>.)
@@ -3124,11 +3124,11 @@ public class Matma extends Number implements Comparable<Matma> {
      * @return {@code this << n}
      * @see #shiftRight
      */
-    public Matma shiftLeft(int n) {
+    public CalkowicieBig shiftLeft(int n) {
         if (signum == 0)
             return ZERO;
         if (n > 0) {
-            return new Matma(shiftLeft(mag, n), signum);
+            return new CalkowicieBig(shiftLeft(mag, n), signum);
         } else if (n == 0) {
             return this;
         } else {
@@ -3175,7 +3175,7 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is {@code (this >> n)}.  Sign
+     * Returns a CalkowicieBig whose value is {@code (this >> n)}.  Sign
      * extension is performed.  The shift distance, {@code n}, may be
      * negative, in which case this method performs a left shift.
      * (Computes <tt>floor(this / 2<sup>n</sup>)</tt>.)
@@ -3184,7 +3184,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * @return {@code this >> n}
      * @see #shiftLeft
      */
-    public Matma shiftRight(int n) {
+    public CalkowicieBig shiftRight(int n) {
         if (signum == 0)
             return ZERO;
         if (n > 0) {
@@ -3194,19 +3194,19 @@ public class Matma extends Number implements Comparable<Matma> {
         } else {
             // Possible int overflow in {@code -n} is not a trouble,
             // because shiftLeft considers its argument unsigned
-            return new Matma(shiftLeft(mag, -n), signum);
+            return new CalkowicieBig(shiftLeft(mag, -n), signum);
         }
     }
 
     /**
-     * Returns a Matma whose value is {@code (this >> n)}. The shift
+     * Returns a CalkowicieBig whose value is {@code (this >> n)}. The shift
      * distance, {@code n}, is considered unsigned.
      * (Computes <tt>floor(this * 2<sup>-n</sup>)</tt>.)
      *
      * @param  n unsigned shift distance, in bits.
      * @return {@code this >> n}
      */
-    private Matma shiftRightImpl(int n) {
+    private CalkowicieBig shiftRightImpl(int n) {
         int nInts = n >>> 5;
         int nBits = n & 0x1f;
         int magLen = mag.length;
@@ -3247,7 +3247,7 @@ public class Matma extends Number implements Comparable<Matma> {
                 newMag = javaIncrement(newMag);
         }
 
-        return new Matma(newMag, signum);
+        return new CalkowicieBig(newMag, signum);
     }
 
     int[] javaIncrement(int[] val) {
@@ -3264,14 +3264,14 @@ public class Matma extends Number implements Comparable<Matma> {
     // Bitwise Operations
 
     /**
-     * Returns a Matma whose value is {@code (this & val)}.  (This
-     * method returns a negative Matma if and only if this and val are
+     * Returns a CalkowicieBig whose value is {@code (this & val)}.  (This
+     * method returns a negative CalkowicieBig if and only if this and val are
      * both negative.)
      *
-     * @param val value to be AND'ed with this Matma.
+     * @param val value to be AND'ed with this CalkowicieBig.
      * @return {@code this & val}
      */
-    public Matma and(Matma val) {
+    public CalkowicieBig and(CalkowicieBig val) {
         int[] result = new int[Math.max(intLength(), val.intLength())];
         for (int i=0; i < result.length; i++)
             result[i] = (getInt(result.length-i-1)
@@ -3281,14 +3281,14 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is {@code (this | val)}.  (This method
-     * returns a negative Matma if and only if either this or val is
+     * Returns a CalkowicieBig whose value is {@code (this | val)}.  (This method
+     * returns a negative CalkowicieBig if and only if either this or val is
      * negative.)
      *
-     * @param val value to be OR'ed with this Matma.
+     * @param val value to be OR'ed with this CalkowicieBig.
      * @return {@code this | val}
      */
-    public Matma or(Matma val) {
+    public CalkowicieBig or(CalkowicieBig val) {
         int[] result = new int[Math.max(intLength(), val.intLength())];
         for (int i=0; i < result.length; i++)
             result[i] = (getInt(result.length-i-1)
@@ -3298,14 +3298,14 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is {@code (this ^ val)}.  (This method
-     * returns a negative Matma if and only if exactly one of this and
+     * Returns a CalkowicieBig whose value is {@code (this ^ val)}.  (This method
+     * returns a negative CalkowicieBig if and only if exactly one of this and
      * val are negative.)
      *
-     * @param val value to be XOR'ed with this Matma.
+     * @param val value to be XOR'ed with this CalkowicieBig.
      * @return {@code this ^ val}
      */
-    public Matma xor(Matma val) {
+    public CalkowicieBig xor(CalkowicieBig val) {
         int[] result = new int[Math.max(intLength(), val.intLength())];
         for (int i=0; i < result.length; i++)
             result[i] = (getInt(result.length-i-1)
@@ -3315,13 +3315,13 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is {@code (~this)}.  (This method
-     * returns a negative value if and only if this Matma is
+     * Returns a CalkowicieBig whose value is {@code (~this)}.  (This method
+     * returns a negative value if and only if this CalkowicieBig is
      * non-negative.)
      *
      * @return {@code ~this}
      */
-    public Matma not() {
+    public CalkowicieBig not() {
         int[] result = new int[intLength()];
         for (int i=0; i < result.length; i++)
             result[i] = ~getInt(result.length-i-1);
@@ -3330,16 +3330,16 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is {@code (this & ~val)}.  This
+     * Returns a CalkowicieBig whose value is {@code (this & ~val)}.  This
      * method, which is equivalent to {@code and(val.not())}, is provided as
      * a convenience for masking operations.  (This method returns a negative
-     * Matma if and only if {@code this} is negative and {@code val} is
+     * CalkowicieBig if and only if {@code this} is negative and {@code val} is
      * positive.)
      *
-     * @param val value to be complemented and AND'ed with this Matma.
+     * @param val value to be complemented and AND'ed with this CalkowicieBig.
      * @return {@code this & ~val}
      */
-    public Matma andNot(Matma val) {
+    public CalkowicieBig andNot(CalkowicieBig val) {
         int[] result = new int[Math.max(intLength(), val.intLength())];
         for (int i=0; i < result.length; i++)
             result[i] = (getInt(result.length-i-1)
@@ -3367,14 +3367,14 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is equivalent to this Matma
+     * Returns a CalkowicieBig whose value is equivalent to this CalkowicieBig
      * with the designated bit set.  (Computes {@code (this | (1<<n))}.)
      *
      * @param  n index of bit to set.
      * @return {@code this | (1<<n)}
      * @throws ArithmeticException {@code n} is negative.
      */
-    public Matma setBit(int n) {
+    public CalkowicieBig setBit(int n) {
         if (n < 0)
             throw new ArithmeticException("Negative bit address");
 
@@ -3390,7 +3390,7 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is equivalent to this Matma
+     * Returns a CalkowicieBig whose value is equivalent to this CalkowicieBig
      * with the designated bit cleared.
      * (Computes {@code (this & ~(1<<n))}.)
      *
@@ -3398,7 +3398,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * @return {@code this & ~(1<<n)}
      * @throws ArithmeticException {@code n} is negative.
      */
-    public Matma clearBit(int n) {
+    public CalkowicieBig clearBit(int n) {
         if (n < 0)
             throw new ArithmeticException("Negative bit address");
 
@@ -3414,7 +3414,7 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns a Matma whose value is equivalent to this Matma
+     * Returns a CalkowicieBig whose value is equivalent to this CalkowicieBig
      * with the designated bit flipped.
      * (Computes {@code (this ^ (1<<n))}.)
      *
@@ -3422,7 +3422,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * @return {@code this ^ (1<<n)}
      * @throws ArithmeticException {@code n} is negative.
      */
-    public Matma flipBit(int n) {
+    public CalkowicieBig flipBit(int n) {
         if (n < 0)
             throw new ArithmeticException("Negative bit address");
 
@@ -3439,11 +3439,11 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * Returns the index of the rightmost (lowest-order) one bit in this
-     * Matma (the number of zero bits to the right of the rightmost
-     * one bit).  Returns -1 if this Matma contains no one bits.
+     * CalkowicieBig (the number of zero bits to the right of the rightmost
+     * one bit).  Returns -1 if this CalkowicieBig contains no one bits.
      * (Computes {@code (this == 0? -1 : log2(this & -this))}.)
      *
-     * @return index of the rightmost one bit in this Matma.
+     * @return index of the rightmost one bit in this CalkowicieBig.
      */
     public int getLowestSetBit() {
         @SuppressWarnings("deprecation") int lsb = lowestSetBit - 2;
@@ -3468,13 +3468,13 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * Returns the number of bits in the minimal two's-complement
-     * representation of this Matma, <i>excluding</i> a sign bit.
-     * For positive Matmas, this is equivalent to the number of bits in
+     * representation of this CalkowicieBig, <i>excluding</i> a sign bit.
+     * For positive CalkowicieBigs, this is equivalent to the number of bits in
      * the ordinary binary representation.  (Computes
      * {@code (ceil(log2(this < 0 ? -this : this+1)))}.)
      *
      * @return number of bits in the minimal two's-complement
-     *         representation of this Matma, <i>excluding</i> a sign bit.
+     *         representation of this CalkowicieBig, <i>excluding</i> a sign bit.
      */
     public int bitLength() {
         @SuppressWarnings("deprecation") int n = bitLength - 1;
@@ -3504,11 +3504,11 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * Returns the number of bits in the two's complement representation
-     * of this Matma that differ from its sign bit.  This method is
-     * useful when implementing bit-vector style sets atop Matmas.
+     * of this CalkowicieBig that differ from its sign bit.  This method is
+     * useful when implementing bit-vector style sets atop CalkowicieBigs.
      *
      * @return number of bits in the two's complement representation
-     *         of this Matma that differ from its sign bit.
+     *         of this CalkowicieBig that differ from its sign bit.
      */
     public int bitCount() {
         @SuppressWarnings("deprecation") int bc = bitCount - 1;
@@ -3533,23 +3533,23 @@ public class Matma extends Number implements Comparable<Matma> {
     // Primality Testing
 
     /**
-     * Returns {@code true} if this Matma is probably prime,
+     * Returns {@code true} if this CalkowicieBig is probably prime,
      * {@code false} if it's definitely composite.  If
      * {@code certainty} is &le; 0, {@code true} is
      * returned.
      *
      * @param  certainty a measure of the uncertainty that the caller is
      *         willing to tolerate: if the call returns {@code true}
-     *         the probability that this Matma is prime exceeds
+     *         the probability that this CalkowicieBig is prime exceeds
      *         (1 - 1/2<sup>{@code certainty}</sup>).  The execution time of
      *         this method is proportional to the value of this parameter.
-     * @return {@code true} if this Matma is probably prime,
+     * @return {@code true} if this CalkowicieBig is probably prime,
      *         {@code false} if it's definitely composite.
      */
     public boolean isProbablePrime(int certainty) {
         if (certainty <= 0)
             return true;
-        Matma w = this.abs();
+        CalkowicieBig w = this.abs();
         if (w.equals(TWO))
             return true;
         if (!w.testBit(0) || w.equals(ONE))
@@ -3561,7 +3561,7 @@ public class Matma extends Number implements Comparable<Matma> {
     // Comparison Operations
 
     /**
-     * Compares this Matma with the specified Matma.  This
+     * Compares this CalkowicieBig with the specified CalkowicieBig.  This
      * method is provided in preference to individual methods for each
      * of the six boolean comparison operators ({@literal <}, ==,
      * {@literal >}, {@literal >=}, !=, {@literal <=}).  The suggested
@@ -3569,11 +3569,11 @@ public class Matma extends Number implements Comparable<Matma> {
      * (x.compareTo(y)} &lt;<i>op</i>&gt; {@code 0)}, where
      * &lt;<i>op</i>&gt; is one of the six comparison operators.
      *
-     * @param  val Matma to which this Matma is to be compared.
-     * @return -1, 0 or 1 as this Matma is numerically less than, equal
+     * @param  val CalkowicieBig to which this CalkowicieBig is to be compared.
+     * @return -1, 0 or 1 as this CalkowicieBig is numerically less than, equal
      *         to, or greater than {@code val}.
      */
-    public int compareTo(Matma val) {
+    public int compareTo(CalkowicieBig val) {
         if (signum == val.signum) {
             switch (signum) {
                 case 1:
@@ -3588,14 +3588,14 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Compares the magnitude array of this Matma with the specified
-     * Matma's. This is the version of compareTo ignoring sign.
+     * Compares the magnitude array of this CalkowicieBig with the specified
+     * CalkowicieBig's. This is the version of compareTo ignoring sign.
      *
-     * @param val Matma whose magnitude array to be compared.
+     * @param val CalkowicieBig whose magnitude array to be compared.
      * @return -1, 0 or 1 as this magnitude array is less than, equal to or
-     *         greater than the magnitude aray for the specified Matma's.
+     *         greater than the magnitude aray for the specified CalkowicieBig's.
      */
-    final int compareMagnitude(Matma val) {
+    final int compareMagnitude(CalkowicieBig val) {
         int[] m1 = mag;
         int len1 = m1.length;
         int[] m2 = val.mag;
@@ -3657,21 +3657,21 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Compares this Matma with the specified Object for equality.
+     * Compares this CalkowicieBig with the specified Object for equality.
      *
-     * @param  x Object to which this Matma is to be compared.
+     * @param  x Object to which this CalkowicieBig is to be compared.
      * @return {@code true} if and only if the specified Object is a
-     *         Matma whose value is numerically equal to this Matma.
+     *         CalkowicieBig whose value is numerically equal to this CalkowicieBig.
      */
     public boolean equals(Object x) {
         // This test is just an optimization, which may or may not help
         if (x == this)
             return true;
 
-        if (!(x instanceof Matma))
+        if (!(x instanceof CalkowicieBig))
             return false;
 
-        Matma xInt = (Matma) x;
+        CalkowicieBig xInt = (CalkowicieBig) x;
         if (xInt.signum != signum)
             return false;
 
@@ -3689,24 +3689,24 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns the minimum of this Matma and {@code val}.
+     * Returns the minimum of this CalkowicieBig and {@code val}.
      *
      * @param  val value with which the minimum is to be computed.
-     * @return the Matma whose value is the lesser of this Matma and
+     * @return the CalkowicieBig whose value is the lesser of this CalkowicieBig and
      *         {@code val}.  If they are equal, either may be returned.
      */
-    public Matma min(Matma val) {
+    public CalkowicieBig min(CalkowicieBig val) {
         return (compareTo(val) < 0 ? this : val);
     }
 
     /**
-     * Returns the maximum of this Matma and {@code val}.
+     * Returns the maximum of this CalkowicieBig and {@code val}.
      *
      * @param  val value with which the maximum is to be computed.
-     * @return the Matma whose value is the greater of this and
+     * @return the CalkowicieBig whose value is the greater of this and
      *         {@code val}.  If they are equal, either may be returned.
      */
-    public Matma max(Matma val) {
+    public CalkowicieBig max(CalkowicieBig val) {
         return (compareTo(val) > 0 ? this : val);
     }
 
@@ -3714,9 +3714,9 @@ public class Matma extends Number implements Comparable<Matma> {
     // Hash Function
 
     /**
-     * Returns the hash code for this Matma.
+     * Returns the hash code for this CalkowicieBig.
      *
-     * @return hash code for this Matma.
+     * @return hash code for this CalkowicieBig.
      */
     public int hashCode() {
         int hashCode = 0;
@@ -3728,21 +3728,21 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns the String representation of this Matma in the
+     * Returns the String representation of this CalkowicieBig in the
      * given radix.  If the radix is outside the range from {@link
      * Character#MIN_RADIX} to {@link Character#MAX_RADIX} inclusive,
      * it will default to 10 (as is the case for
      * {@code Integer.toString}).  The digit-to-character mapping
      * provided by {@code Character.forDigit} is used, and a minus
      * sign is prepended if appropriate.  (This representation is
-     * compatible with the {@link #Matma(String, int) (String,
+     * compatible with the {@link #CalkowicieBig(String, int) (String,
      * int)} constructor.)
      *
      * @param  radix  radix of the String representation.
-     * @return String representation of this Matma in the given radix.
+     * @return String representation of this CalkowicieBig in the given radix.
      * @see    Integer#toString
      * @see    Character#forDigit
-     * @see    #Matma(String, int)
+     * @see    #CalkowicieBig(String, int)
      */
     public String toString(int radix) {
         if (signum == 0)
@@ -3778,17 +3778,17 @@ public class Matma extends Number implements Comparable<Matma> {
         String digitGroup[] = new String[maxNumDigitGroups];
 
         // Translate number to string, a digit group at a time
-        Matma tmp = this.abs();
+        CalkowicieBig tmp = this.abs();
         int numGroups = 0;
         while (tmp.signum != 0) {
-            Matma d = longRadix[radix];
+            CalkowicieBig d = longRadix[radix];
 
-            MutMatma q = new MutMatma(),
-                    a = new MutMatma(tmp.mag),
-                    b = new MutMatma(d.mag);
-            MutMatma r = a.divide(b, q);
-            Matma q2 = q.toMatma(tmp.signum * d.signum);
-            Matma r2 = r.toMatma(tmp.signum * d.signum);
+            MutCalkowicieBig q = new MutCalkowicieBig(),
+                    a = new MutCalkowicieBig(tmp.mag),
+                    b = new MutCalkowicieBig(d.mag);
+            MutCalkowicieBig r = a.divide(b, q);
+            CalkowicieBig q2 = q.toCalkowicieBig(tmp.signum * d.signum);
+            CalkowicieBig r2 = r.toCalkowicieBig(tmp.signum * d.signum);
 
             digitGroup[numGroups++] = Long.toString(r2.longValue(), radix);
             tmp = q2;
@@ -3814,7 +3814,7 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Converts the specified Matma to a string and appends to
+     * Converts the specified CalkowicieBig to a string and appends to
      * {@code sb}.  This implements the recursive Schoenhage algorithm
      * for base conversions.
      * <p/>
@@ -3826,7 +3826,7 @@ public class Matma extends Number implements Comparable<Matma> {
      * @param radix  The base to convert to.
      * @param digits The minimum number of digits to pad to.
      */
-    private static void toString(Matma u, StringBuilder sb, int radix,
+    private static void toString(CalkowicieBig u, StringBuilder sb, int radix,
                                  int digits) {
         /* If we're smaller than a certain threshold, use the smallToString
            method, padding with leading zeroes when necessary. */
@@ -3852,8 +3852,8 @@ public class Matma extends Number implements Comparable<Matma> {
         // and subtract 1 from that value.  This is used to find the
         // cache index that contains the best value to divide u.
         n = (int) Math.round(Math.log(b * LOG_TWO / logCache[radix]) / LOG_TWO - 1.0);
-        Matma v = getRadixConversionCache(radix, n);
-        Matma[] results;
+        CalkowicieBig v = getRadixConversionCache(radix, n);
+        CalkowicieBig[] results;
         results = u.divideAndRemainder(v);
 
         int expectedDigits = 1 << n;
@@ -3870,8 +3870,8 @@ public class Matma extends Number implements Comparable<Matma> {
      * This could be changed to a more complicated caching method using
      * {@code Future}.
      */
-    private static Matma getRadixConversionCache(int radix, int exponent) {
-        Matma[] cacheLine = powerCache[radix]; // volatile read
+    private static CalkowicieBig getRadixConversionCache(int radix, int exponent) {
+        CalkowicieBig[] cacheLine = powerCache[radix]; // volatile read
         if (exponent < cacheLine.length) {
             return cacheLine[exponent];
         }
@@ -3882,7 +3882,7 @@ public class Matma extends Number implements Comparable<Matma> {
             cacheLine[i] = cacheLine[i - 1].pow(2);
         }
 
-        Matma[][] pc = powerCache; // volatile read again
+        CalkowicieBig[][] pc = powerCache; // volatile read again
         if (exponent >= pc[radix].length) {
             pc = pc.clone();
             pc[radix] = cacheLine;
@@ -3901,16 +3901,16 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Returns the decimal String representation of this Matma.
+     * Returns the decimal String representation of this CalkowicieBig.
      * The digit-to-character mapping provided by
      * {@code Character.forDigit} is used, and a minus sign is
      * prepended if appropriate.  (This representation is compatible
-     * with the {@link #Matma(String) (String)} constructor, and
+     * with the {@link #CalkowicieBig(String) (String)} constructor, and
      * allows for String concatenation with Java's + operator.)
      *
-     * @return decimal String representation of this Matma.
+     * @return decimal String representation of this CalkowicieBig.
      * @see    Character#forDigit
-     * @see    #Matma(String)
+     * @see    #CalkowicieBig(String)
      */
     public String toString() {
         return toString(10);
@@ -3918,17 +3918,17 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * Returns a byte array containing the two's-complement
-     * representation of this Matma.  The byte array will be in
+     * representation of this CalkowicieBig.  The byte array will be in
      * <i>big-endian</i> byte-order: the most significant byte is in
      * the zeroth element.  The array will contain the minimum number
-     * of bytes required to represent this Matma, including at
+     * of bytes required to represent this CalkowicieBig, including at
      * least one sign bit, which is {@code (ceil((this.bitLength() +
      * 1)/8))}.  (This representation is compatible with the
-     * {@link #Matma(byte[]) (byte[])} constructor.)
+     * {@link #CalkowicieBig(byte[]) (byte[])} constructor.)
      *
      * @return a byte array containing the two's-complement representation of
-     *         this Matma.
-     * @see    #Matma(byte[])
+     *         this CalkowicieBig.
+     * @see    #CalkowicieBig(byte[])
      */
     public byte[] toByteArray() {
         int byteLen = bitLength()/8 + 1;
@@ -3948,18 +3948,18 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Converts this Matma to an {@code int}.  This
+     * Converts this CalkowicieBig to an {@code int}.  This
      * conversion is analogous to a
      * <i>narrowing primitive conversion</i> from {@code long} to
      * {@code int} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this Matma is too big to fit in an
+     * if this CalkowicieBig is too big to fit in an
      * {@code int}, only the low-order 32 bits are returned.
      * Note that this conversion can lose information about the
-     * overall magnitude of the Matma value as well as return a
+     * overall magnitude of the CalkowicieBig value as well as return a
      * result with the opposite sign.
      *
-     * @return this Matma converted to an {@code int}.
+     * @return this CalkowicieBig converted to an {@code int}.
      * @see #intValueExact()
      */
     public int intValue() {
@@ -3969,18 +3969,18 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Converts this Matma to a {@code long}.  This
+     * Converts this CalkowicieBig to a {@code long}.  This
      * conversion is analogous to a
      * <i>narrowing primitive conversion</i> from {@code long} to
      * {@code int} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this Matma is too big to fit in a
+     * if this CalkowicieBig is too big to fit in a
      * {@code long}, only the low-order 64 bits are returned.
      * Note that this conversion can lose information about the
-     * overall magnitude of the Matma value as well as return a
+     * overall magnitude of the CalkowicieBig value as well as return a
      * result with the opposite sign.
      *
-     * @return this Matma converted to a {@code long}.
+     * @return this CalkowicieBig converted to a {@code long}.
      * @see #longValueExact()
      */
     public long longValue() {
@@ -3992,19 +3992,19 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Converts this Matma to a {@code float}.  This
+     * Converts this CalkowicieBig to a {@code float}.  This
      * conversion is similar to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code float} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this Matma has too great a magnitude
+     * if this CalkowicieBig has too great a magnitude
      * to represent as a {@code float}, it will be converted to
      * {@link Float#NEGATIVE_INFINITY} or {@link
      * Float#POSITIVE_INFINITY} as appropriate.  Note that even when
      * the return value is finite, this conversion can lose
-     * information about the precision of the Matma value.
+     * information about the precision of the CalkowicieBig value.
      *
-     * @return this Matma converted to a {@code float}.
+     * @return this CalkowicieBig converted to a {@code float}.
      */
     public float floatValue() {
         if (signum == 0) {
@@ -4076,19 +4076,19 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Converts this Matma to a {@code double}.  This
+     * Converts this CalkowicieBig to a {@code double}.  This
      * conversion is similar to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code float} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this Matma has too great a magnitude
+     * if this CalkowicieBig has too great a magnitude
      * to represent as a {@code double}, it will be converted to
      * {@link Double#NEGATIVE_INFINITY} or {@link
      * Double#POSITIVE_INFINITY} as appropriate.  Note that even when
      * the return value is finite, this conversion can lose
-     * information about the precision of the Matma value.
+     * information about the precision of the CalkowicieBig value.
      *
-     * @return this Matma converted to a {@code double}.
+     * @return this CalkowicieBig converted to a {@code double}.
      */
     public double doubleValue() {
         if (signum == 0) {
@@ -4312,7 +4312,7 @@ public class Matma extends Number implements Comparable<Matma> {
             62, 39, 31, 27, 24, 22, 20, 19, 18, 18, 17, 17, 16, 16, 15, 15, 15, 14,
             14, 14, 14, 13, 13, 13, 13, 13, 13, 12, 12, 12, 12, 12, 12, 12, 12};
 
-    private static Matma longRadix[] = {null, null,
+    private static CalkowicieBig longRadix[] = {null, null,
             valueOf(0x4000000000000000L), valueOf(0x383d9170b85ff80bL),
             valueOf(0x4000000000000000L), valueOf(0x6765c793fa10079dL),
             valueOf(0x41c21cb8e1000000L), valueOf(0x3642798750226111L),
@@ -4351,7 +4351,7 @@ public class Matma extends Number implements Comparable<Matma> {
 
     /**
      * These routines provide access to the two's complement representation
-     * of Matmas.
+     * of CalkowicieBigs.
      */
 
     /**
@@ -4415,17 +4415,17 @@ public class Matma extends Number implements Comparable<Matma> {
     private static final long serialVersionUID = -8287574255936472291L;
 
     /**
-     * Serializable fields for Matma.
+     * Serializable fields for CalkowicieBig.
      *
      * @serialField signum  int
-     *              signum of this Matma.
+     *              signum of this CalkowicieBig.
      * @serialField magnitude int[]
-     *              magnitude array of this Matma.
+     *              magnitude array of this CalkowicieBig.
      * @serialField bitCount  int
-     *              number of bits in this Matma
+     *              number of bits in this CalkowicieBig
      * @serialField bitLength int
      *              the number of bits in the minimal two's-complement
-     *              representation of this Matma
+     *              representation of this CalkowicieBig
      * @serialField lowestSetBit int
      *              lowest set bit in the twos complement representation
      */
@@ -4439,7 +4439,7 @@ public class Matma extends Number implements Comparable<Matma> {
     };
 
     /**
-     * Reconstitute the {@code Matma} instance from a stream (that is,
+     * Reconstitute the {@code CalkowicieBig} instance from a stream (that is,
      * deserialize it). The magnitude is read in as an array of bytes
      * for historical reasons, but it is converted to an array of ints
      * and the byte array is discarded.
@@ -4451,8 +4451,8 @@ public class Matma extends Number implements Comparable<Matma> {
      * defaultReadObject is not being used.
      */
     /**
-     * Save the {@code Matma} instance to a stream.
-     * The magnitude of a Matma is serialized as a byte array for
+     * Save the {@code CalkowicieBig} instance to a stream.
+     * The magnitude of a CalkowicieBig is serialized as a byte array for
      * historical reasons.
      *
      * @serialData two necessary fields are written as well as obsolete
@@ -4499,53 +4499,53 @@ public class Matma extends Number implements Comparable<Matma> {
     }
 
     /**
-     * Converts this {@code Matma} to a {@code long}, checking
-     * for lost information.  If the value of this {@code Matma}
+     * Converts this {@code CalkowicieBig} to a {@code long}, checking
+     * for lost information.  If the value of this {@code CalkowicieBig}
      * is out of the range of the {@code long} type, then an
      * {@code ArithmeticException} is thrown.
      *
-     * @return this {@code Matma} converted to a {@code long}.
+     * @return this {@code CalkowicieBig} converted to a {@code long}.
      * @throws ArithmeticException if the value of {@code this} will
      * not exactly fit in a {@code long}.
-     * @see Matma#longValue
+     * @see CalkowicieBig#longValue
      * @since  1.8
      */
     public long longValueExact() {
         if (mag.length <= 2 && bitLength() <= 63)
             return longValue();
         else
-            throw new ArithmeticException("Matma out of long range");
+            throw new ArithmeticException("CalkowicieBig out of long range");
     }
 
     /**
-     * Converts this {@code Matma} to an {@code int}, checking
-     * for lost information.  If the value of this {@code Matma}
+     * Converts this {@code CalkowicieBig} to an {@code int}, checking
+     * for lost information.  If the value of this {@code CalkowicieBig}
      * is out of the range of the {@code int} type, then an
      * {@code ArithmeticException} is thrown.
      *
-     * @return this {@code Matma} converted to an {@code int}.
+     * @return this {@code CalkowicieBig} converted to an {@code int}.
      * @throws ArithmeticException if the value of {@code this} will
      * not exactly fit in a {@code int}.
-     * @see Matma#intValue
+     * @see CalkowicieBig#intValue
      * @since  1.8
      */
     public int intValueExact() {
         if (mag.length <= 1 && bitLength() <= 31)
             return intValue();
         else
-            throw new ArithmeticException("Matma out of int range");
+            throw new ArithmeticException("CalkowicieBig out of int range");
     }
 
     /**
-     * Converts this {@code Matma} to a {@code short}, checking
-     * for lost information.  If the value of this {@code Matma}
+     * Converts this {@code CalkowicieBig} to a {@code short}, checking
+     * for lost information.  If the value of this {@code CalkowicieBig}
      * is out of the range of the {@code short} type, then an
      * {@code ArithmeticException} is thrown.
      *
-     * @return this {@code Matma} converted to a {@code short}.
+     * @return this {@code CalkowicieBig} converted to a {@code short}.
      * @throws ArithmeticException if the value of {@code this} will
      * not exactly fit in a {@code short}.
-     * @see Matma#shortValue
+     * @see CalkowicieBig#shortValue
      * @since  1.8
      */
     public short shortValueExact() {
@@ -4554,19 +4554,19 @@ public class Matma extends Number implements Comparable<Matma> {
             if (value >= Short.MIN_VALUE && value <= Short.MAX_VALUE)
                 return shortValue();
         }
-        throw new ArithmeticException("Matma out of short range");
+        throw new ArithmeticException("CalkowicieBig out of short range");
     }
 
     /**
-     * Converts this {@code Matma} to a {@code byte}, checking
-     * for lost information.  If the value of this {@code Matma}
+     * Converts this {@code CalkowicieBig} to a {@code byte}, checking
+     * for lost information.  If the value of this {@code CalkowicieBig}
      * is out of the range of the {@code byte} type, then an
      * {@code ArithmeticException} is thrown.
      *
-     * @return this {@code Matma} converted to a {@code byte}.
+     * @return this {@code CalkowicieBig} converted to a {@code byte}.
      * @throws ArithmeticException if the value of {@code this} will
      * not exactly fit in a {@code byte}.
-     * @see Matma#byteValue
+     * @see CalkowicieBig#byteValue
      * @since  1.8
      */
     public byte byteValueExact() {
@@ -4575,6 +4575,6 @@ public class Matma extends Number implements Comparable<Matma> {
             if (value >= Byte.MIN_VALUE && value <= Byte.MAX_VALUE)
                 return byteValue();
         }
-        throw new ArithmeticException("Matma out of byte range");
+        throw new ArithmeticException("CalkowicieBig out of byte range");
     }
 }

@@ -8,7 +8,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Arrays;
-import Library.Matma;
+import Library.CalkowicieBig;
 
 
 public class Main extends Application {
