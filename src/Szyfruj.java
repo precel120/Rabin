@@ -1,5 +1,5 @@
 import java.util.Random;
-import java.math.BigInteger;
+import Library.Matma;
 import java.util.Vector;
 
 public class Szyfruj {
