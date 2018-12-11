@@ -8,7 +8,6 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Arrays;
-import Library.CalkowicieBig;
 
 
 public class Main extends Application {
@@ -83,6 +82,7 @@ public class Main extends Application {
             tekstOdszyfr.setText(txt_po);
 
             try {
+                pliki.writeFile(Pliki.pathBox("Sciezka do zapisu zaszyfrowanego pliku"), txt_przed.getBytes());
                 pliki.writeFile(Pliki.pathBox("Sciezka do zapisu odszyfrowanego pliku"), slowo.deszyfruj(slowo.szyfruj()));
             }
             catch (IOException el) {
