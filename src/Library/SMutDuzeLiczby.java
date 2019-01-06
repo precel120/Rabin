@@ -1,36 +1,36 @@
 package Library;//package sample.Library;
 
 
-class SMutCalkowicieBig extends MutCalkowicieBig {
+class SMutDuzeLiczby extends MutDuzeLiczby {
 
    /**
-     * The sign of this MutCalkowicieBig.
+     * The sign of this MutDuzeLiczby.
      */
     int sign = 1;
 
     // Constructors
 
     /**
-     * The default constructor. An empty MutCalkowicieBig is created with
+     * The default constructor. An empty MutDuzeLiczby is created with
      * a one word capacity.
      */
-    SMutCalkowicieBig() {
+    SMutDuzeLiczby() {
         super();
     }
 
     /**
-     * Construct a new MutCalkowicieBig with a magnitude specified by
+     * Construct a new MutDuzeLiczby with a magnitude specified by
      * the int val.
      */
-    SMutCalkowicieBig(int val) {
+    SMutDuzeLiczby(int val) {
         super(val);
     }
 
     /**
-     * Construct a new MutCalkowicieBig with a magnitude equal to the
-     * specified MutCalkowicieBig.
+     * Construct a new MutDuzeLiczby with a magnitude equal to the
+     * specified MutDuzeLiczby.
      */
-    SMutCalkowicieBig(MutCalkowicieBig val) {
+    SMutDuzeLiczby(MutDuzeLiczby val) {
         super(val);
     }
 
@@ -39,7 +39,7 @@ class SMutCalkowicieBig extends MutCalkowicieBig {
    /**
      * Signed addition built upon unsigned add and subtract.
      */
-    void signedAdd(SMutCalkowicieBig addend) {
+    void signedAdd(SMutDuzeLiczby addend) {
         if (sign == addend.sign)
             add(addend);
         else
@@ -50,7 +50,7 @@ class SMutCalkowicieBig extends MutCalkowicieBig {
    /**
      * Signed addition built upon unsigned add and subtract.
      */
-    void signedAdd(MutCalkowicieBig addend) {
+    void signedAdd(MutDuzeLiczby addend) {
         if (sign == 1)
             add(addend);
         else
@@ -61,7 +61,7 @@ class SMutCalkowicieBig extends MutCalkowicieBig {
    /**
      * Signed subtraction built upon unsigned add and subtract.
      */
-    void signedSubtract(SMutCalkowicieBig addend) {
+    void signedSubtract(SMutDuzeLiczby addend) {
         if (sign == addend.sign)
             sign = sign * subtract(addend);
         else
@@ -72,7 +72,7 @@ class SMutCalkowicieBig extends MutCalkowicieBig {
    /**
      * Signed subtraction built upon unsigned add and subtract.
      */
-    void signedSubtract(MutCalkowicieBig addend) {
+    void signedSubtract(MutDuzeLiczby addend) {
         if (sign == 1)
             sign = sign * subtract(addend);
         else
@@ -82,11 +82,11 @@ class SMutCalkowicieBig extends MutCalkowicieBig {
     }
 
     /**
-     * Print out the first intLen ints of this MutCalkowicieBig's value
+     * Print out the first intLen ints of this MutDuzeLiczby's value
      * array starting at offset.
      */
     public String toString() {
-        return this.toCalkowicieBig(sign).toString();
+        return this.toDuzeLiczby(sign).toString();
     }
 
 }

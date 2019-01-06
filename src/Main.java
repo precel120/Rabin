@@ -19,7 +19,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        primaryStage.setTitle("One Time Pad");
+        primaryStage.setTitle("Rabin");
 
         //Ustawianie parametrów Grid
         GridPane grid = new GridPane();

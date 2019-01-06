@@ -1,14 +1,14 @@
 import java.util.Random;
-import Library.CalkowicieBig;
+import Library.DuzeLiczby;
 import java.util.Vector;
 
 public class Szyfruj {
 
-    private CalkowicieBig p;
-    private CalkowicieBig q;
+    private DuzeLiczby p;
+    private DuzeLiczby q;
     public byte[] tekstJawny;
-    private CalkowicieBig n;
-    private CalkowicieBig[] m;
+    private DuzeLiczby n;
+    private DuzeLiczby[] m;
     private String tekst;
 
     public Szyfruj(byte[] tekstJawny)
@@ -16,20 +16,20 @@ public class Szyfruj {
         this.tekstJawny=tekstJawny;
     }
 
-    public CalkowicieBig getPrime() {
+    public DuzeLiczby getPrime() {
 
-        CalkowicieBig a;
+        DuzeLiczby a;
         Random rnd = new Random();
-        CalkowicieBig trzy=CalkowicieBig.valueOf(3);
-        CalkowicieBig cztery=CalkowicieBig.valueOf(4);
+        DuzeLiczby trzy=DuzeLiczby.valueOf(3);
+        DuzeLiczby cztery=DuzeLiczby.valueOf(4);
         do{
-            a = CalkowicieBig.probablePrime(1024,rnd);
+            a = DuzeLiczby.probablePrime(1024,rnd);
         }while(!(a.mod(cztery).equals(trzy)));
 
         return a;
     }
 
-    public CalkowicieBig[] szyfruj()
+    public DuzeLiczby[] szyfruj()
     {
 
         int i=0,j=0,blockSize=256;
@@ -41,25 +41,25 @@ public class Szyfruj {
         System.arraycopy(tekst.getBytes(),0,pom,0,tekst.getBytes().length);
         int tekstLength=tekst.getBytes().length;
 
-        m=new CalkowicieBig[(tekstJawny.length/(blockSize-tekstLength))+1];
+        m=new DuzeLiczby[(tekstJawny.length/(blockSize-tekstLength))+1];
         while(tekstJawny.length-i >= blockSize-tekstLength)
         {
             System.arraycopy(tekstJawny, i, pom, tekstLength, blockSize-tekstLength);
-            m[j]=new CalkowicieBig(pom);
+            m[j]=new DuzeLiczby(pom);
             i=i+(blockSize-tekstLength);
             j++;
         }
         System.arraycopy(tekstJawny,i,pom,tekstLength,tekstJawny.length-i);
-        m[j]=new CalkowicieBig(pom);
+        m[j]=new DuzeLiczby(pom);
         j++;
-        CalkowicieBig[] c=new CalkowicieBig[j];
+        DuzeLiczby[] c=new DuzeLiczby[j];
 
         do {
             p = getPrime();
             q = getPrime();
             if(p.compareTo(q) == -1)
             {
-                CalkowicieBig pom2;
+                DuzeLiczby pom2;
                 pom2 = p;
                 p = q;
                 q = pom2;
@@ -73,29 +73,29 @@ public class Szyfruj {
         return c;
     }
 
-    public byte[] deszyfruj(CalkowicieBig[] zaszyfr)
+    public byte[] deszyfruj(DuzeLiczby[] zaszyfr)
     {
-        CalkowicieBig x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
+        DuzeLiczby x_p, x_q, y_p1, y_p2, y_q1, y_q2, m_1, m_2, m_3, m_4;
         byte[] result= new byte[zaszyfr.length*256];
         for(int i=0; i<zaszyfr.length;i++) {
 
 
             x_p = zaszyfr[i].mod(p);
             x_q = zaszyfr[i].mod(q);
-            y_p1 = new CalkowicieBig(String.valueOf(x_p));
+            y_p1 = new DuzeLiczby(String.valueOf(x_p));
 
-            y_p1 = x_p.modPow(p.add(CalkowicieBig.valueOf(1)).divide(CalkowicieBig.valueOf(4)), p);
+            y_p1 = x_p.modPow(p.add(DuzeLiczby.valueOf(1)).divide(DuzeLiczby.valueOf(4)), p);
             y_p2 = p.subtract(y_p1);
 
-            y_q1 = x_q.modPow(q.add(CalkowicieBig.valueOf(1)).divide(CalkowicieBig.valueOf(4)), q);
+            y_q1 = x_q.modPow(q.add(DuzeLiczby.valueOf(1)).divide(DuzeLiczby.valueOf(4)), q);
             y_q2 = q.subtract(y_q1);
 
-            CalkowicieBig[] uv=chinol();
+            DuzeLiczby[] uv=chinol();
 
             m_1 = p.multiply(uv[0]).multiply(y_q1).subtract(q.multiply(uv[1]).multiply(y_p1)).mod(n);
             m_2 = p.multiply(uv[0]).multiply(y_q1).subtract(q.multiply(uv[1]).multiply(y_p2)).mod(n);
-            m_3 = m_1.multiply((CalkowicieBig.valueOf(-1))).mod(n);
-            m_4 = m_2.multiply((CalkowicieBig.valueOf(-1))).mod(n);
+            m_3 = m_1.multiply((DuzeLiczby.valueOf(-1))).mod(n);
+            m_4 = m_2.multiply((DuzeLiczby.valueOf(-1))).mod(n);
 
             if (sprawdzanko(m_1)) System.arraycopy(m_1.toByteArray(), tekst.getBytes().length, result, i * (256-tekst.getBytes().length),  m_1.toByteArray().length-tekst.getBytes().length);
             if (sprawdzanko(m_2)) System.arraycopy(m_2.toByteArray(), tekst.getBytes().length, result, i * (256-tekst.getBytes().length),  m_2.toByteArray().length-tekst.getBytes().length);
@@ -105,25 +105,25 @@ public class Szyfruj {
         return result;
     }
 
-    public CalkowicieBig[] chinol(){
+    public DuzeLiczby[] chinol(){
 
-        CalkowicieBig d = new CalkowicieBig(String.valueOf(p));
-        CalkowicieBig e = new CalkowicieBig(String.valueOf(q));
-        CalkowicieBig u, v;
+        DuzeLiczby d = new DuzeLiczby(String.valueOf(p));
+        DuzeLiczby e = new DuzeLiczby(String.valueOf(q));
+        DuzeLiczby u, v;
 
-        Vector<CalkowicieBig> P = new Vector<>();
-        Vector<CalkowicieBig> Q = new Vector<>();
-        Vector<CalkowicieBig> q = new Vector<>();
+        Vector<DuzeLiczby> P = new Vector<>();
+        Vector<DuzeLiczby> Q = new Vector<>();
+        Vector<DuzeLiczby> q = new Vector<>();
 
-        P.addElement(CalkowicieBig.valueOf(0));
-        P.addElement(CalkowicieBig.valueOf(1));
-        Q.addElement(CalkowicieBig.valueOf(1));
-        Q.addElement(CalkowicieBig.valueOf(0));
+        P.addElement(DuzeLiczby.valueOf(0));
+        P.addElement(DuzeLiczby.valueOf(1));
+        Q.addElement(DuzeLiczby.valueOf(1));
+        Q.addElement(DuzeLiczby.valueOf(0));
 
-        while(e.compareTo(CalkowicieBig.valueOf(0)) != 0) {
+        while(e.compareTo(DuzeLiczby.valueOf(0)) != 0) {
             q.addElement(d.divide(e));
 
-            CalkowicieBig pom = new CalkowicieBig(String.valueOf(d));
+            DuzeLiczby pom = new DuzeLiczby(String.valueOf(d));
             d = e;
             e = pom.mod(e);
         }
@@ -139,17 +139,17 @@ public class Szyfruj {
 
         if(q.size()%2 == 0)
         {
-            u = u.multiply(CalkowicieBig.valueOf(-1));
-            v = v.multiply(CalkowicieBig.valueOf(-1));
+            u = u.multiply(DuzeLiczby.valueOf(-1));
+            v = v.multiply(DuzeLiczby.valueOf(-1));
         }
 
-        CalkowicieBig[] result=new CalkowicieBig[2];
+        DuzeLiczby[] result=new DuzeLiczby[2];
         result[0]=u;
         result[1]=v;
         return result;
     }
 
-    public boolean sprawdzanko(CalkowicieBig m)
+    public boolean sprawdzanko(DuzeLiczby m)
     {
         byte[] textArray = tekst.getBytes();
         byte[] mArray = m.toByteArray();

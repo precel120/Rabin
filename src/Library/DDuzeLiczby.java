@@ -2,29 +2,29 @@ package Library;
 
 //package sample.Library;
 
-//import sample.MutCalkowicieBig;
+//import sample.MutDuzeLiczby;
 
 //import MathContext;
-//import sample.CalkowicieBig;
-//import sample.MutCalkowicieBig;
+//import sample.DuzeLiczby;
+//import sample.MutDuzeLiczby;
 //import RoundingMode;
 
 import java.util.Arrays;
 
-import static Library.CalkowicieBig.LONG_MASK;
+import static Library.DuzeLiczby.LONG_MASK;
 
-public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig> {
+public class DDuzeLiczby extends Number implements Comparable<DDuzeLiczby> {
     /**
-     * The unscaled value of this DCalkowicieBig, as returned by {@link
+     * The unscaled value of this DDuzeLiczby, as returned by {@link
      * #unscaledValue}.
      *
      * @serial
      * @see #unscaledValue
      */
-    private final CalkowicieBig intVal;
+    private final DuzeLiczby intVal;
 
     /**
-     * The scale of this DCalkowicieBig, as returned by {@link #scale}.
+     * The scale of this DDuzeLiczby, as returned by {@link #scale}.
      *
      * @serial
      * @see #scale
@@ -33,7 +33,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     // calculations must be done in longs
 
     /**
-     * The number of decimal digits in this DCalkowicieBig, or 0 if the
+     * The number of decimal digits in this DDuzeLiczby, or 0 if the
      * number of digits are not known (lookaside information).  If
      * nonzero, the value is guaranteed correct.  Use the precision()
      * method to obtain and set the value if it might be 0.  This
@@ -54,10 +54,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      */
     static final long INFLATED = Long.MIN_VALUE;
 
-    private static final CalkowicieBig INFLATED_BIGINT = CalkowicieBig.valueOf(INFLATED);
+    private static final DuzeLiczby INFLATED_BIGINT = DuzeLiczby.valueOf(INFLATED);
 
     /**
-     * If the absolute value of the significand of this DCalkowicieBig is
+     * If the absolute value of the significand of this DDuzeLiczby is
      * less than or equal to {@code Long.MAX_VALUE}, the value can be
      * compactly stored in this field and used in computations.
      */
@@ -78,39 +78,39 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         }
     };
 
-    // Cache of common small DCalkowicieBig values.
-    private static final DCalkowicieBig zeroThroughTen[] = {
-            new DCalkowicieBig(CalkowicieBig.ZERO,       0,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.ONE,        1,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.valueOf(2), 2,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.valueOf(3), 3,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.valueOf(4), 4,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.valueOf(5), 5,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.valueOf(6), 6,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.valueOf(7), 7,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.valueOf(8), 8,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.valueOf(9), 9,  0, 1),
-            new DCalkowicieBig(CalkowicieBig.TEN,        10, 0, 2),
+    // Cache of common small DDuzeLiczby values.
+    private static final DDuzeLiczby zeroThroughTen[] = {
+            new DDuzeLiczby(DuzeLiczby.ZERO,       0,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.ONE,        1,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.valueOf(2), 2,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.valueOf(3), 3,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.valueOf(4), 4,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.valueOf(5), 5,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.valueOf(6), 6,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.valueOf(7), 7,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.valueOf(8), 8,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.valueOf(9), 9,  0, 1),
+            new DDuzeLiczby(DuzeLiczby.TEN,        10, 0, 2),
     };
 
     // Cache of zero scaled by 0 - 15
-    private static final DCalkowicieBig[] ZERO_SCALED_BY = {
+    private static final DDuzeLiczby[] ZERO_SCALED_BY = {
             zeroThroughTen[0],
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 1, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 2, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 3, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 4, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 5, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 6, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 7, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 8, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 9, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 10, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 11, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 12, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 13, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 14, 1),
-            new DCalkowicieBig(CalkowicieBig.ZERO, 0, 15, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 1, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 2, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 3, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 4, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 5, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 6, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 7, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 8, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 9, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 10, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 11, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 12, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 13, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 14, 1),
+            new DDuzeLiczby(DuzeLiczby.ZERO, 0, 15, 1),
     };
 
     // Half of Long.MIN_VALUE & Long.MAX_VALUE.
@@ -123,7 +123,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *
      * @since  1.5
      */
-    public static final DCalkowicieBig ZERO =
+    public static final DDuzeLiczby ZERO =
             zeroThroughTen[0];
 
     /**
@@ -131,7 +131,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *
      * @since  1.5
      */
-    public static final DCalkowicieBig ONE =
+    public static final DDuzeLiczby ONE =
             zeroThroughTen[1];
 
     /**
@@ -139,7 +139,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *
      * @since  1.5
      */
-    public static final DCalkowicieBig TEN =
+    public static final DDuzeLiczby TEN =
             zeroThroughTen[10];
 
     // Constructors
@@ -149,7 +149,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * Trusted simply means if val is INFLATED, intVal could not be null and
      * if intVal is null, val could not be INFLATED.
      */
-    DCalkowicieBig(CalkowicieBig intVal, long val, int scale, int prec) {
+    DDuzeLiczby(DuzeLiczby intVal, long val, int scale, int prec) {
         this.scale = scale;
         this.precision = prec;
         this.intCompact = val;
@@ -158,38 +158,38 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     /**
      * Translates a character array representation of a
-     * {@code DCalkowicieBig} into a {@code DCalkowicieBig}, accepting the
-     * same sequence of characters as the {@link #DCalkowicieBig(String)}
+     * {@code DDuzeLiczby} into a {@code DDuzeLiczby}, accepting the
+     * same sequence of characters as the {@link #DDuzeLiczby(String)}
      * constructor, while allowing a sub-array to be specified.
      *
      * <p>Note that if the sequence of characters is already available
      * within a character array, using this constructor is faster than
      * converting the {@code char} array to string and using the
-     * {@code DCalkowicieBig(String)} constructor .
+     * {@code DDuzeLiczby(String)} constructor .
      *
      * @param  in {@code char} array that is the source of characters.
      * @param  offset first character in the array to inspect.
      * @param  len number of characters to consider.
      * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code DCalkowicieBig} or the defined subarray
+     *         representation of a {@code DDuzeLiczby} or the defined subarray
      *         is not wholly within {@code in}.
      * @since  1.5
      */
-    public DCalkowicieBig(char[] in, int offset, int len) {
+    public DDuzeLiczby(char[] in, int offset, int len) {
         this(in,offset,len, MathContext.UNLIMITED);
     }
 
     /**
      * Translates a character array representation of a
-     * {@code DCalkowicieBig} into a {@code DCalkowicieBig}, accepting the
-     * same sequence of characters as the {@link #DCalkowicieBig(String)}
+     * {@code DDuzeLiczby} into a {@code DDuzeLiczby}, accepting the
+     * same sequence of characters as the {@link #DDuzeLiczby(String)}
      * constructor, while allowing a sub-array to be specified and
      * with rounding according to the context settings.
      *
      * <p>Note that if the sequence of characters is already available
      * within a character array, using this constructor is faster than
      * converting the {@code char} array to string and using the
-     * {@code DCalkowicieBig(String)} constructor .
+     * {@code DDuzeLiczby(String)} constructor .
      *
      * @param  in {@code char} array that is the source of characters.
      * @param  offset first character in the array to inspect.
@@ -198,15 +198,15 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code DCalkowicieBig} or the defined subarray
+     *         representation of a {@code DDuzeLiczby} or the defined subarray
      *         is not wholly within {@code in}.
      * @since  1.5
      */
-    public DCalkowicieBig(char[] in, int offset, int len, MathContext mc) {
+    public DDuzeLiczby(char[] in, int offset, int len, MathContext mc) {
         // protect against huge length.
         if (offset + len > in.length || offset < 0)
             throw new NumberFormatException("Bad offset or len arguments for char[] input.");
-        // This is the primary string to DCalkowicieBig constructor; all
+        // This is the primary string to DDuzeLiczby constructor; all
         // incoming strings end up here; it uses explicit (inline)
         // parsing for speed and generates at most one intermediate
         // (temporary) object (a char[] array) for non-compact case.
@@ -215,7 +215,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         int prec = 0;                 // record precision value
         int scl = 0;                  // record scale value
         long rs = 0;                  // the compact value in long
-        CalkowicieBig rb = null;         // the inflated value in CalkowicieBig
+        DuzeLiczby rb = null;         // the inflated value in DuzeLiczby
         // use array bounds checking to handle too-long, len == 0,
         // bad offset, etc.
         try {
@@ -358,7 +358,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                     scl = adjustScale(scl, exp);
                 }
                 // Remove leading zeros from precision (digits count)
-                rb = new CalkowicieBig(coeff, isneg ? -1 : 1, prec);
+                rb = new DuzeLiczby(coeff, isneg ? -1 : 1, prec);
                 rs = compactValFor(rb);
                 int mcp = mc.precision;
                 if (mcp > 0 && (prec > mcp)) {
@@ -455,51 +455,51 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     /**
      * Translates a character array representation of a
-     * {@code DCalkowicieBig} into a {@code DCalkowicieBig}, accepting the
-     * same sequence of characters as the {@link #DCalkowicieBig(String)}
+     * {@code DDuzeLiczby} into a {@code DDuzeLiczby}, accepting the
+     * same sequence of characters as the {@link #DDuzeLiczby(String)}
      * constructor.
      *
      * <p>Note that if the sequence of characters is already available
      * as a character array, using this constructor is faster than
      * converting the {@code char} array to string and using the
-     * {@code DCalkowicieBig(String)} constructor .
+     * {@code DDuzeLiczby(String)} constructor .
      *
      * @param in {@code char} array that is the source of characters.
      * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code DCalkowicieBig}.
+     *         representation of a {@code DDuzeLiczby}.
      * @since  1.5
      */
-    public DCalkowicieBig(char[] in) {
+    public DDuzeLiczby(char[] in) {
         this(in, 0, in.length);
     }
 
     /**
      * Translates a character array representation of a
-     * {@code DCalkowicieBig} into a {@code DCalkowicieBig}, accepting the
-     * same sequence of characters as the {@link #DCalkowicieBig(String)}
+     * {@code DDuzeLiczby} into a {@code DDuzeLiczby}, accepting the
+     * same sequence of characters as the {@link #DDuzeLiczby(String)}
      * constructor and with rounding according to the context
      * settings.
      *
      * <p>Note that if the sequence of characters is already available
      * as a character array, using this constructor is faster than
      * converting the {@code char} array to string and using the
-     * {@code DCalkowicieBig(String)} constructor .
+     * {@code DDuzeLiczby(String)} constructor .
      *
      * @param  in {@code char} array that is the source of characters.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @throws NumberFormatException if {@code in} is not a valid
-     *         representation of a {@code DCalkowicieBig}.
+     *         representation of a {@code DDuzeLiczby}.
      * @since  1.5
      */
-    public DCalkowicieBig(char[] in, MathContext mc) {
+    public DDuzeLiczby(char[] in, MathContext mc) {
         this(in, 0, in.length, mc);
     }
 
     /**
-     * Translates the string representation of a {@code DCalkowicieBig}
-     * into a {@code DCalkowicieBig}.  The string representation consists
+     * Translates the string representation of a {@code DDuzeLiczby}
+     * into a {@code DDuzeLiczby}.  The string representation consists
      * of an optional sign, {@code '+'} (<tt> '&#92;u002B'</tt>) or
      * {@code '-'} (<tt>'&#92;u002D'</tt>), followed by a sequence of
      * zero or more decimal digits ("the integer"), optionally
@@ -550,7 +550,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * </dl>
      * </blockquote>
      *
-     * <p>The scale of the returned {@code DCalkowicieBig} will be the
+     * <p>The scale of the returned {@code DDuzeLiczby} will be the
      * number of digits in the fraction, or zero if the string
      * contains no decimal point, subject to adjustment for any
      * exponent; if the string contains an exponent, the exponent is
@@ -564,10 +564,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * for example).
      *
      * <p><b>Examples:</b><br>
-     * The value of the returned {@code DCalkowicieBig} is equal to
+     * The value of the returned {@code DDuzeLiczby} is equal to
      * <i>significand</i> &times; 10<sup>&nbsp;<i>exponent</i></sup>.
      * For each string on the left, the resulting representation
-     * [{@code CalkowicieBig}, {@code scale}] is shown on the right.
+     * [{@code DuzeLiczby}, {@code scale}] is shown on the right.
      * <pre>
      * "0"            [0,0]
      * "0.00"         [0,2]
@@ -590,49 +590,49 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * compatible with the values returned by {@link Float#toString}
      * and {@link Double#toString}.  This is generally the preferred
      * way to convert a {@code float} or {@code double} into a
-     * DCalkowicieBig, as it doesn't suffer from the unpredictability of
-     * the {@link #DCalkowicieBig(double)} constructor.
+     * DDuzeLiczby, as it doesn't suffer from the unpredictability of
+     * the {@link #DDuzeLiczby(double)} constructor.
      *
-     * @param val String representation of {@code DCalkowicieBig}.
+     * @param val String representation of {@code DDuzeLiczby}.
      *
      * @throws NumberFormatException if {@code val} is not a valid
-     *         representation of a {@code DCalkowicieBig}.
+     *         representation of a {@code DDuzeLiczby}.
      */
-    public DCalkowicieBig(String val) {
+    public DDuzeLiczby(String val) {
         this(val.toCharArray(), 0, val.length());
     }
 
     /**
-     * Translates the string representation of a {@code DCalkowicieBig}
-     * into a {@code DCalkowicieBig}, accepting the same strings as the
-     * {@link #DCalkowicieBig(String)} constructor, with rounding
+     * Translates the string representation of a {@code DDuzeLiczby}
+     * into a {@code DDuzeLiczby}, accepting the same strings as the
+     * {@link #DDuzeLiczby(String)} constructor, with rounding
      * according to the context settings.
      *
-     * @param  val string representation of a {@code DCalkowicieBig}.
+     * @param  val string representation of a {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @throws NumberFormatException if {@code val} is not a valid
-     *         representation of a DCalkowicieBig.
+     *         representation of a DDuzeLiczby.
      * @since  1.5
      */
-    public DCalkowicieBig(String val, MathContext mc) {
+    public DDuzeLiczby(String val, MathContext mc) {
         this(val.toCharArray(), 0, val.length(), mc);
     }
 
     /**
-     * Translates a {@code double} into a {@code DCalkowicieBig} which
+     * Translates a {@code double} into a {@code DDuzeLiczby} which
      * is the exact decimal representation of the {@code double}'s
      * binary floating-point value.  The scale of the returned
-     * {@code DCalkowicieBig} is the smallest value such that
+     * {@code DDuzeLiczby} is the smallest value such that
      * <tt>(10<sup>scale</sup> &times; val)</tt> is an integer.
      * <p>
      * <b>Notes:</b>
      * <ol>
      * <li>
      * The results of this constructor can be somewhat unpredictable.
-     * One might assume that writing {@code new DCalkowicieBig(0.1)} in
-     * Java creates a {@code DCalkowicieBig} which is exactly equal to
+     * One might assume that writing {@code new DDuzeLiczby(0.1)} in
+     * Java creates a {@code DDuzeLiczby} which is exactly equal to
      * 0.1 (an unscaled value of 1, with a scale of 1), but it is
      * actually equal to
      * 0.1000000000000000055511151231257827021181583404541015625.
@@ -644,49 +644,49 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *
      * <li>
      * The {@code String} constructor, on the other hand, is
-     * perfectly predictable: writing {@code new DCalkowicieBig("0.1")}
-     * creates a {@code DCalkowicieBig} which is <i>exactly</i> equal to
+     * perfectly predictable: writing {@code new DDuzeLiczby("0.1")}
+     * creates a {@code DDuzeLiczby} which is <i>exactly</i> equal to
      * 0.1, as one would expect.  Therefore, it is generally
-     * recommended that the {@linkplain #DCalkowicieBig(String)
+     * recommended that the {@linkplain #DDuzeLiczby(String)
      * <tt>String</tt> constructor} be used in preference to this one.
      *
      * <li>
      * When a {@code double} must be used as a source for a
-     * {@code DCalkowicieBig}, note that this constructor provides an
+     * {@code DDuzeLiczby}, note that this constructor provides an
      * exact conversion; it does not give the same result as
      * converting the {@code double} to a {@code String} using the
      * {@link Double#toString(double)} method and then using the
-     * {@link #DCalkowicieBig(String)} constructor.  To get that result,
+     * {@link #DDuzeLiczby(String)} constructor.  To get that result,
      * use the {@code static} {@link #valueOf(double)} method.
      * </ol>
      *
      * @param val {@code double} value to be converted to
-     *        {@code DCalkowicieBig}.
+     *        {@code DDuzeLiczby}.
      * @throws NumberFormatException if {@code val} is infinite or NaN.
      */
-    public DCalkowicieBig(double val) {
+    public DDuzeLiczby(double val) {
         this(val,MathContext.UNLIMITED);
     }
 
     /**
-     * Translates a {@code double} into a {@code DCalkowicieBig}, with
+     * Translates a {@code double} into a {@code DDuzeLiczby}, with
      * rounding according to the context settings.  The scale of the
-     * {@code DCalkowicieBig} is the smallest value such that
+     * {@code DDuzeLiczby} is the smallest value such that
      * <tt>(10<sup>scale</sup> &times; val)</tt> is an integer.
      *
      * <p>The results of this constructor can be somewhat unpredictable
      * and its use is generally not recommended; see the notes under
-     * the {@link #DCalkowicieBig(double)} constructor.
+     * the {@link #DDuzeLiczby(double)} constructor.
      *
      * @param  val {@code double} value to be converted to
-     *         {@code DCalkowicieBig}.
+     *         {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         RoundingMode is UNNECESSARY.
      * @throws NumberFormatException if {@code val} is infinite or NaN.
      * @since  1.5
      */
-    public DCalkowicieBig(double val, MathContext mc) {
+    public DDuzeLiczby(double val, MathContext mc) {
         if (Double.isInfinite(val) || Double.isNaN(val))
             throw new NumberFormatException("Infinite or NaN");
         // Translate the double into sign, exponent and significand, according
@@ -705,7 +705,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
          * scale calculation.
          */
         if (significand == 0) {
-            this.intVal = CalkowicieBig.ZERO;
+            this.intVal = DuzeLiczby.ZERO;
             this.scale = 0;
             this.intCompact = 0;
             this.precision = 1;
@@ -718,16 +718,16 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         }
         int scale = 0;
         // Calculate intVal and scale
-        CalkowicieBig intVal;
+        DuzeLiczby intVal;
         long compactVal = sign * significand;
         if (exponent == 0) {
             intVal = (compactVal == INFLATED) ? INFLATED_BIGINT : null;
         } else {
             if (exponent < 0) {
-                intVal = CalkowicieBig.valueOf(5).pow(-exponent).multiply(compactVal);
+                intVal = DuzeLiczby.valueOf(5).pow(-exponent).multiply(compactVal);
                 scale = -exponent;
             } else { //  (exponent > 0)
-                intVal = CalkowicieBig.valueOf(2).pow(exponent).multiply(compactVal);
+                intVal = DuzeLiczby.valueOf(2).pow(exponent).multiply(compactVal);
             }
             compactVal = compactValFor(intVal);
         }
@@ -769,44 +769,44 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Translates a {@code CalkowicieBig} into a {@code DCalkowicieBig}.
-     * The scale of the {@code DCalkowicieBig} is zero.
+     * Translates a {@code DuzeLiczby} into a {@code DDuzeLiczby}.
+     * The scale of the {@code DDuzeLiczby} is zero.
      *
-     * @param val {@code CalkowicieBig} value to be converted to
-     *            {@code DCalkowicieBig}.
+     * @param val {@code DuzeLiczby} value to be converted to
+     *            {@code DDuzeLiczby}.
      */
-    public DCalkowicieBig(CalkowicieBig val) {
+    public DDuzeLiczby(DuzeLiczby val) {
         scale = 0;
         intVal = val;
         intCompact = compactValFor(val);
     }
 
     /**
-     * Translates a {@code CalkowicieBig} into a {@code DCalkowicieBig}
+     * Translates a {@code DuzeLiczby} into a {@code DDuzeLiczby}
      * rounding according to the context settings.  The scale of the
-     * {@code DCalkowicieBig} is zero.
+     * {@code DDuzeLiczby} is zero.
      *
-     * @param val {@code CalkowicieBig} value to be converted to
-     *            {@code DCalkowicieBig}.
+     * @param val {@code DuzeLiczby} value to be converted to
+     *            {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DCalkowicieBig(CalkowicieBig val, MathContext mc) {
+    public DDuzeLiczby(DuzeLiczby val, MathContext mc) {
         this(val,0,mc);
     }
 
     /**
-     * Translates a {@code CalkowicieBig} unscaled value and an
-     * {@code int} scale into a {@code DCalkowicieBig}.  The value of
-     * the {@code DCalkowicieBig} is
+     * Translates a {@code DuzeLiczby} unscaled value and an
+     * {@code int} scale into a {@code DDuzeLiczby}.  The value of
+     * the {@code DDuzeLiczby} is
      * <tt>(unscaledVal &times; 10<sup>-scale</sup>)</tt>.
      *
-     * @param unscaledVal unscaled value of the {@code DCalkowicieBig}.
-     * @param scale scale of the {@code DCalkowicieBig}.
+     * @param unscaledVal unscaled value of the {@code DDuzeLiczby}.
+     * @param scale scale of the {@code DDuzeLiczby}.
      */
-    public DCalkowicieBig(CalkowicieBig unscaledVal, int scale) {
+    public DDuzeLiczby(DuzeLiczby unscaledVal, int scale) {
         // Negative scales are now allowed
         this.intVal = unscaledVal;
         this.intCompact = compactValFor(unscaledVal);
@@ -814,21 +814,21 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Translates a {@code CalkowicieBig} unscaled value and an
-     * {@code int} scale into a {@code DCalkowicieBig}, with rounding
+     * Translates a {@code DuzeLiczby} unscaled value and an
+     * {@code int} scale into a {@code DDuzeLiczby}, with rounding
      * according to the context settings.  The value of the
-     * {@code DCalkowicieBig} is <tt>(unscaledVal &times;
+     * {@code DDuzeLiczby} is <tt>(unscaledVal &times;
      * 10<sup>-scale</sup>)</tt>, rounded according to the
      * {@code precision} and rounding mode settings.
      *
-     * @param  unscaledVal unscaled value of the {@code DCalkowicieBig}.
-     * @param  scale scale of the {@code DCalkowicieBig}.
+     * @param  unscaledVal unscaled value of the {@code DDuzeLiczby}.
+     * @param  scale scale of the {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DCalkowicieBig(CalkowicieBig unscaledVal, int scale, MathContext mc) {
+    public DDuzeLiczby(DuzeLiczby unscaledVal, int scale, MathContext mc) {
         long compactVal = compactValFor(unscaledVal);
         int mcp = mc.precision;
         int prec = 0;
@@ -867,31 +867,31 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Translates an {@code int} into a {@code DCalkowicieBig}.  The
-     * scale of the {@code DCalkowicieBig} is zero.
+     * Translates an {@code int} into a {@code DDuzeLiczby}.  The
+     * scale of the {@code DDuzeLiczby} is zero.
      *
      * @param val {@code int} value to be converted to
-     *            {@code DCalkowicieBig}.
+     *            {@code DDuzeLiczby}.
      * @since  1.5
      */
-    public DCalkowicieBig(int val) {
+    public DDuzeLiczby(int val) {
         this.intCompact = val;
         this.scale = 0;
         this.intVal = null;
     }
 
     /**
-     * Translates an {@code int} into a {@code DCalkowicieBig}, with
+     * Translates an {@code int} into a {@code DDuzeLiczby}, with
      * rounding according to the context settings.  The scale of the
-     * {@code DCalkowicieBig}, before any rounding, is zero.
+     * {@code DDuzeLiczby}, before any rounding, is zero.
      *
-     * @param  val {@code int} value to be converted to {@code DCalkowicieBig}.
+     * @param  val {@code int} value to be converted to {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DCalkowicieBig(int val, MathContext mc) {
+    public DDuzeLiczby(int val, MathContext mc) {
         int mcp = mc.precision;
         long compactVal = val;
         int scale = 0;
@@ -913,35 +913,35 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Translates a {@code long} into a {@code DCalkowicieBig}.  The
-     * scale of the {@code DCalkowicieBig} is zero.
+     * Translates a {@code long} into a {@code DDuzeLiczby}.  The
+     * scale of the {@code DDuzeLiczby} is zero.
      *
-     * @param val {@code long} value to be converted to {@code DCalkowicieBig}.
+     * @param val {@code long} value to be converted to {@code DDuzeLiczby}.
      * @since  1.5
      */
-    public DCalkowicieBig(long val) {
+    public DDuzeLiczby(long val) {
         this.intCompact = val;
         this.intVal = (val == INFLATED) ? INFLATED_BIGINT : null;
         this.scale = 0;
     }
 
     /**
-     * Translates a {@code long} into a {@code DCalkowicieBig}, with
+     * Translates a {@code long} into a {@code DDuzeLiczby}, with
      * rounding according to the context settings.  The scale of the
-     * {@code DCalkowicieBig}, before any rounding, is zero.
+     * {@code DDuzeLiczby}, before any rounding, is zero.
      *
-     * @param  val {@code long} value to be converted to {@code DCalkowicieBig}.
+     * @param  val {@code long} value to be converted to {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DCalkowicieBig(long val, MathContext mc) {
+    public DDuzeLiczby(long val, MathContext mc) {
         int mcp = mc.precision;
         int mode = mc.roundingMode.oldMode;
         int prec = 0;
         int scale = 0;
-        CalkowicieBig intVal = (val == INFLATED) ? INFLATED_BIGINT : null;
+        DuzeLiczby intVal = (val == INFLATED) ? INFLATED_BIGINT : null;
         if (mcp > 0) { // do rounding
             if (val == INFLATED) {
                 prec = 19;
@@ -979,107 +979,107 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     /**
      * Translates a {@code long} unscaled value and an
-     * {@code int} scale into a {@code DCalkowicieBig}.  This
+     * {@code int} scale into a {@code DDuzeLiczby}.  This
      * {@literal "static factory method"} is provided in preference to
      * a ({@code long}, {@code int}) constructor because it
-     * allows for reuse of frequently used {@code DCalkowicieBig} values..
+     * allows for reuse of frequently used {@code DDuzeLiczby} values..
      *
-     * @param unscaledVal unscaled value of the {@code DCalkowicieBig}.
-     * @param scale scale of the {@code DCalkowicieBig}.
-     * @return a {@code DCalkowicieBig} whose value is
+     * @param unscaledVal unscaled value of the {@code DDuzeLiczby}.
+     * @param scale scale of the {@code DDuzeLiczby}.
+     * @return a {@code DDuzeLiczby} whose value is
      *         <tt>(unscaledVal &times; 10<sup>-scale</sup>)</tt>.
      */
-    public static DCalkowicieBig valueOf(long unscaledVal, int scale) {
+    public static DDuzeLiczby valueOf(long unscaledVal, int scale) {
         if (scale == 0)
             return valueOf(unscaledVal);
         else if (unscaledVal == 0) {
             return zeroValueOf(scale);
         }
-        return new DCalkowicieBig(unscaledVal == INFLATED ?
+        return new DDuzeLiczby(unscaledVal == INFLATED ?
                 INFLATED_BIGINT : null,
                 unscaledVal, scale, 0);
     }
 
     /**
-     * Translates a {@code long} value into a {@code DCalkowicieBig}
+     * Translates a {@code long} value into a {@code DDuzeLiczby}
      * with a scale of zero.  This {@literal "static factory method"}
      * is provided in preference to a ({@code long}) constructor
      * because it allows for reuse of frequently used
-     * {@code DCalkowicieBig} values.
+     * {@code DDuzeLiczby} values.
      *
-     * @param val value of the {@code DCalkowicieBig}.
-     * @return a {@code DCalkowicieBig} whose value is {@code val}.
+     * @param val value of the {@code DDuzeLiczby}.
+     * @return a {@code DDuzeLiczby} whose value is {@code val}.
      */
-    public static DCalkowicieBig valueOf(long val) {
+    public static DDuzeLiczby valueOf(long val) {
         if (val >= 0 && val < zeroThroughTen.length)
             return zeroThroughTen[(int)val];
         else if (val != INFLATED)
-            return new DCalkowicieBig(null, val, 0, 0);
-        return new DCalkowicieBig(INFLATED_BIGINT, val, 0, 0);
+            return new DDuzeLiczby(null, val, 0, 0);
+        return new DDuzeLiczby(INFLATED_BIGINT, val, 0, 0);
     }
 
-    static DCalkowicieBig valueOf(long unscaledVal, int scale, int prec) {
+    static DDuzeLiczby valueOf(long unscaledVal, int scale, int prec) {
         if (scale == 0 && unscaledVal >= 0 && unscaledVal < zeroThroughTen.length) {
             return zeroThroughTen[(int) unscaledVal];
         } else if (unscaledVal == 0) {
             return zeroValueOf(scale);
         }
-        return new DCalkowicieBig(unscaledVal == INFLATED ? INFLATED_BIGINT : null,
+        return new DDuzeLiczby(unscaledVal == INFLATED ? INFLATED_BIGINT : null,
                 unscaledVal, scale, prec);
     }
 
-    static DCalkowicieBig valueOf(CalkowicieBig intVal, int scale, int prec) {
+    static DDuzeLiczby valueOf(DuzeLiczby intVal, int scale, int prec) {
         long val = compactValFor(intVal);
         if (val == 0) {
             return zeroValueOf(scale);
         } else if (scale == 0 && val >= 0 && val < zeroThroughTen.length) {
             return zeroThroughTen[(int) val];
         }
-        return new DCalkowicieBig(intVal, val, scale, prec);
+        return new DDuzeLiczby(intVal, val, scale, prec);
     }
 
-    static DCalkowicieBig zeroValueOf(int scale) {
+    static DDuzeLiczby zeroValueOf(int scale) {
         if (scale >= 0 && scale < ZERO_SCALED_BY.length)
             return ZERO_SCALED_BY[scale];
         else
-            return new DCalkowicieBig(CalkowicieBig.ZERO, 0, scale, 1);
+            return new DDuzeLiczby(DuzeLiczby.ZERO, 0, scale, 1);
     }
 
     /**
-     * Translates a {@code double} into a {@code DCalkowicieBig}, using
+     * Translates a {@code double} into a {@code DDuzeLiczby}, using
      * the {@code double}'s canonical string representation provided
      * by the {@link Double#toString(double)} method.
      *
      * <p><b>Note:</b> This is generally the preferred way to convert
      * a {@code double} (or {@code float}) into a
-     * {@code DCalkowicieBig}, as the value returned is equal to that
-     * resulting from constructing a {@code DCalkowicieBig} from the
+     * {@code DDuzeLiczby}, as the value returned is equal to that
+     * resulting from constructing a {@code DDuzeLiczby} from the
      * result of using {@link Double#toString(double)}.
      *
-     * @param  val {@code double} to convert to a {@code DCalkowicieBig}.
-     * @return a {@code DCalkowicieBig} whose value is equal to or approximately
+     * @param  val {@code double} to convert to a {@code DDuzeLiczby}.
+     * @return a {@code DDuzeLiczby} whose value is equal to or approximately
      *         equal to the value of {@code val}.
      * @throws NumberFormatException if {@code val} is infinite or NaN.
      * @since  1.5
      */
-    public static DCalkowicieBig valueOf(double val) {
+    public static DDuzeLiczby valueOf(double val) {
         // Reminder: a zero double returns '0.0', so we cannot fastpath
         // to use the constant ZERO.  This might be important enough to
         // justify a factory approach, a cache, or a few private
         // constants, later.
-        return new DCalkowicieBig(Double.toString(val));
+        return new DDuzeLiczby(Double.toString(val));
     }
 
     // Arithmetic Operations
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this +
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this +
      * augend)}, and whose scale is {@code max(this.scale(),
      * augend.scale())}.
      *
-     * @param  augend value to be added to this {@code DCalkowicieBig}.
+     * @param  augend value to be added to this {@code DDuzeLiczby}.
      * @return {@code this + augend}
      */
-    public DCalkowicieBig add(DCalkowicieBig augend) {
+    public DDuzeLiczby add(DDuzeLiczby augend) {
         if (this.intCompact != INFLATED) {
             if ((augend.intCompact != INFLATED)) {
                 return add(this.intCompact, this.scale, augend.intCompact, augend.scale);
@@ -1096,23 +1096,23 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this + augend)},
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this + augend)},
      * with rounding according to the context settings.
      *
      * If either number is zero and the precision setting is nonzero then
      * the other number, rounded if necessary, is used as the result.
      *
-     * @param  augend value to be added to this {@code DCalkowicieBig}.
+     * @param  augend value to be added to this {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @return {@code this + augend}, rounded as necessary.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DCalkowicieBig add(DCalkowicieBig augend, MathContext mc) {
+    public DDuzeLiczby add(DDuzeLiczby augend, MathContext mc) {
         if (mc.precision == 0)
             return add(augend);
-        DCalkowicieBig lhs = this;
+        DDuzeLiczby lhs = this;
 
         // If either number is zero then the other number, rounded and
         // scaled if necessary, is used as the result.
@@ -1122,7 +1122,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
             if (lhsIsZero || augendIsZero) {
                 int preferredScale = Math.max(lhs.scale(), augend.scale());
-                DCalkowicieBig result;
+                DDuzeLiczby result;
 
                 if (lhsIsZero && augendIsZero)
                     return zeroValueOf(preferredScale);
@@ -1146,7 +1146,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
         long padding = (long) lhs.scale - augend.scale;
         if (padding != 0) { // scales differ; alignment needed
-            DCalkowicieBig arg[] = preAlign(lhs, augend, padding, mc);
+            DDuzeLiczby arg[] = preAlign(lhs, augend, padding, mc);
             matchScale(arg);
             lhs = arg[0];
             augend = arg[1];
@@ -1156,7 +1156,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     /**
      * Returns an array of length two, the sum of whose entries is
-     * equal to the rounded sum of the {@code DCalkowicieBig} arguments.
+     * equal to the rounded sum of the {@code DDuzeLiczby} arguments.
      *
      * <p>If the digit positions of the arguments have a sufficient
      * gap between them, the value smaller in magnitude can be
@@ -1176,10 +1176,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * that the number of digits of the smaller operand could be
      * reduced even though the significands partially overlapped.
      */
-    private DCalkowicieBig[] preAlign(DCalkowicieBig lhs, DCalkowicieBig augend, long padding, MathContext mc) {
+    private DDuzeLiczby[] preAlign(DDuzeLiczby lhs, DDuzeLiczby augend, long padding, MathContext mc) {
         assert padding != 0;
-        DCalkowicieBig big;
-        DCalkowicieBig small;
+        DDuzeLiczby big;
+        DDuzeLiczby small;
 
         if (padding < 0) { // lhs is big; augend is small
             big = lhs;
@@ -1209,24 +1209,24 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         long smallHighDigitPos = (long) small.scale - small.precision() + 1;
         if (smallHighDigitPos > big.scale + 2 && // big and small disjoint
                 smallHighDigitPos > estResultUlpScale + 2) { // small digits not visible
-            small = DCalkowicieBig.valueOf(small.signum(), this.checkScale(Math.max(big.scale, estResultUlpScale) + 3));
+            small = DDuzeLiczby.valueOf(small.signum(), this.checkScale(Math.max(big.scale, estResultUlpScale) + 3));
         }
 
         // Since addition is symmetric, preserving input order in
         // returned operands doesn't matter
-        DCalkowicieBig[] result = {big, small};
+        DDuzeLiczby[] result = {big, small};
         return result;
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this -
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this -
      * subtrahend)}, and whose scale is {@code max(this.scale(),
      * subtrahend.scale())}.
      *
-     * @param  subtrahend value to be subtracted from this {@code DCalkowicieBig}.
+     * @param  subtrahend value to be subtracted from this {@code DDuzeLiczby}.
      * @return {@code this - subtrahend}
      */
-    public DCalkowicieBig subtract(DCalkowicieBig subtrahend) {
+    public DDuzeLiczby subtract(DDuzeLiczby subtrahend) {
         if (this.intCompact != INFLATED) {
             if ((subtrahend.intCompact != INFLATED)) {
                 return add(this.intCompact, this.scale, -subtrahend.intCompact, subtrahend.scale);
@@ -1236,7 +1236,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         } else {
             if ((subtrahend.intCompact != INFLATED)) {
                 // Pair of subtrahend values given before pair of
-                // values from this DCalkowicieBig to avoid need for
+                // values from this DDuzeLiczby to avoid need for
                 // method overloading on the specialized add method
                 return add(-subtrahend.intCompact, subtrahend.scale, this.intVal, this.scale);
             } else {
@@ -1246,20 +1246,20 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this - subtrahend)},
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this - subtrahend)},
      * with rounding according to the context settings.
      *
      * If {@code subtrahend} is zero then this, rounded if necessary, is used as the
      * result.  If this is zero then the result is {@code subtrahend.negate(mc)}.
      *
-     * @param  subtrahend value to be subtracted from this {@code DCalkowicieBig}.
+     * @param  subtrahend value to be subtracted from this {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @return {@code this - subtrahend}, rounded as necessary.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DCalkowicieBig subtract(DCalkowicieBig subtrahend, MathContext mc) {
+    public DDuzeLiczby subtract(DDuzeLiczby subtrahend, MathContext mc) {
         if (mc.precision == 0)
             return subtract(subtrahend);
         // share the special rounding code in add()
@@ -1267,14 +1267,14 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is <tt>(this &times;
+     * Returns a {@code DDuzeLiczby} whose value is <tt>(this &times;
      * multiplicand)</tt>, and whose scale is {@code (this.scale() +
      * multiplicand.scale())}.
      *
-     * @param  multiplicand value to be multiplied by this {@code DCalkowicieBig}.
+     * @param  multiplicand value to be multiplied by this {@code DDuzeLiczby}.
      * @return {@code this * multiplicand}
      */
-    public DCalkowicieBig multiply(DCalkowicieBig multiplicand) {
+    public DDuzeLiczby multiply(DDuzeLiczby multiplicand) {
         int productScale = checkScale((long) scale + multiplicand.scale);
         if (this.intCompact != INFLATED) {
             if ((multiplicand.intCompact != INFLATED)) {
@@ -1292,17 +1292,17 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is <tt>(this &times;
+     * Returns a {@code DDuzeLiczby} whose value is <tt>(this &times;
      * multiplicand)</tt>, with rounding according to the context settings.
      *
-     * @param  multiplicand value to be multiplied by this {@code DCalkowicieBig}.
+     * @param  multiplicand value to be multiplied by this {@code DDuzeLiczby}.
      * @param  mc the context to use.
      * @return {@code this * multiplicand}, rounded as necessary.
      * @throws ArithmeticException if the result is inexact but the
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DCalkowicieBig multiply(DCalkowicieBig multiplicand, MathContext mc) {
+    public DDuzeLiczby multiply(DDuzeLiczby multiplicand, MathContext mc) {
         if (mc.precision == 0)
             return multiply(multiplicand);
         int productScale = checkScale((long) scale + multiplicand.scale);
@@ -1322,16 +1322,16 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this /
      * divisor)}, and whose scale is as specified.  If rounding must
      * be performed to generate a result with the specified scale, the
      * specified rounding mode is applied.
      *
-     * <p>The new {@link #divide(DCalkowicieBig, int, RoundingMode)} method
+     * <p>The new {@link #divide(DDuzeLiczby, int, RoundingMode)} method
      * should be used in preference to this legacy method.
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
-     * @param  scale scale of the {@code DCalkowicieBig} quotient to be returned.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
+     * @param  scale scale of the {@code DDuzeLiczby} quotient to be returned.
      * @param  roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor} is zero,
@@ -1349,7 +1349,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public DCalkowicieBig divide(DCalkowicieBig divisor, int scale, int roundingMode) {
+    public DDuzeLiczby divide(DDuzeLiczby divisor, int scale, int roundingMode) {
         if (roundingMode < ROUND_UP || roundingMode > ROUND_UNNECESSARY)
             throw new IllegalArgumentException("Invalid rounding mode");
         if (this.intCompact != INFLATED) {
@@ -1368,13 +1368,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this /
      * divisor)}, and whose scale is as specified.  If rounding must
      * be performed to generate a result with the specified scale, the
      * specified rounding mode is applied.
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
-     * @param  scale scale of the {@code DCalkowicieBig} quotient to be returned.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
+     * @param  scale scale of the {@code DDuzeLiczby} quotient to be returned.
      * @param  roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor} is zero,
@@ -1383,20 +1383,20 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *         of the division exactly.
      * @since 1.5
      */
-    public DCalkowicieBig divide(DCalkowicieBig divisor, int scale, RoundingMode roundingMode) {
+    public DDuzeLiczby divide(DDuzeLiczby divisor, int scale, RoundingMode roundingMode) {
         return divide(divisor, scale, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this /
      * divisor)}, and whose scale is {@code this.scale()}.  If
      * rounding must be performed to generate a result with the given
      * scale, the specified rounding mode is applied.
      *
-     * <p>The new {@link #divide(DCalkowicieBig, RoundingMode)} method
+     * <p>The new {@link #divide(DDuzeLiczby, RoundingMode)} method
      * should be used in preference to this legacy method.
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
      * @param  roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor==0}, or
@@ -1414,17 +1414,17 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public DCalkowicieBig divide(DCalkowicieBig divisor, int roundingMode) {
+    public DDuzeLiczby divide(DDuzeLiczby divisor, int roundingMode) {
         return this.divide(divisor, scale, roundingMode);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this /
      * divisor)}, and whose scale is {@code this.scale()}.  If
      * rounding must be performed to generate a result with the given
      * scale, the specified rounding mode is applied.
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
      * @param  roundingMode rounding mode to apply.
      * @return {@code this / divisor}
      * @throws ArithmeticException if {@code divisor==0}, or
@@ -1433,25 +1433,25 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *         of the division exactly.
      * @since 1.5
      */
-    public DCalkowicieBig divide(DCalkowicieBig divisor, RoundingMode roundingMode) {
+    public DDuzeLiczby divide(DDuzeLiczby divisor, RoundingMode roundingMode) {
         return this.divide(divisor, scale, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this /
      * divisor)}, and whose preferred scale is {@code (this.scale() -
      * divisor.scale())}; if the exact quotient cannot be
      * represented (because it has a non-terminating decimal
      * expansion) an {@code ArithmeticException} is thrown.
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
      * @throws ArithmeticException if the exact quotient does not have a
      *         terminating decimal expansion
      * @return {@code this / divisor}
      * @since 1.5
      * @author Joseph D. Darcy
      */
-    public DCalkowicieBig divide(DCalkowicieBig divisor) {
+    public DDuzeLiczby divide(DDuzeLiczby divisor) {
         /*
          * Handle zero cases first.
          */
@@ -1479,7 +1479,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                             (long)Math.ceil(10.0*divisor.precision()/3.0),
                     Integer.MAX_VALUE),
                     RoundingMode.UNNECESSARY);
-            DCalkowicieBig quotient;
+            DDuzeLiczby quotient;
             try {
                 quotient = this.divide(divisor, mc);
             } catch (ArithmeticException e) {
@@ -1489,7 +1489,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
             int quotientScale = quotient.scale();
 
-            // divide(DCalkowicieBig, mc) tries to adjust the quotient to
+            // divide(DDuzeLiczby, mc) tries to adjust the quotient to
             // the desired one by removing trailing zeros; since the
             // exact divide method does not have an explicit digit
             // limit, we can add zeros too.
@@ -1501,10 +1501,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this /
      * divisor)}, with rounding according to the context settings.
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
      * @param  mc the context to use.
      * @return {@code this / divisor}, rounded as necessary.
      * @throws ArithmeticException if the result is inexact but the
@@ -1513,12 +1513,12 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *         non-terminating decimal expansion.
      * @since  1.5
      */
-    public DCalkowicieBig divide(DCalkowicieBig divisor, MathContext mc) {
+    public DDuzeLiczby divide(DDuzeLiczby divisor, MathContext mc) {
         int mcp = mc.precision;
         if (mcp == 0)
             return divide(divisor);
 
-        DCalkowicieBig dividend = this;
+        DDuzeLiczby dividend = this;
         long preferredScale = (long)dividend.scale - divisor.scale;
         // Now calculate the answer.  We use the existing
         // divide-and-round method, but as this rounds to scale we have
@@ -1557,17 +1557,17 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is the integer part
+     * Returns a {@code DDuzeLiczby} whose value is the integer part
      * of the quotient {@code (this / divisor)} rounded down.  The
      * preferred scale of the result is {@code (this.scale() -
      * divisor.scale())}.
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
      * @return The integer part of {@code this / divisor}.
      * @throws ArithmeticException if {@code divisor==0}
      * @since  1.5
      */
-    public DCalkowicieBig divideToIntegralValue(DCalkowicieBig divisor) {
+    public DDuzeLiczby divideToIntegralValue(DDuzeLiczby divisor) {
         // Calculate preferred scale
         int preferredScale = saturateLong((long) this.scale - divisor.scale);
         if (this.compareMagnitude(divisor) < 0) {
@@ -1585,7 +1585,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                         (long)Math.ceil(10.0*divisor.precision()/3.0) +
                         Math.abs((long)this.scale() - divisor.scale()) + 2,
                 Integer.MAX_VALUE);
-        DCalkowicieBig quotient = this.divide(divisor, new MathContext(maxDigits,
+        DDuzeLiczby quotient = this.divide(divisor, new MathContext(maxDigits,
                 RoundingMode.DOWN));
         if (quotient.scale > 0) {
             quotient = quotient.setScale(0, RoundingMode.DOWN);
@@ -1601,7 +1601,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is the integer part
+     * Returns a {@code DDuzeLiczby} whose value is the integer part
      * of {@code (this / divisor)}.  Since the integer part of the
      * exact quotient does not depend on the rounding mode, the
      * rounding mode does not affect the values returned by this
@@ -1611,7 +1611,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * the exact quotient needs more than {@code mc.precision}
      * digits.
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
      * @param  mc the context to use.
      * @return The integer part of {@code this / divisor}.
      * @throws ArithmeticException if {@code divisor==0}
@@ -1620,7 +1620,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @since  1.5
      * @author Joseph D. Darcy
      */
-    public DCalkowicieBig divideToIntegralValue(DCalkowicieBig divisor, MathContext mc) {
+    public DDuzeLiczby divideToIntegralValue(DDuzeLiczby divisor, MathContext mc) {
         if (mc.precision == 0 || // exact result
                 (this.compareMagnitude(divisor) < 0)) // zero result
             return divideToIntegralValue(divisor);
@@ -1635,7 +1635,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
          * digits.  Next, remove any fractional digits from the
          * quotient and adjust the scale to the preferred value.
          */
-        DCalkowicieBig result = this.divide(divisor, new MathContext(mc.precision, RoundingMode.DOWN));
+        DDuzeLiczby result = this.divide(divisor, new MathContext(mc.precision, RoundingMode.DOWN));
 
         if (result.scale() < 0) {
             /*
@@ -1643,7 +1643,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
              * full integer portion of the exact quotient; if it does,
              * the computed remainder will be less than the divisor.
              */
-            DCalkowicieBig product = result.multiply(divisor);
+            DDuzeLiczby product = result.multiply(divisor);
             // If the quotient is the full integer value,
             // |dividend-product| < |divisor|.
             if (this.subtract(product).compareMagnitude(divisor) >= 0) {
@@ -1670,31 +1670,31 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (this % divisor)}.
+     * Returns a {@code DDuzeLiczby} whose value is {@code (this % divisor)}.
      *
      * <p>The remainder is given by
      * {@code this.subtract(this.divideToIntegralValue(divisor).multiply(divisor))}.
      * Note that this is not the modulo operation (the result can be
      * negative).
      *
-     * @param  divisor value by which this {@code DCalkowicieBig} is to be divided.
+     * @param  divisor value by which this {@code DDuzeLiczby} is to be divided.
      * @return {@code this % divisor}.
      * @throws ArithmeticException if {@code divisor==0}
      * @since  1.5
      */
-    public DCalkowicieBig remainder(DCalkowicieBig divisor) {
-        DCalkowicieBig divrem[] = this.divideAndRemainder(divisor);
+    public DDuzeLiczby remainder(DDuzeLiczby divisor) {
+        DDuzeLiczby divrem[] = this.divideAndRemainder(divisor);
         return divrem[1];
     }
 
-    public DCalkowicieBig remainder(DCalkowicieBig divisor, MathContext mc) {
-        DCalkowicieBig divrem[] = this.divideAndRemainder(divisor, mc);
+    public DDuzeLiczby remainder(DDuzeLiczby divisor, MathContext mc) {
+        DDuzeLiczby divrem[] = this.divideAndRemainder(divisor, mc);
         return divrem[1];
     }
 
-    public DCalkowicieBig[] divideAndRemainder(DCalkowicieBig divisor) {
+    public DDuzeLiczby[] divideAndRemainder(DDuzeLiczby divisor) {
         // we use the identity  x = i * y + r to determine r
-        DCalkowicieBig[] result = new DCalkowicieBig[2];
+        DDuzeLiczby[] result = new DDuzeLiczby[2];
 
         result[0] = this.divideToIntegralValue(divisor);
         result[1] = this.subtract(result[0].multiply(divisor));
@@ -1702,12 +1702,12 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
 
-    public DCalkowicieBig[] divideAndRemainder(DCalkowicieBig divisor, MathContext mc) {
+    public DDuzeLiczby[] divideAndRemainder(DDuzeLiczby divisor, MathContext mc) {
         if (mc.precision == 0)
             return divideAndRemainder(divisor);
 
-        DCalkowicieBig[] result = new DCalkowicieBig[2];
-        DCalkowicieBig lhs = this;
+        DDuzeLiczby[] result = new DDuzeLiczby[2];
+        DDuzeLiczby lhs = this;
 
         result[0] = lhs.divideToIntegralValue(divisor, mc);
         result[1] = lhs.subtract(result[0].multiply(divisor));
@@ -1715,7 +1715,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is
+     * Returns a {@code DDuzeLiczby} whose value is
      * <tt>(this<sup>n</sup>)</tt>, The power is computed exactly, to
      * unlimited precision.
      *
@@ -1726,23 +1726,23 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * Note that future releases may expand the allowable exponent
      * range of this method.
      *
-     * @param  n power to raise this {@code DCalkowicieBig} to.
+     * @param  n power to raise this {@code DDuzeLiczby} to.
      * @return <tt>this<sup>n</sup></tt>
      * @throws ArithmeticException if {@code n} is out of range.
      * @since  1.5
      */
-    public DCalkowicieBig pow(int n) {
+    public DDuzeLiczby pow(int n) {
         if (n < 0 || n > 999999999)
             throw new ArithmeticException("Invalid operation");
         // No need to calculate pow(n) if result will over/underflow.
         // Don't attempt to support "supernormal" numbers.
         int newScale = checkScale((long)scale * n);
-        return new DCalkowicieBig(this.inflated().pow(n), newScale);
+        return new DDuzeLiczby(this.inflated().pow(n), newScale);
     }
 
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is
+     * Returns a {@code DDuzeLiczby} whose value is
      * <tt>(this<sup>n</sup>)</tt>.  The current implementation uses
      * the core algorithm defined in ANSI standard X3.274-1996 with
      * rounding according to the context settings.  In general, the
@@ -1782,7 +1782,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *   </ul>
      * </ul>
      *
-     * @param  n power to raise this {@code DCalkowicieBig} to.
+     * @param  n power to raise this {@code DDuzeLiczby} to.
      * @param  mc the context to use.
      * @return <tt>this<sup>n</sup></tt> using the ANSI standard X3.274-1996
      *         algorithm
@@ -1791,14 +1791,14 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *         of range.
      * @since  1.5
      */
-    public DCalkowicieBig pow(int n, MathContext mc) {
+    public DDuzeLiczby pow(int n, MathContext mc) {
         if (mc.precision == 0)
             return pow(n);
         if (n < -999999999 || n > 999999999)
             throw new ArithmeticException("Invalid operation");
         if (n == 0)
             return ONE;                      // x**0 == 1 in X3.274
-        DCalkowicieBig lhs = this;
+        DDuzeLiczby lhs = this;
         MathContext workmc = mc;           // working settings
         int mag = Math.abs(n);               // magnitude of n
         if (mc.precision > 0) {
@@ -1809,7 +1809,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                     mc.roundingMode);
         }
         // ready to carry out power calculation...
-        DCalkowicieBig acc = ONE;           // accumulator
+        DDuzeLiczby acc = ONE;           // accumulator
         boolean seenbit = false;        // set once we've seen a 1-bit
         for (int i=1;;i++) {            // for each bit [top bit ignored]
             mag += mag;                 // shift left 1 bit
@@ -1831,19 +1831,19 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is the absolute value
-     * of this {@code DCalkowicieBig}, and whose scale is
+     * Returns a {@code DDuzeLiczby} whose value is the absolute value
+     * of this {@code DDuzeLiczby}, and whose scale is
      * {@code this.scale()}.
      *
      * @return {@code abs(this)}
      */
-    public DCalkowicieBig abs() {
+    public DDuzeLiczby abs() {
         return (signum() < 0 ? negate() : this);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is the absolute value
-     * of this {@code DCalkowicieBig}, with rounding according to the
+     * Returns a {@code DDuzeLiczby} whose value is the absolute value
+     * of this {@code DDuzeLiczby}, with rounding according to the
      * context settings.
      *
      * @param mc the context to use.
@@ -1852,26 +1852,26 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *         rounding mode is {@code UNNECESSARY}.
      * @since 1.5
      */
-    public DCalkowicieBig abs(MathContext mc) {
+    public DDuzeLiczby abs(MathContext mc) {
         return (signum() < 0 ? negate(mc) : plus(mc));
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (-this)},
+     * Returns a {@code DDuzeLiczby} whose value is {@code (-this)},
      * and whose scale is {@code this.scale()}.
      *
      * @return {@code -this}.
      */
-    public DCalkowicieBig negate() {
+    public DDuzeLiczby negate() {
         if (intCompact == INFLATED) {
-            return new DCalkowicieBig(intVal.negate(), INFLATED, scale, precision);
+            return new DDuzeLiczby(intVal.negate(), INFLATED, scale, precision);
         } else {
             return valueOf(-intCompact, scale, precision);
         }
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (-this)},
+     * Returns a {@code DDuzeLiczby} whose value is {@code (-this)},
      * with rounding according to the context settings.
      *
      * @param mc the context to use.
@@ -1880,15 +1880,15 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *         rounding mode is {@code UNNECESSARY}.
      * @since  1.5
      */
-    public DCalkowicieBig negate(MathContext mc) {
+    public DDuzeLiczby negate(MathContext mc) {
         return negate().plus(mc);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (+this)}, and whose
+     * Returns a {@code DDuzeLiczby} whose value is {@code (+this)}, and whose
      * scale is {@code this.scale()}.
      *
-     * <p>This method, which simply returns this {@code DCalkowicieBig}
+     * <p>This method, which simply returns this {@code DDuzeLiczby}
      * is included for symmetry with the unary minus method {@link
      * #negate()}.
      *
@@ -1896,12 +1896,12 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @see #negate()
      * @since  1.5
      */
-    public DCalkowicieBig plus() {
+    public DDuzeLiczby plus() {
         return this;
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (+this)},
+     * Returns a {@code DDuzeLiczby} whose value is {@code (+this)},
      * with rounding according to the context settings.
      *
      * <p>The effect of this method is identical to that of the {@link
@@ -1915,16 +1915,16 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @see    #round(MathContext)
      * @since  1.5
      */
-    public DCalkowicieBig plus(MathContext mc) {
+    public DDuzeLiczby plus(MathContext mc) {
         if (mc.precision == 0)                 // no rounding please
             return this;
         return doRound(this, mc);
     }
 
     /**
-     * Returns the signum function of this {@code DCalkowicieBig}.
+     * Returns the signum function of this {@code DDuzeLiczby}.
      *
-     * @return -1, 0, or 1 as the value of this {@code DCalkowicieBig}
+     * @return -1, 0, or 1 as the value of this {@code DDuzeLiczby}
      *         is negative, zero, or positive.
      */
     public int signum() {
@@ -1934,26 +1934,26 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns the <i>scale</i> of this {@code DCalkowicieBig}.  If zero
+     * Returns the <i>scale</i> of this {@code DDuzeLiczby}.  If zero
      * or positive, the scale is the number of digits to the right of
      * the decimal point.  If negative, the unscaled value of the
      * number is multiplied by ten to the power of the negation of the
      * scale.  For example, a scale of {@code -3} means the unscaled
      * value is multiplied by 1000.
      *
-     * @return the scale of this {@code DCalkowicieBig}.
+     * @return the scale of this {@code DDuzeLiczby}.
      */
     public int scale() {
         return scale;
     }
 
     /**
-     * Returns the <i>precision</i> of this {@code DCalkowicieBig}.  (The
+     * Returns the <i>precision</i> of this {@code DDuzeLiczby}.  (The
      * precision is the number of digits in the unscaled value.)
      *
      * <p>The precision of a zero value is 1.
      *
-     * @return the precision of this {@code DCalkowicieBig}.
+     * @return the precision of this {@code DDuzeLiczby}.
      * @since  1.5
      */
     public int precision() {
@@ -1971,14 +1971,14 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
 
     /**
-     * Returns a {@code CalkowicieBig} whose value is the <i>unscaled
-     * value</i> of this {@code DCalkowicieBig}.  (Computes <tt>(this *
+     * Returns a {@code DuzeLiczby} whose value is the <i>unscaled
+     * value</i> of this {@code DDuzeLiczby}.  (Computes <tt>(this *
      * 10<sup>this.scale()</sup>)</tt>.)
      *
-     * @return the unscaled value of this {@code DCalkowicieBig}.
+     * @return the unscaled value of this {@code DDuzeLiczby}.
      * @since  1.2
      */
-    public CalkowicieBig unscaledValue() {
+    public DuzeLiczby unscaledValue() {
         return this.inflated();
     }
 
@@ -2000,7 +2000,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     /**
      * Rounding mode to round towards positive infinity.  If the
-     * {@code DCalkowicieBig} is positive, behaves as for
+     * {@code DDuzeLiczby} is positive, behaves as for
      * {@code ROUND_UP}; if negative, behaves as for
      * {@code ROUND_DOWN}.  Note that this rounding mode never
      * decreases the calculated value.
@@ -2009,7 +2009,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     /**
      * Rounding mode to round towards negative infinity.  If the
-     * {@code DCalkowicieBig} is positive, behave as for
+     * {@code DDuzeLiczby} is positive, behave as for
      * {@code ROUND_DOWN}; if negative, behave as for
      * {@code ROUND_UP}.  Note that this rounding mode never
      * increases the calculated value.
@@ -2059,7 +2059,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     // Scaling/Rounding Operations
 
     /**
-     * Returns a {@code DCalkowicieBig} rounded according to the
+     * Returns a {@code DDuzeLiczby} rounded according to the
      * {@code MathContext} settings.  If the precision setting is 0 then
      * no rounding takes place.
      *
@@ -2067,40 +2067,40 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * {@link #plus(MathContext)} method.
      *
      * @param mc the context to use.
-     * @return a {@code DCalkowicieBig} rounded according to the
+     * @return a {@code DDuzeLiczby} rounded according to the
      *         {@code MathContext} settings.
      * @throws ArithmeticException if the rounding mode is
      *         {@code UNNECESSARY} and the
-     *         {@code DCalkowicieBig}  operation would require rounding.
+     *         {@code DDuzeLiczby}  operation would require rounding.
      * @see    #plus(MathContext)
      * @since  1.5
      */
-    public DCalkowicieBig round(MathContext mc) {
+    public DDuzeLiczby round(MathContext mc) {
         return plus(mc);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose scale is the specified
+     * Returns a {@code DDuzeLiczby} whose scale is the specified
      * value, and whose unscaled value is determined by multiplying or
-     * dividing this {@code DCalkowicieBig}'s unscaled value by the
+     * dividing this {@code DDuzeLiczby}'s unscaled value by the
      * appropriate power of ten to maintain its overall value.  If the
      * scale is reduced by the operation, the unscaled value must be
      * divided (rather than multiplied), and the value may be changed;
      * in this case, the specified rounding mode is applied to the
      * division.
      *
-     * <p>Note that since DCalkowicieBig objects are immutable, calls of
+     * <p>Note that since DDuzeLiczby objects are immutable, calls of
      * this method do <i>not</i> result in the original object being
      * modified, contrary to the usual convention of having methods
      * named <tt>set<i>X</i></tt> mutate field <i>{@code X}</i>.
      * Instead, {@code setScale} returns an object with the proper
      * scale; the returned object may or may not be newly allocated.
      *
-     * @param  newScale scale of the {@code DCalkowicieBig} value to be returned.
+     * @param  newScale scale of the {@code DDuzeLiczby} value to be returned.
      * @param  roundingMode The rounding mode to apply.
-     * @return a {@code DCalkowicieBig} whose scale is the specified value,
+     * @return a {@code DDuzeLiczby} whose scale is the specified value,
      *         and whose unscaled value is determined by multiplying or
-     *         dividing this {@code DCalkowicieBig}'s unscaled value by the
+     *         dividing this {@code DDuzeLiczby}'s unscaled value by the
      *         appropriate power of ten to maintain its overall value.
      * @throws ArithmeticException if {@code roundingMode==UNNECESSARY}
      *         and the specified scaling operation would require
@@ -2108,21 +2108,21 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @see    RoundingMode
      * @since  1.5
      */
-    public DCalkowicieBig setScale(int newScale, RoundingMode roundingMode) {
+    public DDuzeLiczby setScale(int newScale, RoundingMode roundingMode) {
         return setScale(newScale, roundingMode.oldMode);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose scale is the specified
+     * Returns a {@code DDuzeLiczby} whose scale is the specified
      * value, and whose unscaled value is determined by multiplying or
-     * dividing this {@code DCalkowicieBig}'s unscaled value by the
+     * dividing this {@code DDuzeLiczby}'s unscaled value by the
      * appropriate power of ten to maintain its overall value.  If the
      * scale is reduced by the operation, the unscaled value must be
      * divided (rather than multiplied), and the value may be changed;
      * in this case, the specified rounding mode is applied to the
      * division.
      *
-     * <p>Note that since DCalkowicieBig objects are immutable, calls of
+     * <p>Note that since DDuzeLiczby objects are immutable, calls of
      * this method do <i>not</i> result in the original object being
      * modified, contrary to the usual convention of having methods
      * named <tt>set<i>X</i></tt> mutate field <i>{@code X}</i>.
@@ -2132,11 +2132,11 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * <p>The new {@link #setScale(int, RoundingMode)} method should
      * be used in preference to this legacy method.
      *
-     * @param  newScale scale of the {@code DCalkowicieBig} value to be returned.
+     * @param  newScale scale of the {@code DDuzeLiczby} value to be returned.
      * @param  roundingMode The rounding mode to apply.
-     * @return a {@code DCalkowicieBig} whose scale is the specified value,
+     * @return a {@code DDuzeLiczby} whose scale is the specified value,
      *         and whose unscaled value is determined by multiplying or
-     *         dividing this {@code DCalkowicieBig}'s unscaled value by the
+     *         dividing this {@code DDuzeLiczby}'s unscaled value by the
      *         appropriate power of ten to maintain its overall value.
      * @throws ArithmeticException if {@code roundingMode==ROUND_UNNECESSARY}
      *         and the specified scaling operation would require
@@ -2152,7 +2152,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @see    #ROUND_HALF_EVEN
      * @see    #ROUND_UNNECESSARY
      */
-    public DCalkowicieBig setScale(int newScale, int roundingMode) {
+    public DDuzeLiczby setScale(int newScale, int roundingMode) {
         if (roundingMode < ROUND_UP || roundingMode > ROUND_UNNECESSARY)
             throw new IllegalArgumentException("Invalid rounding mode");
 
@@ -2168,8 +2168,8 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 if ((rs = longMultiplyPowerTen(rs, raise)) != INFLATED) {
                     return valueOf(rs,newScale);
                 }
-                CalkowicieBig rb = bigMultiplyPowerTen(raise);
-                return new DCalkowicieBig(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
+                DuzeLiczby rb = bigMultiplyPowerTen(raise);
+                return new DDuzeLiczby(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
             } else {
                 // newScale < oldScale -- drop some digits
                 // Can't predict the precision due to the effect of rounding.
@@ -2183,8 +2183,8 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         } else {
             if (newScale > oldScale) {
                 int raise = checkScale((long) newScale - oldScale);
-                CalkowicieBig rb = bigMultiplyPowerTen(this.intVal,raise);
-                return new DCalkowicieBig(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
+                DuzeLiczby rb = bigMultiplyPowerTen(this.intVal,raise);
+                return new DDuzeLiczby(rb, INFLATED, newScale, (precision > 0) ? precision + raise : 0);
             } else {
                 // newScale < oldScale -- drop some digits
                 // Can't predict the precision due to the effect of rounding.
@@ -2199,16 +2199,16 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose scale is the specified
+     * Returns a {@code DDuzeLiczby} whose scale is the specified
      * value, and whose value is numerically equal to this
-     * {@code DCalkowicieBig}'s.  Throws an {@code ArithmeticException}
+     * {@code DDuzeLiczby}'s.  Throws an {@code ArithmeticException}
      * if this is not possible.
      *
      * <p>This call is typically used to increase the scale, in which
-     * case it is guaranteed that there exists a {@code DCalkowicieBig}
+     * case it is guaranteed that there exists a {@code DDuzeLiczby}
      * of the specified scale and the correct value.  The call can
      * also be used to reduce the scale if the caller knows that the
-     * {@code DCalkowicieBig} has sufficiently many zeros at the end of
+     * {@code DDuzeLiczby} has sufficiently many zeros at the end of
      * its fractional part (i.e., factors of ten in its integer value)
      * to allow for the rescaling without changing its value.
      *
@@ -2216,7 +2216,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * versions of {@code setScale}, but saves the caller the trouble
      * of specifying a rounding mode in cases where it is irrelevant.
      *
-     * <p>Note that since {@code DCalkowicieBig} objects are immutable,
+     * <p>Note that since {@code DDuzeLiczby} objects are immutable,
      * calls of this method do <i>not</i> result in the original
      * object being modified, contrary to the usual convention of
      * having methods named <tt>set<i>X</i></tt> mutate field
@@ -2224,102 +2224,102 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * object with the proper scale; the returned object may or may
      * not be newly allocated.
      *
-     * @param  newScale scale of the {@code DCalkowicieBig} value to be returned.
-     * @return a {@code DCalkowicieBig} whose scale is the specified value, and
+     * @param  newScale scale of the {@code DDuzeLiczby} value to be returned.
+     * @return a {@code DDuzeLiczby} whose scale is the specified value, and
      *         whose unscaled value is determined by multiplying or dividing
-     *         this {@code DCalkowicieBig}'s unscaled value by the appropriate
+     *         this {@code DDuzeLiczby}'s unscaled value by the appropriate
      *         power of ten to maintain its overall value.
      * @throws ArithmeticException if the specified scaling operation would
      *         require rounding.
      * @see    #setScale(int, int)
      * @see    #setScale(int, RoundingMode)
      */
-    public DCalkowicieBig setScale(int newScale) {
+    public DDuzeLiczby setScale(int newScale) {
         return setScale(newScale, ROUND_UNNECESSARY);
     }
 
     // Decimal Point Motion Operations
 
     /**
-     * Returns a {@code DCalkowicieBig} which is equivalent to this one
+     * Returns a {@code DDuzeLiczby} which is equivalent to this one
      * with the decimal point moved {@code n} places to the left.  If
      * {@code n} is non-negative, the call merely adds {@code n} to
      * the scale.  If {@code n} is negative, the call is equivalent
-     * to {@code movePointRight(-n)}.  The {@code DCalkowicieBig}
+     * to {@code movePointRight(-n)}.  The {@code DDuzeLiczby}
      * returned by this call has value <tt>(this &times;
      * 10<sup>-n</sup>)</tt> and scale {@code max(this.scale()+n,
      * 0)}.
      *
      * @param  n number of places to move the decimal point to the left.
-     * @return a {@code DCalkowicieBig} which is equivalent to this one with the
+     * @return a {@code DDuzeLiczby} which is equivalent to this one with the
      *         decimal point moved {@code n} places to the left.
      * @throws ArithmeticException if scale overflows.
      */
-    public DCalkowicieBig movePointLeft(int n) {
+    public DDuzeLiczby movePointLeft(int n) {
         // Cannot use movePointRight(-n) in case of n==Integer.MIN_VALUE
         int newScale = checkScale((long)scale + n);
-        DCalkowicieBig num = new DCalkowicieBig(intVal, intCompact, newScale, 0);
+        DDuzeLiczby num = new DDuzeLiczby(intVal, intCompact, newScale, 0);
         return num.scale < 0 ? num.setScale(0, ROUND_UNNECESSARY) : num;
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} which is equivalent to this one
+     * Returns a {@code DDuzeLiczby} which is equivalent to this one
      * with the decimal point moved {@code n} places to the right.
      * If {@code n} is non-negative, the call merely subtracts
      * {@code n} from the scale.  If {@code n} is negative, the call
      * is equivalent to {@code movePointLeft(-n)}.  The
-     * {@code DCalkowicieBig} returned by this call has value <tt>(this
+     * {@code DDuzeLiczby} returned by this call has value <tt>(this
      * &times; 10<sup>n</sup>)</tt> and scale {@code max(this.scale()-n,
      * 0)}.
      *
      * @param  n number of places to move the decimal point to the right.
-     * @return a {@code DCalkowicieBig} which is equivalent to this one
+     * @return a {@code DDuzeLiczby} which is equivalent to this one
      *         with the decimal point moved {@code n} places to the right.
      * @throws ArithmeticException if scale overflows.
      */
-    public DCalkowicieBig movePointRight(int n) {
+    public DDuzeLiczby movePointRight(int n) {
         // Cannot use movePointLeft(-n) in case of n==Integer.MIN_VALUE
         int newScale = checkScale((long)scale - n);
-        DCalkowicieBig num = new DCalkowicieBig(intVal, intCompact, newScale, 0);
+        DDuzeLiczby num = new DDuzeLiczby(intVal, intCompact, newScale, 0);
         return num.scale < 0 ? num.setScale(0, ROUND_UNNECESSARY) : num;
     }
 
     /**
-     * Returns a DCalkowicieBig whose numerical value is equal to
+     * Returns a DDuzeLiczby whose numerical value is equal to
      * ({@code this} * 10<sup>n</sup>).  The scale of
      * the result is {@code (this.scale() - n)}.
      *
      * @param n the exponent power of ten to scale by
-     * @return a DCalkowicieBig whose numerical value is equal to
+     * @return a DDuzeLiczby whose numerical value is equal to
      * ({@code this} * 10<sup>n</sup>)
      * @throws ArithmeticException if the scale would be
      *         outside the range of a 32-bit integer.
      *
      * @since 1.5
      */
-    public DCalkowicieBig scaleByPowerOfTen(int n) {
-        return new DCalkowicieBig(intVal, intCompact,
+    public DDuzeLiczby scaleByPowerOfTen(int n) {
+        return new DDuzeLiczby(intVal, intCompact,
                 checkScale((long)scale - n), precision);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} which is numerically equal to
+     * Returns a {@code DDuzeLiczby} which is numerically equal to
      * this one but with any trailing zeros removed from the
      * representation.  For example, stripping the trailing zeros from
-     * the {@code DCalkowicieBig} value {@code 600.0}, which has
-     * [{@code CalkowicieBig}, {@code scale}] components equals to
-     * [6000, 1], yields {@code 6E2} with [{@code CalkowicieBig},
+     * the {@code DDuzeLiczby} value {@code 600.0}, which has
+     * [{@code DuzeLiczby}, {@code scale}] components equals to
+     * [6000, 1], yields {@code 6E2} with [{@code DuzeLiczby},
      * {@code scale}] components equals to [6, -2].  If
-     * this DCalkowicieBig is numerically equal to zero, then
-     * {@code DCalkowicieBig.ZERO} is returned.
+     * this DDuzeLiczby is numerically equal to zero, then
+     * {@code DDuzeLiczby.ZERO} is returned.
      *
-     * @return a numerically equal {@code DCalkowicieBig} with any
+     * @return a numerically equal {@code DDuzeLiczby} with any
      * trailing zeros removed.
      * @since 1.5
      */
-    public DCalkowicieBig stripTrailingZeros() {
+    public DDuzeLiczby stripTrailingZeros() {
         if (intCompact == 0 || (intVal != null && intVal.signum() == 0)) {
-            return DCalkowicieBig.ZERO;
+            return DDuzeLiczby.ZERO;
         } else if (intCompact != INFLATED) {
             return createAndStripZerosToMatchScale(intCompact, scale, Long.MIN_VALUE);
         } else {
@@ -2330,8 +2330,8 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     // Comparison Operations
 
     /**
-     * Compares this {@code DCalkowicieBig} with the specified
-     * {@code DCalkowicieBig}.  Two {@code DCalkowicieBig} objects that are
+     * Compares this {@code DDuzeLiczby} with the specified
+     * {@code DDuzeLiczby}.  Two {@code DDuzeLiczby} objects that are
      * equal in value but have a different scale (like 2.0 and 2.00)
      * are considered equal by this method.  This method is provided
      * in preference to individual methods for each of the six boolean
@@ -2341,12 +2341,12 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * {@code (x.compareTo(y)} &lt;<i>op</i>&gt; {@code 0)}, where
      * &lt;<i>op</i>&gt; is one of the six comparison operators.
      *
-     * @param  val {@code DCalkowicieBig} to which this {@code DCalkowicieBig} is
+     * @param  val {@code DDuzeLiczby} to which this {@code DDuzeLiczby} is
      *         to be compared.
-     * @return -1, 0, or 1 as this {@code DCalkowicieBig} is numerically
+     * @return -1, 0, or 1 as this {@code DDuzeLiczby} is numerically
      *          less than, equal to, or greater than {@code val}.
      */
-    public int compareTo(DCalkowicieBig val) {
+    public int compareTo(DDuzeLiczby val) {
         // Quick path for equal scale and non-inflated case.
         if (scale == val.scale) {
             long xs = intCompact;
@@ -2367,7 +2367,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     /**
      * Version of compareTo that ignores sign.
      */
-    private int compareMagnitude(DCalkowicieBig val) {
+    private int compareMagnitude(DDuzeLiczby val) {
         // Match scales, avoid unnecessary inflation
         long ys = val.intCompact;
         long xs = this.intCompact;
@@ -2385,7 +2385,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 return -1;
             if (xae > yae)
                 return 1;
-            CalkowicieBig rb = null;
+            DuzeLiczby rb = null;
             if (sdiff < 0) {
                 // The cases sdiff <= Integer.MIN_VALUE intentionally fall through.
                 if ( sdiff > Integer.MIN_VALUE &&
@@ -2417,9 +2417,9 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     @Override
     public boolean equals(Object x) {
-        if (!(x instanceof DCalkowicieBig))
+        if (!(x instanceof DDuzeLiczby))
             return false;
-        DCalkowicieBig xDec = (DCalkowicieBig) x;
+        DDuzeLiczby xDec = (DDuzeLiczby) x;
         if (x == this)
             return true;
         if (scale != xDec.scale)
@@ -2437,24 +2437,24 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
 
-    public DCalkowicieBig min(DCalkowicieBig val) {
+    public DDuzeLiczby min(DDuzeLiczby val) {
         return (compareTo(val) <= 0 ? this : val);
     }
 
 
-    public DCalkowicieBig max(DCalkowicieBig val) {
+    public DDuzeLiczby max(DDuzeLiczby val) {
         return (compareTo(val) >= 0 ? this : val);
     }
 
     // Hash Function
 
     /**
-     * Returns the hash code for this {@code DCalkowicieBig}.  Note that
-     * two {@code DCalkowicieBig} objects that are numerically equal but
+     * Returns the hash code for this {@code DDuzeLiczby}.  Note that
+     * two {@code DDuzeLiczby} objects that are numerically equal but
      * differ in scale (like 2.0 and 2.00) will generally <i>not</i>
      * have the same hash code.
      *
-     * @return hash code for this {@code DCalkowicieBig}.
+     * @return hash code for this {@code DDuzeLiczby}.
      * @see #equals(Object)
      */
     @Override
@@ -2471,12 +2471,12 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     // Format Converters
 
     /**
-     * Returns the string representation of this {@code DCalkowicieBig},
+     * Returns the string representation of this {@code DDuzeLiczby},
      * using scientific notation if an exponent is needed.
      *
-     * <p>A standard canonical string form of the {@code DCalkowicieBig}
+     * <p>A standard canonical string form of the {@code DDuzeLiczby}
      * is created as though by the following steps: first, the
-     * absolute value of the unscaled value of the {@code DCalkowicieBig}
+     * absolute value of the unscaled value of the {@code DDuzeLiczby}
      * is converted to a string in base ten using the characters
      * {@code '0'} through {@code '9'} with no leading zeros (except
      * if its value is zero, in which case a single {@code '0'}
@@ -2504,7 +2504,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * <p>Otherwise (that is, if the scale is negative, or the
      * adjusted exponent is less than {@code -6}), the number will be
      * converted to a character form using exponential notation.  In
-     * this case, if the converted {@code CalkowicieBig} has more than
+     * this case, if the converted {@code DuzeLiczby} has more than
      * one digit a decimal point is inserted after the first digit.
      * An exponent in character form is then suffixed to the converted
      * unscaled value (perhaps with inserted decimal point); this
@@ -2539,12 +2539,12 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * <ol>
      *
      * <li>There is a one-to-one mapping between the distinguishable
-     * {@code DCalkowicieBig} values and the result of this conversion.
-     * That is, every distinguishable {@code DCalkowicieBig} value
+     * {@code DDuzeLiczby} values and the result of this conversion.
+     * That is, every distinguishable {@code DDuzeLiczby} value
      * (unscaled value and scale) has a unique string representation
      * as a result of using {@code toString}.  If that string
-     * representation is converted back to a {@code DCalkowicieBig} using
-     * the {@link #DCalkowicieBig(String)} constructor, then the original
+     * representation is converted back to a {@code DDuzeLiczby} using
+     * the {@link #DDuzeLiczby(String)} constructor, then the original
      * value will be recovered.
      *
      * <li>The string produced for a given number is always the same;
@@ -2557,7 +2557,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * <li>The {@link #toEngineeringString} method may be used for
      * presenting numbers with exponents in engineering notation, and the
      * {@link #setScale(int,RoundingMode) setScale} method may be used for
-     * rounding a {@code DCalkowicieBig} so it has a known number of digits after
+     * rounding a {@code DDuzeLiczby} so it has a known number of digits after
      * the decimal point.
      *
      * <li>The digit-to-character mapping provided by
@@ -2565,9 +2565,9 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      *
      * </ol>
      *
-     * @return string representation of this {@code DCalkowicieBig}.
+     * @return string representation of this {@code DDuzeLiczby}.
      * @see    Character#forDigit
-     * @see    #DCalkowicieBig(String)
+     * @see    #DDuzeLiczby(String)
      */
     @Override
     public String toString() {
@@ -2578,10 +2578,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a string representation of this {@code DCalkowicieBig},
+     * Returns a string representation of this {@code DDuzeLiczby},
      * using engineering notation if an exponent is needed.
      *
-     * <p>Returns a string that represents the {@code DCalkowicieBig} as
+     * <p>Returns a string that represents the {@code DDuzeLiczby} as
      * described in the {@link #toString()} method, except that if
      * exponential notation is used, the power of ten is adjusted to
      * be a multiple of three (engineering notation) such that the
@@ -2591,13 +2591,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * that the scale of the zero value is preserved.  Note that
      * unlike the output of {@link #toString()}, the output of this
      * method is <em>not</em> guaranteed to recover the same [integer,
-     * scale] pair of this {@code DCalkowicieBig} if the output string is
-     * converting back to a {@code DCalkowicieBig} using the {@linkplain
-     * #DCalkowicieBig(String) string constructor}.  The result of this method meets
+     * scale] pair of this {@code DDuzeLiczby} if the output string is
+     * converting back to a {@code DDuzeLiczby} using the {@linkplain
+     * #DDuzeLiczby(String) string constructor}.  The result of this method meets
      * the weaker constraint of always producing a numerically equal
      * result from applying the string constructor to the method's output.
      *
-     * @return string representation of this {@code DCalkowicieBig}, using
+     * @return string representation of this {@code DDuzeLiczby}, using
      *         engineering notation if an exponent is needed.
      * @since  1.5
      */
@@ -2606,7 +2606,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a string representation of this {@code DCalkowicieBig}
+     * Returns a string representation of this {@code DDuzeLiczby}
      * without an exponent field.  For values with a positive scale,
      * the number of digits to the right of the decimal point is used
      * to indicate scale.  For values with a zero or negative scale,
@@ -2621,18 +2621,18 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * zero or positive.
      *
      * Note that if the result of this method is passed to the
-     * {@linkplain #DCalkowicieBig(String) string constructor}, only the
-     * numerical value of this {@code DCalkowicieBig} will necessarily be
-     * recovered; the representation of the new {@code DCalkowicieBig}
+     * {@linkplain #DDuzeLiczby(String) string constructor}, only the
+     * numerical value of this {@code DDuzeLiczby} will necessarily be
+     * recovered; the representation of the new {@code DDuzeLiczby}
      * may have a different scale.  In particular, if this
-     * {@code DCalkowicieBig} has a negative scale, the string resulting
+     * {@code DDuzeLiczby} has a negative scale, the string resulting
      * from this method will have a scale of zero when processed by
      * the string constructor.
      *
      * (This method behaves analogously to the {@code toString}
      * method in 1.4 and earlier releases.)
      *
-     * @return a string representation of this {@code DCalkowicieBig}
+     * @return a string representation of this {@code DDuzeLiczby}
      * without an exponent field.
      * @since 1.5
      * @see #toString()
@@ -2696,72 +2696,72 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to a {@code CalkowicieBig}.
+     * Converts this {@code DDuzeLiczby} to a {@code DuzeLiczby}.
      * This conversion is analogous to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code long} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
      * any fractional part of this
-     * {@code DCalkowicieBig} will be discarded.  Note that this
+     * {@code DDuzeLiczby} will be discarded.  Note that this
      * conversion can lose information about the precision of the
-     * {@code DCalkowicieBig} value.
+     * {@code DDuzeLiczby} value.
      * <p>
      * To have an exception thrown if the conversion is inexact (in
      * other words if a nonzero fractional part is discarded), use the
      * {@link #toBigIntegerExact()} method.
      *
-     * @return this {@code DCalkowicieBig} converted to a {@code CalkowicieBig}.
+     * @return this {@code DDuzeLiczby} converted to a {@code DuzeLiczby}.
      */
-    public CalkowicieBig toCalkowicieBig() {
+    public DuzeLiczby toDuzeLiczby() {
         // force to an integer, quietly
         return this.setScale(0, ROUND_DOWN).inflated();
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to a {@code CalkowicieBig},
+     * Converts this {@code DDuzeLiczby} to a {@code DuzeLiczby},
      * checking for lost information.  An exception is thrown if this
-     * {@code DCalkowicieBig} has a nonzero fractional part.
+     * {@code DDuzeLiczby} has a nonzero fractional part.
      *
-     * @return this {@code DCalkowicieBig} converted to a {@code CalkowicieBig}.
+     * @return this {@code DDuzeLiczby} converted to a {@code DuzeLiczby}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part.
      * @since  1.5
      */
-    public CalkowicieBig toBigIntegerExact() {
+    public DuzeLiczby toBigIntegerExact() {
         // round to an integer, with Exception if decimal part non-0
         return this.setScale(0, ROUND_UNNECESSARY).inflated();
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to a {@code long}.
+     * Converts this {@code DDuzeLiczby} to a {@code long}.
      * This conversion is analogous to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code short} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
      * any fractional part of this
-     * {@code DCalkowicieBig} will be discarded, and if the resulting
-     * "{@code CalkowicieBig}" is too big to fit in a
+     * {@code DDuzeLiczby} will be discarded, and if the resulting
+     * "{@code DuzeLiczby}" is too big to fit in a
      * {@code long}, only the low-order 64 bits are returned.
      * Note that this conversion can lose information about the
-     * overall magnitude and precision of this {@code DCalkowicieBig} value as well
+     * overall magnitude and precision of this {@code DDuzeLiczby} value as well
      * as return a result with the opposite sign.
      *
-     * @return this {@code DCalkowicieBig} converted to a {@code long}.
+     * @return this {@code DDuzeLiczby} converted to a {@code long}.
      */
     public long longValue(){
         return (intCompact != INFLATED && scale == 0) ?
                 intCompact:
-                toCalkowicieBig().longValue();
+                toDuzeLiczby().longValue();
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to a {@code long}, checking
-     * for lost information.  If this {@code DCalkowicieBig} has a
+     * Converts this {@code DDuzeLiczby} to a {@code long}, checking
+     * for lost information.  If this {@code DDuzeLiczby} has a
      * nonzero fractional part or is out of the possible range for a
      * {@code long} result then an {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code DCalkowicieBig} converted to a {@code long}.
+     * @return this {@code DDuzeLiczby} converted to a {@code long}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part, or will not fit in a {@code long}.
      * @since  1.5
@@ -2779,21 +2779,21 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         if ((this.precision() - this.scale) <= 0)
             throw new ArithmeticException("Rounding necessary");
         // round to an integer, with Exception if decimal part non-0
-        DCalkowicieBig num = this.setScale(0, ROUND_UNNECESSARY);
+        DDuzeLiczby num = this.setScale(0, ROUND_UNNECESSARY);
         if (num.precision() >= 19) // need to check carefully
             LongOverflow.check(num);
         return num.inflated().longValue();
     }
 
     private static class LongOverflow {
-        /** CalkowicieBig equal to Long.MIN_VALUE. */
-        private static final CalkowicieBig LONGMIN = CalkowicieBig.valueOf(Long.MIN_VALUE);
+        /** DuzeLiczby equal to Long.MIN_VALUE. */
+        private static final DuzeLiczby LONGMIN = DuzeLiczby.valueOf(Long.MIN_VALUE);
 
-        /** CalkowicieBig equal to Long.MAX_VALUE. */
-        private static final CalkowicieBig LONGMAX = CalkowicieBig.valueOf(Long.MAX_VALUE);
+        /** DuzeLiczby equal to Long.MAX_VALUE. */
+        private static final DuzeLiczby LONGMAX = DuzeLiczby.valueOf(Long.MAX_VALUE);
 
-        public static void check(DCalkowicieBig num) {
-            CalkowicieBig intVal = num.inflated();
+        public static void check(DDuzeLiczby num) {
+            DuzeLiczby intVal = num.inflated();
             if (intVal.compareTo(LONGMIN) < 0 ||
                     intVal.compareTo(LONGMAX) > 0)
                 throw new ArithmeticException("Overflow");
@@ -2801,35 +2801,35 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to an {@code int}.
+     * Converts this {@code DDuzeLiczby} to an {@code int}.
      * This conversion is analogous to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code short} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
      * any fractional part of this
-     * {@code DCalkowicieBig} will be discarded, and if the resulting
-     * "{@code CalkowicieBig}" is too big to fit in an
+     * {@code DDuzeLiczby} will be discarded, and if the resulting
+     * "{@code DuzeLiczby}" is too big to fit in an
      * {@code int}, only the low-order 32 bits are returned.
      * Note that this conversion can lose information about the
-     * overall magnitude and precision of this {@code DCalkowicieBig}
+     * overall magnitude and precision of this {@code DDuzeLiczby}
      * value as well as return a result with the opposite sign.
      *
-     * @return this {@code DCalkowicieBig} converted to an {@code int}.
+     * @return this {@code DDuzeLiczby} converted to an {@code int}.
      */
     public int intValue() {
         return  (intCompact != INFLATED && scale == 0) ?
                 (int)intCompact :
-                toCalkowicieBig().intValue();
+                toDuzeLiczby().intValue();
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to an {@code int}, checking
-     * for lost information.  If this {@code DCalkowicieBig} has a
+     * Converts this {@code DDuzeLiczby} to an {@code int}, checking
+     * for lost information.  If this {@code DDuzeLiczby} has a
      * nonzero fractional part or is out of the possible range for an
      * {@code int} result then an {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code DCalkowicieBig} converted to an {@code int}.
+     * @return this {@code DDuzeLiczby} converted to an {@code int}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part, or will not fit in an {@code int}.
      * @since  1.5
@@ -2843,13 +2843,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to a {@code short}, checking
-     * for lost information.  If this {@code DCalkowicieBig} has a
+     * Converts this {@code DDuzeLiczby} to a {@code short}, checking
+     * for lost information.  If this {@code DDuzeLiczby} has a
      * nonzero fractional part or is out of the possible range for a
      * {@code short} result then an {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code DCalkowicieBig} converted to a {@code short}.
+     * @return this {@code DDuzeLiczby} converted to a {@code short}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part, or will not fit in a {@code short}.
      * @since  1.5
@@ -2863,13 +2863,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to a {@code byte}, checking
-     * for lost information.  If this {@code DCalkowicieBig} has a
+     * Converts this {@code DDuzeLiczby} to a {@code byte}, checking
+     * for lost information.  If this {@code DDuzeLiczby} has a
      * nonzero fractional part or is out of the possible range for a
      * {@code byte} result then an {@code ArithmeticException} is
      * thrown.
      *
-     * @return this {@code DCalkowicieBig} converted to a {@code byte}.
+     * @return this {@code DDuzeLiczby} converted to a {@code byte}.
      * @throws ArithmeticException if {@code this} has a nonzero
      *         fractional part, or will not fit in a {@code byte}.
      * @since  1.5
@@ -2883,20 +2883,20 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to a {@code float}.
+     * Converts this {@code DDuzeLiczby} to a {@code float}.
      * This conversion is similar to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code float} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this {@code DCalkowicieBig} has too great a
+     * if this {@code DDuzeLiczby} has too great a
      * magnitude to represent as a {@code float}, it will be
      * converted to {@link Float#NEGATIVE_INFINITY} or {@link
      * Float#POSITIVE_INFINITY} as appropriate.  Note that even when
      * the return value is finite, this conversion can lose
-     * information about the precision of the {@code DCalkowicieBig}
+     * information about the precision of the {@code DDuzeLiczby}
      * value.
      *
-     * @return this {@code DCalkowicieBig} converted to a {@code float}.
+     * @return this {@code DDuzeLiczby} converted to a {@code float}.
      */
     public float floatValue(){
         if(intCompact != INFLATED) {
@@ -2926,20 +2926,20 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Converts this {@code DCalkowicieBig} to a {@code double}.
+     * Converts this {@code DDuzeLiczby} to a {@code double}.
      * This conversion is similar to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code float} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this {@code DCalkowicieBig} has too great a
+     * if this {@code DDuzeLiczby} has too great a
      * magnitude represent as a {@code double}, it will be
      * converted to {@link Double#NEGATIVE_INFINITY} or {@link
      * Double#POSITIVE_INFINITY} as appropriate.  Note that even when
      * the return value is finite, this conversion can lose
-     * information about the precision of the {@code DCalkowicieBig}
+     * information about the precision of the {@code DDuzeLiczby}
      * value.
      *
-     * @return this {@code DCalkowicieBig} converted to a {@code double}.
+     * @return this {@code DDuzeLiczby} converted to a {@code double}.
      */
     public double doubleValue(){
         if(intCompact != INFLATED) {
@@ -2990,9 +2990,9 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     /**
      * Returns the size of an ulp, a unit in the last place, of this
-     * {@code DCalkowicieBig}.  An ulp of a nonzero {@code DCalkowicieBig}
+     * {@code DDuzeLiczby}.  An ulp of a nonzero {@code DDuzeLiczby}
      * value is the positive distance between this value and the
-     * {@code DCalkowicieBig} value next larger in magnitude with the
+     * {@code DDuzeLiczby} value next larger in magnitude with the
      * same number of digits.  An ulp of a zero value is numerically
      * equal to 1 with the scale of {@code this}.  The result is
      * stored with the same scale as {@code this} so the result
@@ -3002,19 +3002,19 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * @return the size of an ulp of {@code this}
      * @since 1.5
      */
-    public DCalkowicieBig ulp() {
-        return DCalkowicieBig.valueOf(1, this.scale(), 1);
+    public DDuzeLiczby ulp() {
+        return DDuzeLiczby.valueOf(1, this.scale(), 1);
     }
 
-    // Private class to build a string representation for DCalkowicieBig object.
+    // Private class to build a string representation for DDuzeLiczby object.
     // "StringBuilderHelper" is constructed as a thread local variable so it is
     // thread safe. The StringBuilder field acts as a buffer to hold the temporary
-    // representation of DCalkowicieBig. The cmpCharArray holds all the characters for
-    // the compact representation of DCalkowicieBig (except for '-' sign' if it is
+    // representation of DDuzeLiczby. The cmpCharArray holds all the characters for
+    // the compact representation of DDuzeLiczby (except for '-' sign' if it is
     // negative) if its intCompact field is not INFLATED. It is shared by all
     // calls to toString() and its variants in that particular thread.
     static class StringBuilderHelper {
-        final StringBuilder sb;    // Placeholder for DCalkowicieBig string
+        final StringBuilder sb;    // Placeholder for DDuzeLiczby string
         final char[] cmpCharArray; // character array to place the intCompact
 
         StringBuilderHelper() {
@@ -3106,13 +3106,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Lay out this {@code DCalkowicieBig} into a {@code char[]} array.
+     * Lay out this {@code DDuzeLiczby} into a {@code char[]} array.
      * The Java 1.2 equivalent to this was called {@code getValueString}.
      *
      * @param  sci {@code true} for Scientific exponential notation;
      *          {@code false} for Engineering
      * @return string with canonical string representation of this
-     *         {@code DCalkowicieBig}
+     *         {@code DDuzeLiczby}
      */
     private String layoutChars(boolean sci) {
         if (scale == 0)                      // zero scale is trivial
@@ -3215,37 +3215,37 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Return 10 to the power n, as a {@code CalkowicieBig}.
+     * Return 10 to the power n, as a {@code DuzeLiczby}.
      *
      * @param  n the power of ten to be returned (>=0)
-     * @return a {@code CalkowicieBig} with the value (10<sup>n</sup>)
+     * @return a {@code DuzeLiczby} with the value (10<sup>n</sup>)
      */
-    private static CalkowicieBig bigTenToThe(int n) {
+    private static DuzeLiczby bigTenToThe(int n) {
         if (n < 0)
-            return CalkowicieBig.ZERO;
+            return DuzeLiczby.ZERO;
 
         if (n < BIG_TEN_POWERS_TABLE_MAX) {
-            CalkowicieBig[] pows = BIG_TEN_POWERS_TABLE;
+            DuzeLiczby[] pows = BIG_TEN_POWERS_TABLE;
             if (n < pows.length)
                 return pows[n];
             else
                 return expandBigIntegerTenPowers(n);
         }
 
-        return CalkowicieBig.TEN.pow(n);
+        return DuzeLiczby.TEN.pow(n);
     }
 
     /**
      * Expand the BIG_TEN_POWERS_TABLE array to contain at least 10**n.
      *
      * @param n the power of ten to be returned (>=0)
-     * @return a {@code DCalkowicieBig} with the value (10<sup>n</sup>) and
+     * @return a {@code DDuzeLiczby} with the value (10<sup>n</sup>) and
      *         in the meantime, the BIG_TEN_POWERS_TABLE array gets
      *         expanded to the size greater than n.
      */
-    private static CalkowicieBig expandBigIntegerTenPowers(int n) {
-        synchronized(DCalkowicieBig.class) {
-            CalkowicieBig[] pows = BIG_TEN_POWERS_TABLE;
+    private static DuzeLiczby expandBigIntegerTenPowers(int n) {
+        synchronized(DDuzeLiczby.class) {
+            DuzeLiczby[] pows = BIG_TEN_POWERS_TABLE;
             int curLen = pows.length;
             // The following comparison and the above synchronized statement is
             // to prevent multiple threads from expanding the same array.
@@ -3255,7 +3255,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                     newLen <<= 1;
                 pows = Arrays.copyOf(pows, newLen);
                 for (int i = curLen; i < newLen; i++)
-                    pows[i] = pows[i - 1].multiply(CalkowicieBig.TEN);
+                    pows[i] = pows[i - 1].multiply(DuzeLiczby.TEN);
                 // Based on the following facts:
                 // 1. pows is a private local varible;
                 // 2. the following store is a volatile store.
@@ -3288,26 +3288,26 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
             1000000000000000000L   // 18 / 10^18
     };
 
-    private static volatile CalkowicieBig BIG_TEN_POWERS_TABLE[] = {
-            CalkowicieBig.ONE,
-            CalkowicieBig.valueOf(10),
-            CalkowicieBig.valueOf(100),
-            CalkowicieBig.valueOf(1000),
-            CalkowicieBig.valueOf(10000),
-            CalkowicieBig.valueOf(100000),
-            CalkowicieBig.valueOf(1000000),
-            CalkowicieBig.valueOf(10000000),
-            CalkowicieBig.valueOf(100000000),
-            CalkowicieBig.valueOf(1000000000),
-            CalkowicieBig.valueOf(10000000000L),
-            CalkowicieBig.valueOf(100000000000L),
-            CalkowicieBig.valueOf(1000000000000L),
-            CalkowicieBig.valueOf(10000000000000L),
-            CalkowicieBig.valueOf(100000000000000L),
-            CalkowicieBig.valueOf(1000000000000000L),
-            CalkowicieBig.valueOf(10000000000000000L),
-            CalkowicieBig.valueOf(100000000000000000L),
-            CalkowicieBig.valueOf(1000000000000000000L)
+    private static volatile DuzeLiczby BIG_TEN_POWERS_TABLE[] = {
+            DuzeLiczby.ONE,
+            DuzeLiczby.valueOf(10),
+            DuzeLiczby.valueOf(100),
+            DuzeLiczby.valueOf(1000),
+            DuzeLiczby.valueOf(10000),
+            DuzeLiczby.valueOf(100000),
+            DuzeLiczby.valueOf(1000000),
+            DuzeLiczby.valueOf(10000000),
+            DuzeLiczby.valueOf(100000000),
+            DuzeLiczby.valueOf(1000000000),
+            DuzeLiczby.valueOf(10000000000L),
+            DuzeLiczby.valueOf(100000000000L),
+            DuzeLiczby.valueOf(1000000000000L),
+            DuzeLiczby.valueOf(10000000000000L),
+            DuzeLiczby.valueOf(100000000000000L),
+            DuzeLiczby.valueOf(1000000000000000L),
+            DuzeLiczby.valueOf(10000000000000000L),
+            DuzeLiczby.valueOf(100000000000000000L),
+            DuzeLiczby.valueOf(1000000000000000000L)
     };
 
     private static final int BIG_TEN_POWERS_TABLE_INITLEN =
@@ -3360,7 +3360,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * Compute this * 10 ^ n.
      * Needed mainly to allow special casing to trap zero value
      */
-    private CalkowicieBig bigMultiplyPowerTen(int n) {
+    private DuzeLiczby bigMultiplyPowerTen(int n) {
         if (n <= 0)
             return this.inflated();
 
@@ -3371,30 +3371,30 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns appropriate CalkowicieBig from intVal field if intVal is
+     * Returns appropriate DuzeLiczby from intVal field if intVal is
      * null, i.e. the compact representation is in use.
      */
-    private CalkowicieBig inflated() {
+    private DuzeLiczby inflated() {
         if (intVal == null) {
-            return CalkowicieBig.valueOf(intCompact);
+            return DuzeLiczby.valueOf(intCompact);
         }
         return intVal;
     }
 
     /**
-     * Match the scales of two {@code DCalkowicieBig}s to align their
+     * Match the scales of two {@code DDuzeLiczby}s to align their
      * least significant digits.
      *
      * <p>If the scales of val[0] and val[1] differ, rescale
-     * (non-destructively) the lower-scaled {@code DCalkowicieBig} so
+     * (non-destructively) the lower-scaled {@code DDuzeLiczby} so
      * they match.  That is, the lower-scaled reference will be
      * replaced by a reference to a new object with the same scale as
-     * the other {@code DCalkowicieBig}.
+     * the other {@code DDuzeLiczby}.
      *
      * @param  val array of two elements referring to the two
-     *         {@code DCalkowicieBig}s to be aligned.
+     *         {@code DDuzeLiczby}s to be aligned.
      */
-    private static void matchScale(DCalkowicieBig[] val) {
+    private static void matchScale(DDuzeLiczby[] val) {
         if (val[0].scale == val[1].scale) {
             return;
         } else if (val[0].scale < val[1].scale) {
@@ -3406,7 +3406,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
 
     /**
-     * Reconstitute the {@code DCalkowicieBig} instance from a stream (that is,
+     * Reconstitute the {@code DDuzeLiczby} instance from a stream (that is,
      * deserialize it).
      *
      * @param s the stream being read.
@@ -3434,7 +3434,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
          * downward from the LONG_TEN_POWERS_TABLE that we need
          * anyway.
          */
-        assert x != DCalkowicieBig.INFLATED;
+        assert x != DDuzeLiczby.INFLATED;
         if (x < 0)
             x = -x;
         if (x < 10) // must screen for 0, might as well 10
@@ -3446,13 +3446,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns the length of the absolute value of a CalkowicieBig, in
+     * Returns the length of the absolute value of a DuzeLiczby, in
      * decimal digits.
      *
-     * @param b the CalkowicieBig
+     * @param b the DuzeLiczby
      * @return the length of the unscaled value, in decimal digits
      */
-    private static int bigDigitLength(CalkowicieBig b) {
+    private static int bigDigitLength(DuzeLiczby b) {
         /*
          * Same idea as the long version, but we need a better
          * approximation of log10(2). Using 646456993/2^31
@@ -3465,7 +3465,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Check a scale for Underflow or Overflow.  If this DCalkowicieBig is
+     * Check a scale for Underflow or Overflow.  If this DDuzeLiczby is
      * nonzero, throw an exception if the scale is outof range. If this
      * is zero, saturate the scale to the extreme value of the right
      * sign if the scale is out of range.
@@ -3479,7 +3479,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         int asInt = (int)val;
         if (asInt != val) {
             asInt = val>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-            CalkowicieBig b;
+            DuzeLiczby b;
             if (intCompact != 0 &&
                     ((b = intVal) == null || b.signum() != 0))
                 throw new ArithmeticException(asInt>0 ? "Underflow":"Overflow");
@@ -3488,11 +3488,11 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns the compact value for given {@code CalkowicieBig}, or
+     * Returns the compact value for given {@code DuzeLiczby}, or
      * INFLATED if too big. Relies on internal representation of
-     * {@code CalkowicieBig}.
+     * {@code DuzeLiczby}.
      */
-    private static long compactValFor(CalkowicieBig b) {
+    private static long compactValFor(DuzeLiczby b) {
         int[] m = b.mag;
         int len = m.length;
         if (len == 0)
@@ -3523,7 +3523,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     /*
      * Internal printing routine
      */
-    private static void print(String name, DCalkowicieBig bd) {
+    private static void print(String name, DDuzeLiczby bd) {
         System.err.format("%s:\tintCompact %d\tintVal %d\tscale %d\tprecision %d%n",
                 name,
                 bd.intCompact,
@@ -3533,7 +3533,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Check internal invariants of this DCalkowicieBig.  These invariants
+     * Check internal invariants of this DDuzeLiczby.  These invariants
      * include:
      *
      * <ul>
@@ -3549,9 +3549,9 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * </ul>
      *
      * Note: Since this is an audit method, we are not supposed to change the
-     * state of this DCalkowicieBig object.
+     * state of this DDuzeLiczby object.
      */
-    private DCalkowicieBig audit() {
+    private DDuzeLiczby audit() {
         if (intCompact == INFLATED) {
             if (intVal == null) {
                 print("audit", this);
@@ -3599,7 +3599,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         return asInt;
     }
 
-    private static int checkScale(CalkowicieBig intVal, long val) {
+    private static int checkScale(DuzeLiczby intVal, long val) {
         int asInt = (int)val;
         if (asInt != val) {
             asInt = val>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
@@ -3610,23 +3610,23 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} rounded according to the MathContext
+     * Returns a {@code DDuzeLiczby} rounded according to the MathContext
      * settings;
-     * If rounding is needed a new {@code DCalkowicieBig} is created and returned.
+     * If rounding is needed a new {@code DDuzeLiczby} is created and returned.
      *
      * @param val the value to be rounded
      * @param mc the context to use.
-     * @return a {@code DCalkowicieBig} rounded according to the MathContext
+     * @return a {@code DDuzeLiczby} rounded according to the MathContext
      *         settings.  May return {@code value}, if no rounding needed.
      * @throws ArithmeticException if the rounding mode is
      *         {@code RoundingMode.UNNECESSARY} and the
      *         result is inexact.
      */
-    private static DCalkowicieBig doRound(DCalkowicieBig val, MathContext mc) {
+    private static DDuzeLiczby doRound(DDuzeLiczby val, MathContext mc) {
         int mcp = mc.precision;
         boolean wasDivided = false;
         if (mcp > 0) {
-            CalkowicieBig intVal = val.intVal;
+            DuzeLiczby intVal = val.intVal;
             long compactVal = val.intCompact;
             int scale = val.scale;
             int prec = val.precision();
@@ -3658,16 +3658,16 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                     intVal = null;
                 }
             }
-            return wasDivided ? new DCalkowicieBig(intVal,compactVal,scale,prec) : val;
+            return wasDivided ? new DDuzeLiczby(intVal,compactVal,scale,prec) : val;
         }
         return val;
     }
 
     /*
-     * Returns a {@code DCalkowicieBig} created from {@code long} value with
+     * Returns a {@code DDuzeLiczby} created from {@code long} value with
      * given scale rounded according to the MathContext settings
      */
-    private static DCalkowicieBig doRound(long compactVal, int scale, MathContext mc) {
+    private static DDuzeLiczby doRound(long compactVal, int scale, MathContext mc) {
         int mcp = mc.precision;
         if (mcp > 0 && mcp < 19) {
             int prec = longDigitLength(compactVal);
@@ -3684,10 +3684,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /*
-     * Returns a {@code DCalkowicieBig} created from {@code CalkowicieBig} value with
+     * Returns a {@code DDuzeLiczby} created from {@code DuzeLiczby} value with
      * given scale rounded according to the MathContext settings
      */
-    private static DCalkowicieBig doRound(CalkowicieBig intVal, int scale, MathContext mc) {
+    private static DDuzeLiczby doRound(DuzeLiczby intVal, int scale, MathContext mc) {
         int mcp = mc.precision;
         int prec = 0;
         if (mcp > 0) {
@@ -3720,13 +3720,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 return valueOf(compactVal,scale,prec);
             }
         }
-        return new DCalkowicieBig(intVal,INFLATED,scale,prec);
+        return new DDuzeLiczby(intVal,INFLATED,scale,prec);
     }
 
     /*
-     * Divides {@code CalkowicieBig} value by ten power.
+     * Divides {@code DuzeLiczby} value by ten power.
      */
-    private static CalkowicieBig divideAndRoundByTenPow(CalkowicieBig intVal, int tenPow, int roundingMode) {
+    private static DuzeLiczby divideAndRoundByTenPow(DuzeLiczby intVal, int tenPow, int roundingMode) {
         if (tenPow < LONG_TEN_POWERS_TABLE.length)
             intVal = divideAndRound(intVal, LONG_TEN_POWERS_TABLE[tenPow], roundingMode);
         else
@@ -3737,13 +3737,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     /**
      * Internally used for division operation for division {@code long} by
      * {@code long}.
-     * The returned {@code DCalkowicieBig} object is the quotient whose scale is set
+     * The returned {@code DDuzeLiczby} object is the quotient whose scale is set
      * to the passed in scale. If the remainder is not zero, it will be rounded
      * based on the passed in roundingMode. Also, if the remainder is zero and
      * the last parameter, i.e. preferredScale is NOT equal to scale, the
      * trailing zeros of the result is stripped to match the preferredScale.
      */
-    private static DCalkowicieBig divideAndRound(long ldividend, long ldivisor, int scale, int roundingMode,
+    private static DDuzeLiczby divideAndRound(long ldividend, long ldivisor, int scale, int roundingMode,
                                          int preferredScale) {
 
         int qsign; // quotient sign
@@ -3849,52 +3849,52 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Divides {@code CalkowicieBig} value by {@code long} value and
+     * Divides {@code DuzeLiczby} value by {@code long} value and
      * do rounding based on the passed in roundingMode.
      */
-    private static CalkowicieBig divideAndRound(CalkowicieBig bdividend, long ldivisor, int roundingMode) {
+    private static DuzeLiczby divideAndRound(DuzeLiczby bdividend, long ldivisor, int roundingMode) {
         boolean isRemainderZero; // record remainder is zero or not
         int qsign; // quotient sign
         long r = 0; // store quotient & remainder in long
-        MutCalkowicieBig mq = null; // store quotient
+        MutDuzeLiczby mq = null; // store quotient
         // Descend into mutables for faster remainder checks
-        MutCalkowicieBig mdividend = new MutCalkowicieBig(bdividend.mag);
-        mq = new MutCalkowicieBig();
+        MutDuzeLiczby mdividend = new MutDuzeLiczby(bdividend.mag);
+        mq = new MutDuzeLiczby();
         r = mdividend.divide(ldivisor, mq);
         isRemainderZero = (r == 0);
         qsign = (ldivisor < 0) ? -bdividend.signum : bdividend.signum;
         if (!isRemainderZero) {
             if(needIncrement(ldivisor, roundingMode, qsign, mq, r)) {
-                mq.add(MutCalkowicieBig.ONE);
+                mq.add(MutDuzeLiczby.ONE);
             }
         }
-        return mq.toCalkowicieBig(qsign);
+        return mq.toDuzeLiczby(qsign);
     }
 
     /**
-     * Internally used for division operation for division {@code CalkowicieBig}
+     * Internally used for division operation for division {@code DuzeLiczby}
      * by {@code long}.
-     * The returned {@code DCalkowicieBig} object is the quotient whose scale is set
+     * The returned {@code DDuzeLiczby} object is the quotient whose scale is set
      * to the passed in scale. If the remainder is not zero, it will be rounded
      * based on the passed in roundingMode. Also, if the remainder is zero and
      * the last parameter, i.e. preferredScale is NOT equal to scale, the
      * trailing zeros of the result is stripped to match the preferredScale.
      */
-    private static DCalkowicieBig divideAndRound(CalkowicieBig bdividend,
+    private static DDuzeLiczby divideAndRound(DuzeLiczby bdividend,
                                          long ldivisor, int scale, int roundingMode, int preferredScale) {
         boolean isRemainderZero; // record remainder is zero or not
         int qsign; // quotient sign
         long r = 0; // store quotient & remainder in long
-        MutCalkowicieBig mq = null; // store quotient
+        MutDuzeLiczby mq = null; // store quotient
         // Descend into mutables for faster remainder checks
-        MutCalkowicieBig mdividend = new MutCalkowicieBig(bdividend.mag);
-        mq = new MutCalkowicieBig();
+        MutDuzeLiczby mdividend = new MutDuzeLiczby(bdividend.mag);
+        mq = new MutDuzeLiczby();
         r = mdividend.divide(ldivisor, mq);
         isRemainderZero = (r == 0);
         qsign = (ldivisor < 0) ? -bdividend.signum : bdividend.signum;
         if (!isRemainderZero) {
             if(needIncrement(ldivisor, roundingMode, qsign, mq, r)) {
-                mq.add(MutCalkowicieBig.ONE);
+                mq.add(MutDuzeLiczby.ONE);
             }
             return mq.toBigDecimal(qsign, scale);
         } else {
@@ -3903,7 +3903,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 if(compactVal!=INFLATED) {
                     return createAndStripZerosToMatchScale(compactVal, scale, preferredScale);
                 }
-                CalkowicieBig intVal =  mq.toCalkowicieBig(qsign);
+                DuzeLiczby intVal =  mq.toDuzeLiczby(qsign);
                 return createAndStripZerosToMatchScale(intVal,scale, preferredScale);
             } else {
                 return mq.toBigDecimal(qsign, scale);
@@ -3915,7 +3915,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * Tests if quotient has to be incremented according the roundingMode
      */
     private static boolean needIncrement(long ldivisor, int roundingMode,
-                                         int qsign, MutCalkowicieBig mq, long r) {
+                                         int qsign, MutDuzeLiczby mq, long r) {
         assert r != 0L;
 
         int cmpFracHalf;
@@ -3929,50 +3929,50 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Divides {@code CalkowicieBig} value by {@code CalkowicieBig} value and
+     * Divides {@code DuzeLiczby} value by {@code DuzeLiczby} value and
      * do rounding based on the passed in roundingMode.
      */
-    private static CalkowicieBig divideAndRound(CalkowicieBig bdividend, CalkowicieBig bdivisor, int roundingMode) {
+    private static DuzeLiczby divideAndRound(DuzeLiczby bdividend, DuzeLiczby bdivisor, int roundingMode) {
         boolean isRemainderZero; // record remainder is zero or not
         int qsign; // quotient sign
         // Descend into mutables for faster remainder checks
-        MutCalkowicieBig mdividend = new MutCalkowicieBig(bdividend.mag);
-        MutCalkowicieBig mq = new MutCalkowicieBig();
-        MutCalkowicieBig mdivisor = new MutCalkowicieBig(bdivisor.mag);
-        MutCalkowicieBig mr = mdividend.divide(mdivisor, mq);
+        MutDuzeLiczby mdividend = new MutDuzeLiczby(bdividend.mag);
+        MutDuzeLiczby mq = new MutDuzeLiczby();
+        MutDuzeLiczby mdivisor = new MutDuzeLiczby(bdivisor.mag);
+        MutDuzeLiczby mr = mdividend.divide(mdivisor, mq);
         isRemainderZero = mr.isZero();
         qsign = (bdividend.signum != bdivisor.signum) ? -1 : 1;
         if (!isRemainderZero) {
             if (needIncrement(mdivisor, roundingMode, qsign, mq, mr)) {
-                mq.add(MutCalkowicieBig.ONE);
+                mq.add(MutDuzeLiczby.ONE);
             }
         }
-        return mq.toCalkowicieBig(qsign);
+        return mq.toDuzeLiczby(qsign);
     }
 
     /**
-     * Internally used for division operation for division {@code CalkowicieBig}
-     * by {@code CalkowicieBig}.
-     * The returned {@code DCalkowicieBig} object is the quotient whose scale is set
+     * Internally used for division operation for division {@code DuzeLiczby}
+     * by {@code DuzeLiczby}.
+     * The returned {@code DDuzeLiczby} object is the quotient whose scale is set
      * to the passed in scale. If the remainder is not zero, it will be rounded
      * based on the passed in roundingMode. Also, if the remainder is zero and
      * the last parameter, i.e. preferredScale is NOT equal to scale, the
      * trailing zeros of the result is stripped to match the preferredScale.
      */
-    private static DCalkowicieBig divideAndRound(CalkowicieBig bdividend, CalkowicieBig bdivisor, int scale, int roundingMode,
+    private static DDuzeLiczby divideAndRound(DuzeLiczby bdividend, DuzeLiczby bdivisor, int scale, int roundingMode,
                                          int preferredScale) {
         boolean isRemainderZero; // record remainder is zero or not
         int qsign; // quotient sign
         // Descend into mutables for faster remainder checks
-        MutCalkowicieBig mdividend = new MutCalkowicieBig(bdividend.mag);
-        MutCalkowicieBig mq = new MutCalkowicieBig();
-        MutCalkowicieBig mdivisor = new MutCalkowicieBig(bdivisor.mag);
-        MutCalkowicieBig mr = mdividend.divide(mdivisor, mq);
+        MutDuzeLiczby mdividend = new MutDuzeLiczby(bdividend.mag);
+        MutDuzeLiczby mq = new MutDuzeLiczby();
+        MutDuzeLiczby mdivisor = new MutDuzeLiczby(bdivisor.mag);
+        MutDuzeLiczby mr = mdividend.divide(mdivisor, mq);
         isRemainderZero = mr.isZero();
         qsign = (bdividend.signum != bdivisor.signum) ? -1 : 1;
         if (!isRemainderZero) {
             if (needIncrement(mdivisor, roundingMode, qsign, mq, mr)) {
-                mq.add(MutCalkowicieBig.ONE);
+                mq.add(MutDuzeLiczby.ONE);
             }
             return mq.toBigDecimal(qsign, scale);
         } else {
@@ -3981,7 +3981,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 if (compactVal != INFLATED) {
                     return createAndStripZerosToMatchScale(compactVal, scale, preferredScale);
                 }
-                CalkowicieBig intVal = mq.toCalkowicieBig(qsign);
+                DuzeLiczby intVal = mq.toDuzeLiczby(qsign);
                 return createAndStripZerosToMatchScale(intVal, scale, preferredScale);
             } else {
                 return mq.toBigDecimal(qsign, scale);
@@ -3992,8 +3992,8 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     /**
      * Tests if quotient has to be incremented according the roundingMode
      */
-    private static boolean needIncrement(MutCalkowicieBig mdivisor, int roundingMode,
-                                         int qsign, MutCalkowicieBig mq, MutCalkowicieBig mr) {
+    private static boolean needIncrement(MutDuzeLiczby mdivisor, int roundingMode,
+                                         int qsign, MutDuzeLiczby mq, MutDuzeLiczby mr) {
         assert !mr.isZero();
         int cmpFracHalf = mr.compareHalf(mdivisor);
         return commonNeedIncrement(roundingMode, qsign, cmpFracHalf, mq.isOdd());
@@ -4001,20 +4001,20 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
     /**
      * Remove insignificant trailing zeros from this
-     * {@code CalkowicieBig} value until the preferred scale is reached or no
+     * {@code DuzeLiczby} value until the preferred scale is reached or no
      * more zeros can be removed.  If the preferred scale is less than
      * Integer.MIN_VALUE, all the trailing zeros will be removed.
      *
-     * @return new {@code DCalkowicieBig} with a scale possibly reduced
+     * @return new {@code DDuzeLiczby} with a scale possibly reduced
      * to be closed to the preferred scale.
      */
-    private static DCalkowicieBig createAndStripZerosToMatchScale(CalkowicieBig intVal, int scale, long preferredScale) {
-        CalkowicieBig qr[]; // quotient-remainder pair
-        while (intVal.compareMagnitude(CalkowicieBig.TEN) >= 0
+    private static DDuzeLiczby createAndStripZerosToMatchScale(DuzeLiczby intVal, int scale, long preferredScale) {
+        DuzeLiczby qr[]; // quotient-remainder pair
+        while (intVal.compareMagnitude(DuzeLiczby.TEN) >= 0
                 && scale > preferredScale) {
             if (intVal.testBit(0))
                 break; // odd number cannot end in 0
-            qr = intVal.divideAndRemainder(CalkowicieBig.TEN);
+            qr = intVal.divideAndRemainder(DuzeLiczby.TEN);
             if (qr[1].signum() != 0)
                 break; // non-0 remainder
             intVal = qr[0];
@@ -4029,10 +4029,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * more zeros can be removed.  If the preferred scale is less than
      * Integer.MIN_VALUE, all the trailing zeros will be removed.
      *
-     * @return new {@code DCalkowicieBig} with a scale possibly reduced
+     * @return new {@code DDuzeLiczby} with a scale possibly reduced
      * to be closed to the preferred scale.
      */
-    private static DCalkowicieBig createAndStripZerosToMatchScale(long compactVal, int scale, long preferredScale) {
+    private static DDuzeLiczby createAndStripZerosToMatchScale(long compactVal, int scale, long preferredScale) {
         while (Math.abs(compactVal) >= 10L && scale > preferredScale) {
             if ((compactVal & 1L) != 0L)
                 break; // odd number cannot end in 0
@@ -4045,7 +4045,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         return valueOf(compactVal, scale);
     }
 
-    private static DCalkowicieBig stripZerosToMatchScale(CalkowicieBig intVal, long intCompact, int scale, int preferredScale) {
+    private static DDuzeLiczby stripZerosToMatchScale(DuzeLiczby intVal, long intCompact, int scale, int preferredScale) {
         if(intCompact!=INFLATED) {
             return createAndStripZerosToMatchScale(intCompact, scale, preferredScale);
         } else {
@@ -4067,14 +4067,14 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         return INFLATED;
     }
 
-    private static DCalkowicieBig add(long xs, long ys, int scale){
+    private static DDuzeLiczby add(long xs, long ys, int scale){
         long sum = add(xs, ys);
         if (sum!=INFLATED)
-            return DCalkowicieBig.valueOf(sum, scale);
-        return new DCalkowicieBig(CalkowicieBig.valueOf(xs).add(ys), scale);
+            return DDuzeLiczby.valueOf(sum, scale);
+        return new DDuzeLiczby(DuzeLiczby.valueOf(xs).add(ys), scale);
     }
 
-    private static DCalkowicieBig add(final long xs, int scale1, final long ys, int scale2) {
+    private static DDuzeLiczby add(final long xs, int scale1, final long ys, int scale2) {
         long sdiff = (long) scale1 - scale2;
         if (sdiff == 0) {
             return add(xs, ys, scale1);
@@ -4084,9 +4084,9 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
             if (scaledX != INFLATED) {
                 return add(scaledX, ys, scale2);
             } else {
-                CalkowicieBig bigsum = bigMultiplyPowerTen(xs,raise).add(ys);
+                DuzeLiczby bigsum = bigMultiplyPowerTen(xs,raise).add(ys);
                 return ((xs^ys)>=0) ? // same sign test
-                        new DCalkowicieBig(bigsum, INFLATED, scale2, 0)
+                        new DDuzeLiczby(bigsum, INFLATED, scale2, 0)
                         : valueOf(bigsum, scale2, 0);
             }
         } else {
@@ -4095,19 +4095,19 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
             if (scaledY != INFLATED) {
                 return add(xs, scaledY, scale1);
             } else {
-                CalkowicieBig bigsum = bigMultiplyPowerTen(ys,raise).add(xs);
+                DuzeLiczby bigsum = bigMultiplyPowerTen(ys,raise).add(xs);
                 return ((xs^ys)>=0) ?
-                        new DCalkowicieBig(bigsum, INFLATED, scale1, 0)
+                        new DDuzeLiczby(bigsum, INFLATED, scale1, 0)
                         : valueOf(bigsum, scale1, 0);
             }
         }
     }
 
-    private static DCalkowicieBig add(final long xs, int scale1, CalkowicieBig snd, int scale2) {
+    private static DDuzeLiczby add(final long xs, int scale1, DuzeLiczby snd, int scale2) {
         int rscale = scale1;
         long sdiff = (long)rscale - scale2;
         boolean sameSigns =  (Long.signum(xs) == snd.signum);
-        CalkowicieBig sum;
+        DuzeLiczby sum;
         if (sdiff < 0) {
             int raise = checkScale(xs,-sdiff);
             rscale = scale2;
@@ -4123,11 +4123,11 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
             sum = snd.add(xs);
         }
         return (sameSigns) ?
-                new DCalkowicieBig(sum, INFLATED, rscale, 0) :
+                new DDuzeLiczby(sum, INFLATED, rscale, 0) :
                 valueOf(sum, rscale, 0);
     }
 
-    private static DCalkowicieBig add(CalkowicieBig fst, int scale1, CalkowicieBig snd, int scale2) {
+    private static DDuzeLiczby add(DuzeLiczby fst, int scale1, DuzeLiczby snd, int scale2) {
         int rscale = scale1;
         long sdiff = (long)rscale - scale2;
         if (sdiff != 0) {
@@ -4140,19 +4140,19 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 snd = bigMultiplyPowerTen(snd,raise);
             }
         }
-        CalkowicieBig sum = fst.add(snd);
+        DuzeLiczby sum = fst.add(snd);
         return (fst.signum == snd.signum) ?
-                new DCalkowicieBig(sum, INFLATED, rscale, 0) :
+                new DDuzeLiczby(sum, INFLATED, rscale, 0) :
                 valueOf(sum, rscale, 0);
     }
 
-    private static CalkowicieBig bigMultiplyPowerTen(long value, int n) {
+    private static DuzeLiczby bigMultiplyPowerTen(long value, int n) {
         if (n <= 0)
-            return CalkowicieBig.valueOf(value);
+            return DuzeLiczby.valueOf(value);
         return bigTenToThe(n).multiply(value);
     }
 
-    private static CalkowicieBig bigMultiplyPowerTen(CalkowicieBig value, int n) {
+    private static DuzeLiczby bigMultiplyPowerTen(DuzeLiczby value, int n) {
         if (n <= 0)
             return value;
         if(n<LONG_TEN_POWERS_TABLE.length) {
@@ -4162,13 +4162,13 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      *
      * Fast path - used only when (xscale <= yscale && yscale < 18
      *  && mc.presision<18) {
      */
-    private static DCalkowicieBig divideSmallFastPath(final long xs, int xscale,
+    private static DDuzeLiczby divideSmallFastPath(final long xs, int xscale,
                                               final long ys, int yscale,
                                               long preferredScale, MathContext mc) {
         int mcp = mc.precision;
@@ -4178,7 +4178,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         int xraise = yscale - xscale; // xraise >=0
         long scaledX = (xraise==0) ? xs :
                 longMultiplyPowerTen(xs, xraise); // can't overflow here!
-        DCalkowicieBig quotient;
+        DDuzeLiczby quotient;
 
         int cmp = longCompareMagnitude(scaledX, ys);
         if(cmp > 0) { // satisfy constraint (b)
@@ -4194,7 +4194,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                         quotient = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[mcp-1], scaledX, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
                     }
                     if(quotient==null) {
-                        CalkowicieBig rb = bigMultiplyPowerTen(scaledX,mcp-1);
+                        DuzeLiczby rb = bigMultiplyPowerTen(scaledX,mcp-1);
                         quotient = divideAndRound(rb, ys,
                                 scl, roundingMode, checkScaleNonZero(preferredScale));
                     }
@@ -4210,8 +4210,8 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                     int raise = checkScaleNonZero((long) newScale - yscale);
                     long scaledYs;
                     if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                        CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
-                        quotient = divideAndRound(CalkowicieBig.valueOf(xs),
+                        DuzeLiczby rb = bigMultiplyPowerTen(ys,raise);
+                        quotient = divideAndRound(DuzeLiczby.valueOf(xs),
                                 rb, scl, roundingMode,checkScaleNonZero(preferredScale));
                     } else {
                         quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
@@ -4234,7 +4234,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                         quotient = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[mcp], scaledX, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
                     }
                     if(quotient==null) {
-                        CalkowicieBig rb = bigMultiplyPowerTen(scaledX,mcp);
+                        DuzeLiczby rb = bigMultiplyPowerTen(scaledX,mcp);
                         quotient = divideAndRound(rb, ys,
                                 scl, roundingMode, checkScaleNonZero(preferredScale));
                     }
@@ -4248,10 +4248,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      */
-    private static DCalkowicieBig divide(final long xs, int xscale, final long ys, int yscale, long preferredScale, MathContext mc) {
+    private static DDuzeLiczby divide(final long xs, int xscale, final long ys, int yscale, long preferredScale, MathContext mc) {
         int mcp = mc.precision;
         if(xscale <= yscale && yscale < 18 && mcp<18) {
             return divideSmallFastPath(xs, xscale, ys, yscale, preferredScale, mc);
@@ -4262,14 +4262,14 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         int roundingMode = mc.roundingMode.oldMode;
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
-        // return DCalkowicieBig object whose scale will be set to 'scl'.
+        // return DDuzeLiczby object whose scale will be set to 'scl'.
         int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
-        DCalkowicieBig quotient;
+        DDuzeLiczby quotient;
         if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
             int raise = checkScaleNonZero((long) mcp + yscale - xscale);
             long scaledXs;
             if ((scaledXs = longMultiplyPowerTen(xs, raise)) == INFLATED) {
-                CalkowicieBig rb = bigMultiplyPowerTen(xs,raise);
+                DuzeLiczby rb = bigMultiplyPowerTen(xs,raise);
                 quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
             } else {
                 quotient = divideAndRound(scaledXs, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
@@ -4283,8 +4283,8 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 int raise = checkScaleNonZero((long) newScale - yscale);
                 long scaledYs;
                 if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                    CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
-                    quotient = divideAndRound(CalkowicieBig.valueOf(xs),
+                    DuzeLiczby rb = bigMultiplyPowerTen(ys,raise);
+                    quotient = divideAndRound(DuzeLiczby.valueOf(xs),
                             rb, scl, roundingMode,checkScaleNonZero(preferredScale));
                 } else {
                     quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
@@ -4296,10 +4296,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      */
-    private static DCalkowicieBig divide(CalkowicieBig xs, int xscale, long ys, int yscale, long preferredScale, MathContext mc) {
+    private static DDuzeLiczby divide(DuzeLiczby xs, int xscale, long ys, int yscale, long preferredScale, MathContext mc) {
         // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
         if ((-compareMagnitudeNormalized(ys, yscale, xs, xscale)) > 0) {// satisfy constraint (b)
             yscale -= 1; // [that is, divisor *= 10]
@@ -4309,12 +4309,12 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
-        // return DCalkowicieBig object whose scale will be set to 'scl'.
-        DCalkowicieBig quotient;
+        // return DDuzeLiczby object whose scale will be set to 'scl'.
+        DDuzeLiczby quotient;
         int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
         if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
             int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            CalkowicieBig rb = bigMultiplyPowerTen(xs,raise);
+            DuzeLiczby rb = bigMultiplyPowerTen(xs,raise);
             quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
         } else {
             int newScale = checkScaleNonZero((long) xscale - mcp);
@@ -4325,7 +4325,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 int raise = checkScaleNonZero((long) newScale - yscale);
                 long scaledYs;
                 if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                    CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
+                    DuzeLiczby rb = bigMultiplyPowerTen(ys,raise);
                     quotient = divideAndRound(xs, rb, scl, roundingMode,checkScaleNonZero(preferredScale));
                 } else {
                     quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
@@ -4337,10 +4337,10 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      */
-    private static DCalkowicieBig divide(long xs, int xscale, CalkowicieBig ys, int yscale, long preferredScale, MathContext mc) {
+    private static DDuzeLiczby divide(long xs, int xscale, DuzeLiczby ys, int yscale, long preferredScale, MathContext mc) {
         // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
         if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
             yscale -= 1; // [that is, divisor *= 10]
@@ -4350,28 +4350,28 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
-        // return DCalkowicieBig object whose scale will be set to 'scl'.
-        DCalkowicieBig quotient;
+        // return DDuzeLiczby object whose scale will be set to 'scl'.
+        DDuzeLiczby quotient;
         int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
         if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
             int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            CalkowicieBig rb = bigMultiplyPowerTen(xs,raise);
+            DuzeLiczby rb = bigMultiplyPowerTen(xs,raise);
             quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
         } else {
             int newScale = checkScaleNonZero((long) xscale - mcp);
             int raise = checkScaleNonZero((long) newScale - yscale);
-            CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
-            quotient = divideAndRound(CalkowicieBig.valueOf(xs), rb, scl, roundingMode,checkScaleNonZero(preferredScale));
+            DuzeLiczby rb = bigMultiplyPowerTen(ys,raise);
+            quotient = divideAndRound(DuzeLiczby.valueOf(xs), rb, scl, roundingMode,checkScaleNonZero(preferredScale));
         }
         // doRound, here, only affects 1000000000 case.
         return doRound(quotient, mc);
     }
 
     /**
-     * Returns a {@code DCalkowicieBig} whose value is {@code (xs /
+     * Returns a {@code DDuzeLiczby} whose value is {@code (xs /
      * ys)}, with rounding according to the context settings.
      */
-    private static DCalkowicieBig divide(CalkowicieBig xs, int xscale, CalkowicieBig ys, int yscale, long preferredScale, MathContext mc) {
+    private static DDuzeLiczby divide(DuzeLiczby xs, int xscale, DuzeLiczby ys, int yscale, long preferredScale, MathContext mc) {
         // Normalize dividend & divisor so that both fall into [0.1, 0.999...]
         if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
             yscale -= 1; // [that is, divisor *= 10]
@@ -4381,17 +4381,17 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
 
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
-        // return DCalkowicieBig object whose scale will be set to 'scl'.
-        DCalkowicieBig quotient;
+        // return DDuzeLiczby object whose scale will be set to 'scl'.
+        DDuzeLiczby quotient;
         int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
         if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
             int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            CalkowicieBig rb = bigMultiplyPowerTen(xs,raise);
+            DuzeLiczby rb = bigMultiplyPowerTen(xs,raise);
             quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
         } else {
             int newScale = checkScaleNonZero((long) xscale - mcp);
             int raise = checkScaleNonZero((long) newScale - yscale);
-            CalkowicieBig rb = bigMultiplyPowerTen(ys,raise);
+            DuzeLiczby rb = bigMultiplyPowerTen(ys,raise);
             quotient = divideAndRound(xs, rb, scl, roundingMode,checkScaleNonZero(preferredScale));
         }
         // doRound, here, only affects 1000000000 case.
@@ -4402,7 +4402,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * performs divideAndRound for (dividend0*dividend1, divisor)
      * returns null if quotient can't fit into long value;
      */
-    private static DCalkowicieBig multiplyDivideAndRound(long dividend0, long dividend1, long divisor, int scale, int roundingMode,
+    private static DDuzeLiczby multiplyDivideAndRound(long dividend0, long dividend1, long divisor, int scale, int roundingMode,
                                                  int preferredScale) {
         int qsign = Long.signum(dividend0)*Long.signum(dividend1)*Long.signum(divisor);
         dividend0 = Math.abs(dividend0);
@@ -4440,7 +4440,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * returns null if quotient can't fit into long value;
      * Specialized version of Knuth's division
      */
-    private static DCalkowicieBig divideAndRound128(final long dividendHi, final long dividendLo, long divisor, int sign,
+    private static DDuzeLiczby divideAndRound128(final long dividendHi, final long dividendLo, long divisor, int sign,
                                             int scale, int roundingMode, int preferredScale) {
         if (dividendHi >= divisor) {
             return null;
@@ -4503,19 +4503,19 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         if((int)q1 < 0) {
             // result (which is positive and unsigned here)
             // can't fit into long due to sign bit is used for value
-            MutCalkowicieBig mq = new MutCalkowicieBig(new int[]{(int)q1, (int)q0});
+            MutDuzeLiczby mq = new MutDuzeLiczby(new int[]{(int)q1, (int)q0});
             if (roundingMode == ROUND_DOWN && scale == preferredScale) {
                 return mq.toBigDecimal(sign, scale);
             }
             long r = mulsub(u1, u0, v1, v0, q0) >>> shift;
             if (r != 0) {
                 if(needIncrement(divisor >>> shift, roundingMode, sign, mq, r)){
-                    mq.add(MutCalkowicieBig.ONE);
+                    mq.add(MutDuzeLiczby.ONE);
                 }
                 return mq.toBigDecimal(sign, scale);
             } else {
                 if (preferredScale != scale) {
-                    CalkowicieBig intVal =  mq.toCalkowicieBig(sign);
+                    DuzeLiczby intVal =  mq.toDuzeLiczby(sign);
                     return createAndStripZerosToMatchScale(intVal,scale, preferredScale);
                 } else {
                     return mq.toBigDecimal(sign, scale);
@@ -4546,7 +4546,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
      * calculate divideAndRound for ldividend*10^raise / divisor
      * when abs(dividend)==abs(divisor);
      */
-    private static DCalkowicieBig roundedTenPower(int qsign, int raise, int scale, int preferredScale) {
+    private static DDuzeLiczby roundedTenPower(int qsign, int raise, int scale, int preferredScale) {
         if (scale > preferredScale) {
             int diff = scale - preferredScale;
             if(diff < raise) {
@@ -4559,15 +4559,15 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         }
     }
 
-    static DCalkowicieBig scaledTenPow(int n, int sign, int scale) {
+    static DDuzeLiczby scaledTenPow(int n, int sign, int scale) {
         if (n < LONG_TEN_POWERS_TABLE.length)
             return valueOf(sign*LONG_TEN_POWERS_TABLE[n],scale);
         else {
-            CalkowicieBig unscaledVal = bigTenToThe(n);
+            DuzeLiczby unscaledVal = bigTenToThe(n);
             if(sign==-1) {
                 unscaledVal = unscaledVal.negate();
             }
-            return new DCalkowicieBig(unscaledVal, INFLATED, scale, n+1);
+            return new DDuzeLiczby(unscaledVal, INFLATED, scale, n+1);
         }
     }
 
@@ -4638,7 +4638,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     // Compare Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-    private static int compareMagnitudeNormalized(long xs, int xscale, CalkowicieBig ys, int yscale) {
+    private static int compareMagnitudeNormalized(long xs, int xscale, DuzeLiczby ys, int yscale) {
         // assert "ys can't be represented as long"
         if (xs == 0)
             return -1;
@@ -4652,7 +4652,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
     }
 
     // Compare Normalize dividend & divisor so that both fall into [0.1, 0.999...]
-    private static int compareMagnitudeNormalized(CalkowicieBig xs, int xscale, CalkowicieBig ys, int yscale) {
+    private static int compareMagnitudeNormalized(DuzeLiczby xs, int xscale, DuzeLiczby ys, int yscale) {
         int sdiff = xscale - yscale;
         if (sdiff < 0) {
             return bigMultiplyPowerTen(xs, -sdiff).compareMagnitude(ys);
@@ -4671,29 +4671,29 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         return INFLATED;
     }
 
-    private static DCalkowicieBig multiply(long x, long y, int scale) {
+    private static DDuzeLiczby multiply(long x, long y, int scale) {
         long product = multiply(x, y);
         if(product!=INFLATED) {
             return valueOf(product,scale);
         }
-        return new DCalkowicieBig(CalkowicieBig.valueOf(x).multiply(y),INFLATED,scale,0);
+        return new DDuzeLiczby(DuzeLiczby.valueOf(x).multiply(y),INFLATED,scale,0);
     }
 
-    private static DCalkowicieBig multiply(long x, CalkowicieBig y, int scale) {
+    private static DDuzeLiczby multiply(long x, DuzeLiczby y, int scale) {
         if(x==0) {
             return zeroValueOf(scale);
         }
-        return new DCalkowicieBig(y.multiply(x),INFLATED,scale,0);
+        return new DDuzeLiczby(y.multiply(x),INFLATED,scale,0);
     }
 
-    private static DCalkowicieBig multiply(CalkowicieBig x, CalkowicieBig y, int scale) {
-        return new DCalkowicieBig(x.multiply(y),INFLATED,scale,0);
+    private static DDuzeLiczby multiply(DuzeLiczby x, DuzeLiczby y, int scale) {
+        return new DDuzeLiczby(x.multiply(y),INFLATED,scale,0);
     }
 
     /**
      * Multiplies two long values and rounds according {@code MathContext}
      */
-    private static DCalkowicieBig multiplyAndRound(long x, long y, int scale, MathContext mc) {
+    private static DDuzeLiczby multiplyAndRound(long x, long y, int scale, MathContext mc) {
         long product = multiply(x, y);
         if(product!=INFLATED) {
             return doRound(product, scale, mc);
@@ -4729,33 +4729,33 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         m3 = ((product>>>32) + m3) & LONG_MASK;
         final long mHi = make64(m3,m2);
         final long mLo = make64(m1,m0);
-        DCalkowicieBig res = doRound128(mHi, mLo, rsign, scale, mc);
+        DDuzeLiczby res = doRound128(mHi, mLo, rsign, scale, mc);
         if(res!=null) {
             return res;
         }
-        res = new DCalkowicieBig(CalkowicieBig.valueOf(x).multiply(y*rsign), INFLATED, scale, 0);
+        res = new DDuzeLiczby(DuzeLiczby.valueOf(x).multiply(y*rsign), INFLATED, scale, 0);
         return doRound(res,mc);
     }
 
-    private static DCalkowicieBig multiplyAndRound(long x, CalkowicieBig y, int scale, MathContext mc) {
+    private static DDuzeLiczby multiplyAndRound(long x, DuzeLiczby y, int scale, MathContext mc) {
         if(x==0) {
             return zeroValueOf(scale);
         }
         return doRound(y.multiply(x), scale, mc);
     }
 
-    private static DCalkowicieBig multiplyAndRound(CalkowicieBig x, CalkowicieBig y, int scale, MathContext mc) {
+    private static DDuzeLiczby multiplyAndRound(DuzeLiczby x, DuzeLiczby y, int scale, MathContext mc) {
         return doRound(x.multiply(y), scale, mc);
     }
 
     /**
      * rounds 128-bit value according {@code MathContext}
-     * returns null if result can't be repsented as compact DCalkowicieBig.
+     * returns null if result can't be repsented as compact DDuzeLiczby.
      */
-    private static DCalkowicieBig doRound128(long hi, long lo, int sign, int scale, MathContext mc) {
+    private static DDuzeLiczby doRound128(long hi, long lo, int sign, int scale, MathContext mc) {
         int mcp = mc.precision;
         int drop;
-        DCalkowicieBig res = null;
+        DDuzeLiczby res = null;
         if(((drop = precision(hi, lo) - mcp) > 0)&&(drop<LONG_TEN_POWERS_TABLE.length)) {
             scale = checkScaleNonZero((long)scale - drop);
             res = divideAndRound128(hi, lo, LONG_TEN_POWERS_TABLE[drop], sign, scale, mc.roundingMode.oldMode, scale);
@@ -4817,7 +4817,7 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
         return (lo0+Long.MIN_VALUE) <(lo1+Long.MIN_VALUE);
     }
 
-    private static DCalkowicieBig divide(long dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
+    private static DDuzeLiczby divide(long dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
         if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
             int newScale = scale + divisorScale;
             int raise = newScale - dividendScale;
@@ -4826,12 +4826,12 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                 if ((xs = longMultiplyPowerTen(xs, raise)) != INFLATED) {
                     return divideAndRound(xs, divisor, scale, roundingMode, scale);
                 }
-                DCalkowicieBig q = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[raise], dividend, divisor, scale, roundingMode, scale);
+                DDuzeLiczby q = multiplyDivideAndRound(LONG_TEN_POWERS_TABLE[raise], dividend, divisor, scale, roundingMode, scale);
                 if(q!=null) {
                     return q;
                 }
             }
-            CalkowicieBig scaledDividend = bigMultiplyPowerTen(dividend, raise);
+            DuzeLiczby scaledDividend = bigMultiplyPowerTen(dividend, raise);
             return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
         } else {
             int newScale = checkScale(divisor,(long)dividendScale - scale);
@@ -4842,16 +4842,16 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                     return divideAndRound(dividend, ys, scale, roundingMode, scale);
                 }
             }
-            CalkowicieBig scaledDivisor = bigMultiplyPowerTen(divisor, raise);
-            return divideAndRound(CalkowicieBig.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
+            DuzeLiczby scaledDivisor = bigMultiplyPowerTen(divisor, raise);
+            return divideAndRound(DuzeLiczby.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
         }
     }
 
-    private static DCalkowicieBig divide(CalkowicieBig dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
+    private static DDuzeLiczby divide(DuzeLiczby dividend, int dividendScale, long divisor, int divisorScale, int scale, int roundingMode) {
         if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
             int newScale = scale + divisorScale;
             int raise = newScale - dividendScale;
-            CalkowicieBig scaledDividend = bigMultiplyPowerTen(dividend, raise);
+            DuzeLiczby scaledDividend = bigMultiplyPowerTen(dividend, raise);
             return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
         } else {
             int newScale = checkScale(divisor,(long)dividendScale - scale);
@@ -4862,35 +4862,35 @@ public class DCalkowicieBig extends Number implements Comparable<DCalkowicieBig>
                     return divideAndRound(dividend, ys, scale, roundingMode, scale);
                 }
             }
-            CalkowicieBig scaledDivisor = bigMultiplyPowerTen(divisor, raise);
+            DuzeLiczby scaledDivisor = bigMultiplyPowerTen(divisor, raise);
             return divideAndRound(dividend, scaledDivisor, scale, roundingMode, scale);
         }
     }
 
-    private static DCalkowicieBig divide(long dividend, int dividendScale, CalkowicieBig divisor, int divisorScale, int scale, int roundingMode) {
+    private static DDuzeLiczby divide(long dividend, int dividendScale, DuzeLiczby divisor, int divisorScale, int scale, int roundingMode) {
         if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
             int newScale = scale + divisorScale;
             int raise = newScale - dividendScale;
-            CalkowicieBig scaledDividend = bigMultiplyPowerTen(dividend, raise);
+            DuzeLiczby scaledDividend = bigMultiplyPowerTen(dividend, raise);
             return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
         } else {
             int newScale = checkScale(divisor,(long)dividendScale - scale);
             int raise = newScale - divisorScale;
-            CalkowicieBig scaledDivisor = bigMultiplyPowerTen(divisor, raise);
-            return divideAndRound(CalkowicieBig.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
+            DuzeLiczby scaledDivisor = bigMultiplyPowerTen(divisor, raise);
+            return divideAndRound(DuzeLiczby.valueOf(dividend), scaledDivisor, scale, roundingMode, scale);
         }
     }
 
-    private static DCalkowicieBig divide(CalkowicieBig dividend, int dividendScale, CalkowicieBig divisor, int divisorScale, int scale, int roundingMode) {
+    private static DDuzeLiczby divide(DuzeLiczby dividend, int dividendScale, DuzeLiczby divisor, int divisorScale, int scale, int roundingMode) {
         if (checkScale(dividend,(long)scale + divisorScale) > dividendScale) {
             int newScale = scale + divisorScale;
             int raise = newScale - dividendScale;
-            CalkowicieBig scaledDividend = bigMultiplyPowerTen(dividend, raise);
+            DuzeLiczby scaledDividend = bigMultiplyPowerTen(dividend, raise);
             return divideAndRound(scaledDividend, divisor, scale, roundingMode, scale);
         } else {
             int newScale = checkScale(divisor,(long)dividendScale - scale);
             int raise = newScale - divisorScale;
-            CalkowicieBig scaledDivisor = bigMultiplyPowerTen(divisor, raise);
+            DuzeLiczby scaledDivisor = bigMultiplyPowerTen(divisor, raise);
             return divideAndRound(dividend, scaledDivisor, scale, roundingMode, scale);
         }
     }

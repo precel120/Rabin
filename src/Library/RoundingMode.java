@@ -28,7 +28,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-6</td>
          *</table>
          */
-    UP(DCalkowicieBig.ROUND_UP),
+    UP(DDuzeLiczby.ROUND_UP),
 
         /**
          * Rounding mode to round towards zero.  Never increments the digit
@@ -52,7 +52,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-5</td>
          *</table>
          */
-    DOWN(DCalkowicieBig.ROUND_DOWN),
+    DOWN(DDuzeLiczby.ROUND_DOWN),
 
         /**
          * Rounding mode to round towards positive infinity.  If the
@@ -77,7 +77,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-5</td>
          *</table>
          */
-    CEILING(DCalkowicieBig.ROUND_CEILING),
+    CEILING(DDuzeLiczby.ROUND_CEILING),
 
         /**
          * Rounding mode to round towards negative infinity.  If the
@@ -102,7 +102,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-6</td>
          *</table>
          */
-    FLOOR(DCalkowicieBig.ROUND_FLOOR),
+    FLOOR(DDuzeLiczby.ROUND_FLOOR),
 
         /**
          * Rounding mode to round towards {@literal "nearest neighbor"}
@@ -129,7 +129,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-6</td>
          *</table>
          */
-    HALF_UP(DCalkowicieBig.ROUND_HALF_UP),
+    HALF_UP(DDuzeLiczby.ROUND_HALF_UP),
 
         /**
          * Rounding mode to round towards {@literal "nearest neighbor"}
@@ -155,7 +155,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-5</td>
          *</table>
          */
-    HALF_DOWN(DCalkowicieBig.ROUND_HALF_DOWN),
+    HALF_DOWN(DDuzeLiczby.ROUND_HALF_DOWN),
 
         /**
          * Rounding mode to round towards the {@literal "nearest neighbor"}
@@ -188,7 +188,7 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>-6</td>
          *</table>
          */
-    HALF_EVEN(DCalkowicieBig.ROUND_HALF_EVEN),
+    HALF_EVEN(DDuzeLiczby.ROUND_HALF_EVEN),
 
         /**
          * Rounding mode to assert that the requested operation has an exact
@@ -212,15 +212,15 @@ public enum RoundingMode {
          *<tr align=right><td>-5.5</td> <td>throw {@code ArithmeticException}</td>
          *</table>
          */
-    UNNECESSARY(DCalkowicieBig.ROUND_UNNECESSARY);
+    UNNECESSARY(DDuzeLiczby.ROUND_UNNECESSARY);
 
-    // Corresponding DCalkowicieBig rounding constant
+    // Corresponding DDuzeLiczby rounding constant
     final int oldMode;
 
     /**
      * Constructor
      *
-     * @param oldMode The {@code DCalkowicieBig} constant corresponding to
+     * @param oldMode The {@code DDuzeLiczby} constant corresponding to
      *        this mode
      */
     private RoundingMode(int oldMode) {
@@ -229,7 +229,7 @@ public enum RoundingMode {
 
     /**
      * Returns the {@code RoundingMode} object corresponding to a
-     * legacy integer rounding mode constant in {@link DCalkowicieBig}.
+     * legacy integer rounding mode constant in {@link DDuzeLiczby}.
      *
      * @param  rm legacy integer rounding mode to convert
      * @return {@code RoundingMode} corresponding to the given integer.
@@ -238,28 +238,28 @@ public enum RoundingMode {
     public static RoundingMode valueOf(int rm) {
         switch(rm) {
 
-        case DCalkowicieBig.ROUND_UP:
+        case DDuzeLiczby.ROUND_UP:
             return UP;
 
-        case DCalkowicieBig.ROUND_DOWN:
+        case DDuzeLiczby.ROUND_DOWN:
             return DOWN;
 
-        case DCalkowicieBig.ROUND_CEILING:
+        case DDuzeLiczby.ROUND_CEILING:
             return CEILING;
 
-        case DCalkowicieBig.ROUND_FLOOR:
+        case DDuzeLiczby.ROUND_FLOOR:
             return FLOOR;
 
-        case DCalkowicieBig.ROUND_HALF_UP:
+        case DDuzeLiczby.ROUND_HALF_UP:
             return HALF_UP;
 
-        case DCalkowicieBig.ROUND_HALF_DOWN:
+        case DDuzeLiczby.ROUND_HALF_DOWN:
             return HALF_DOWN;
 
-        case DCalkowicieBig.ROUND_HALF_EVEN:
+        case DDuzeLiczby.ROUND_HALF_EVEN:
             return HALF_EVEN;
 
-        case DCalkowicieBig.ROUND_UNNECESSARY:
+        case DDuzeLiczby.ROUND_UNNECESSARY:
             return UNNECESSARY;
 
         default:

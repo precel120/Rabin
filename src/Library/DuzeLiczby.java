@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
+public class DuzeLiczby extends Number implements Comparable<DuzeLiczby> {
 
 
     public class FloatConsts {
@@ -180,22 +180,22 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         }
     }
     /**
-     * The signum of this CalkowicieBig: -1 for negative, 0 for zero, or
-     * 1 for positive.  Note that the CalkowicieBig zero <i>must</i> have
+     * The signum of this DuzeLiczby: -1 for negative, 0 for zero, or
+     * 1 for positive.  Note that the DuzeLiczby zero <i>must</i> have
      * a signum of 0.  This is necessary to ensures that there is exactly one
-     * representation for each CalkowicieBig value.
+     * representation for each DuzeLiczby value.
      *
      * @serial
      */
     final int signum;
 
     /**
-     * The magnitude of this CalkowicieBig, in <i>big-endian</i> order: the
+     * The magnitude of this DuzeLiczby, in <i>big-endian</i> order: the
      * zeroth element of this array is the most-significant int of the
      * magnitude.  The magnitude must be "minimal" in that the most-significant
      * int ({@code mag[0]}) must be non-zero.  This is necessary to
-     * ensure that there is exactly one representation for each CalkowicieBig
-     * value.  Note that this implies that the CalkowicieBig zero has a
+     * ensure that there is exactly one representation for each DuzeLiczby
+     * value.  Note that this implies that the DuzeLiczby zero has a
      * zero-length mag array.
      */
     final int[] mag;
@@ -205,7 +205,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     // aren't needed).
 
     /**
-     * One plus the bitCount of this CalkowicieBig. Zeros means unitialized.
+     * One plus the bitCount of this DuzeLiczby. Zeros means unitialized.
      *
      * @serial
      * @see #bitCount
@@ -216,7 +216,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     private int bitCount;
 
     /**
-     * One plus the bitLength of this CalkowicieBig. Zeros means unitialized.
+     * One plus the bitLength of this DuzeLiczby. Zeros means unitialized.
      * (either value is acceptable).
      *
      * @serial
@@ -228,7 +228,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     private int bitLength;
 
     /**
-     * Two plus the lowest set bit of this CalkowicieBig, as returned by
+     * Two plus the lowest set bit of this DuzeLiczby, as returned by
      * getLowestSetBit().
      *
      * @serial
@@ -241,7 +241,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * Two plus the index of the lowest-order int in the magnitude of this
-     * CalkowicieBig that contains a nonzero int, or -2 (either value is acceptable).
+     * DuzeLiczby that contains a nonzero int, or -2 (either value is acceptable).
      * The least significant int has int-number 0, the next int in order of
      * increasing significance has int-number 1, and so forth.
      * @deprecated Deprecated since logical value is offset from stored
@@ -256,7 +256,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     final static long LONG_MASK = 0xffffffffL;
 
     /**
-     * This constant limits {@code mag.length} of CalkowicieBigs to the supported
+     * This constant limits {@code mag.length} of DuzeLiczbys to the supported
      * range.
      */
     private static final int MAX_MAG_LENGTH = Integer.MAX_VALUE / Integer.SIZE + 1; // (1 << 26)
@@ -328,7 +328,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * The threshold value for using squaring code to perform multiplication
-     * of a {@code CalkowicieBig} instance by itself.  If the number of ints in
+     * of a {@code DuzeLiczby} instance by itself.  If the number of ints in
      * the number are larger than this value, {@code multiply(this)} will
      * return {@code square()}.
      */
@@ -347,17 +347,17 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * Translates a byte array containing the two's-complement binary
-     * representation of a CalkowicieBig into a CalkowicieBig.  The input array is
+     * representation of a DuzeLiczby into a DuzeLiczby.  The input array is
      * assumed to be in <i>big-endian</i> byte-order: the most significant
      * byte is in the zeroth element.
      *
      * @param  val big-endian two's-complement binary representation of
-     *         CalkowicieBig.
+     *         DuzeLiczby.
      * @throws NumberFormatException {@code val} is zero bytes long.
      */
-    public CalkowicieBig(byte[] val) {
+    public DuzeLiczby(byte[] val) {
         if (val.length == 0)
-            throw new NumberFormatException("Zero length CalkowicieBig");
+            throw new NumberFormatException("Zero length DuzeLiczby");
 
         if (val[0] < 0) {
             mag = makePositive(val);
@@ -373,13 +373,13 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * This private constructor translates an int array containing the
-     * two's-complement binary representation of a CalkowicieBig into a
-     * CalkowicieBig. The input array is assumed to be in <i>big-endian</i>
+     * two's-complement binary representation of a DuzeLiczby into a
+     * DuzeLiczby. The input array is assumed to be in <i>big-endian</i>
      * int-order: the most significant int is in the zeroth element.
      */
-    private CalkowicieBig(int[] val) {
+    private DuzeLiczby(int[] val) {
         if (val.length == 0)
-            throw new NumberFormatException("Zero length CalkowicieBig");
+            throw new NumberFormatException("Zero length DuzeLiczby");
 
         if (val[0] < 0) {
             mag = makePositive(val);
@@ -394,12 +394,12 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Translates the sign-magnitude representation of a CalkowicieBig into a
-     * CalkowicieBig.  The sign is represented as an integer signum value: -1 for
+     * Translates the sign-magnitude representation of a DuzeLiczby into a
+     * DuzeLiczby.  The sign is represented as an integer signum value: -1 for
      * negative, 0 for zero, or 1 for positive.  The magnitude is a byte array
      * in <i>big-endian</i> byte-order: the most significant byte is in the
      * zeroth element.  A zero-length magnitude array is permissible, and will
-     * result in a CalkowicieBig value of 0, whether signum is -1, 0 or 1.
+     * result in a DuzeLiczby value of 0, whether signum is -1, 0 or 1.
      *
      * @param  signum signum of the number (-1 for negative, 0 for zero, 1
      *         for positive).
@@ -409,7 +409,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      *         legal values (-1, 0, and 1), or {@code signum} is 0 and
      *         {@code magnitude} contains one or more non-zero bytes.
      */
-    public CalkowicieBig(int signum, byte[] magnitude) {
+    public DuzeLiczby(int signum, byte[] magnitude) {
         this.mag = stripLeadingZeroBytes(magnitude);
 
         if (signum < -1 || signum > 1)
@@ -429,11 +429,11 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * A constructor for internal use that translates the sign-magnitude
-     * representation of a CalkowicieBig into a CalkowicieBig. It checks the
+     * representation of a DuzeLiczby into a DuzeLiczby. It checks the
      * arguments and copies the magnitude so this constructor would be
      * safe for external use.
      */
-    private CalkowicieBig(int signum, int[] magnitude) {
+    private DuzeLiczby(int signum, int[] magnitude) {
         this.mag = stripLeadingZeroInts(magnitude);
 
         if (signum < -1 || signum > 1)
@@ -452,30 +452,30 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Translates the String representation of a CalkowicieBig in the
-     * specified radix into a CalkowicieBig.  The String representation
+     * Translates the String representation of a DuzeLiczby in the
+     * specified radix into a DuzeLiczby.  The String representation
      * consists of an optional minus or plus sign followed by a
      * sequence of one or more digits in the specified radix.  The
      * character-to-digit mapping is provided by {@code
      * Character.digit}.  The String may not contain any extraneous
      * characters (whitespace, for example).
      *
-     * @param val String representation of CalkowicieBig.
+     * @param val String representation of DuzeLiczby.
      * @param radix radix to be used in interpreting {@code val}.
      * @throws NumberFormatException {@code val} is not a valid representation
-     *         of a CalkowicieBig in the specified radix, or {@code radix} is
+     *         of a DuzeLiczby in the specified radix, or {@code radix} is
      *         outside the range from {@link Character#MIN_RADIX} to
      *         {@link Character#MAX_RADIX}, inclusive.
      * @see    Character#digit
      */
-    public CalkowicieBig(String val, int radix) {
+    public DuzeLiczby(String val, int radix) {
         int cursor = 0, numDigits;
         final int len = val.length();
 
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX)
             throw new NumberFormatException("Radix out of range");
         if (len == 0)
-            throw new NumberFormatException("Zero length CalkowicieBig");
+            throw new NumberFormatException("Zero length DuzeLiczby");
 
         // Check for at most one leading sign
         int sign = 1;
@@ -494,7 +494,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             cursor = 1;
         }
         if (cursor == len)
-            throw new NumberFormatException("Zero length CalkowicieBig");
+            throw new NumberFormatException("Zero length DuzeLiczby");
 
         // Skip leading zeros and compute number of digits in magnitude
         while (cursor < len &&
@@ -547,10 +547,10 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /*
-     * Constructs a new CalkowicieBig using a char array with radix=10.
+     * Constructs a new DuzeLiczby using a char array with radix=10.
      * Sign is precalculated outside and not allowed in the val.
      */
-    CalkowicieBig(char[] val, int sign, int len) {
+    DuzeLiczby(char[] val, int sign, int len) {
         int cursor = 0, numDigits;
 
         // Skip leading zeros and compute number of digits in magnitude
@@ -648,36 +648,36 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Translates the decimal String representation of a CalkowicieBig into a
-     * CalkowicieBig.  The String representation consists of an optional minus
+     * Translates the decimal String representation of a DuzeLiczby into a
+     * DuzeLiczby.  The String representation consists of an optional minus
      * sign followed by a sequence of one or more decimal digits.  The
      * character-to-digit mapping is provided by {@code Character.digit}.
      * The String may not contain any extraneous characters (whitespace, for
      * example).
      *
-     * @param val decimal String representation of CalkowicieBig.
+     * @param val decimal String representation of DuzeLiczby.
      * @throws NumberFormatException {@code val} is not a valid representation
-     *         of a CalkowicieBig.
+     *         of a DuzeLiczby.
      * @see    Character#digit
      */
-    public CalkowicieBig(String val) {
+    public DuzeLiczby(String val) {
         this(val, 10);
     }
 
     /**
-     * Constructs a randomly generated CalkowicieBig, uniformly distributed over
+     * Constructs a randomly generated DuzeLiczby, uniformly distributed over
      * the range 0 to (2<sup>{@code numBits}</sup> - 1), inclusive.
      * The uniformity of the distribution assumes that a fair source of random
      * bits is provided in {@code rnd}.  Note that this constructor always
-     * constructs a non-negative CalkowicieBig.
+     * constructs a non-negative DuzeLiczby.
      *
-     * @param  numBits maximum bitLength of the new CalkowicieBig.
+     * @param  numBits maximum bitLength of the new DuzeLiczby.
      * @param  rnd source of randomness to be used in computing the new
-     *         CalkowicieBig.
+     *         DuzeLiczby.
      * @throws IllegalArgumentException {@code numBits} is negative.
      * @see #bitLength()
      */
-    public CalkowicieBig(int numBits, Random rnd) {
+    public DuzeLiczby(int numBits, Random rnd) {
         this(1, randomBits(numBits, rnd));
     }
 
@@ -697,16 +697,16 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Constructs a randomly generated positive CalkowicieBig that is probably
+     * Constructs a randomly generated positive DuzeLiczby that is probably
      * prime, with the specified bitLength.
      *
      * <p>It is recommended that the {@link #probablePrime probablePrime}
      * method be used in preference to this constructor unless there
      * is a compelling need to specify a certainty.
      *
-     * @param  bitLength bitLength of the returned CalkowicieBig.
+     * @param  bitLength bitLength of the returned DuzeLiczby.
      * @param  certainty a measure of the uncertainty that the caller is
-     *         willing to tolerate.  The probability that the new CalkowicieBig
+     *         willing to tolerate.  The probability that the new DuzeLiczby
      *         represents a prime number will exceed
      *         (1 - 1/2<sup>{@code certainty}</sup>).  The execution time of
      *         this constructor is proportional to the value of this parameter.
@@ -715,8 +715,8 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @throws ArithmeticException {@code bitLength < 2} or {@code bitLength} is too large.
      * @see    #bitLength()
      */
-    public CalkowicieBig(int bitLength, int certainty, Random rnd) {
-        CalkowicieBig prime;
+    public DuzeLiczby(int bitLength, int certainty, Random rnd) {
+        DuzeLiczby prime;
 
         if (bitLength < 2)
             throw new ArithmeticException("bitLength < 2");
@@ -736,19 +736,19 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     private static final int DEFAULT_PRIME_CERTAINTY = 100;
 
     /**
-     * Returns a positive CalkowicieBig that is probably prime, with the
-     * specified bitLength. The probability that a CalkowicieBig returned
+     * Returns a positive DuzeLiczby that is probably prime, with the
+     * specified bitLength. The probability that a DuzeLiczby returned
      * by this method is composite does not exceed 2<sup>-100</sup>.
      *
-     * @param  bitLength bitLength of the returned CalkowicieBig.
+     * @param  bitLength bitLength of the returned DuzeLiczby.
      * @param  rnd source of random bits used to select candidates to be
      *         tested for primality.
-     * @return a CalkowicieBig of {@code bitLength} bits that is probably prime
+     * @return a DuzeLiczby of {@code bitLength} bits that is probably prime
      * @throws ArithmeticException {@code bitLength < 2} or {@code bitLength} is too large.
      * @see    #bitLength()
      * @since 1.4
      */
-    public static CalkowicieBig probablePrime(int bitLength, Random rnd) {
+    public static DuzeLiczby probablePrime(int bitLength, Random rnd) {
         if (bitLength < 2)
             throw new ArithmeticException("bitLength < 2");
 
@@ -764,7 +764,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      *
      * This method assumes bitLength > 1.
      */
-    private static CalkowicieBig smallPrime(int bitLength, int certainty, Random rnd) {
+    private static DuzeLiczby smallPrime(int bitLength, int certainty, Random rnd) {
         int magLen = (bitLength + 31) >>> 5;
         int temp[] = new int[magLen];
         int highBit = 1 << ((bitLength+31) & 0x1f);  // High bit of high int
@@ -778,7 +778,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             if (bitLength > 2)
                 temp[magLen-1] |= 1;  // Make odd if bitlen > 2
 
-            CalkowicieBig p = new CalkowicieBig(temp, 1);
+            DuzeLiczby p = new DuzeLiczby(temp, 1);
 
             // Do cheap "pre-test" if applicable
             if (bitLength > 6) {
@@ -799,7 +799,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         }
     }
 
-    private static final CalkowicieBig SMALL_PRIME_PRODUCT
+    private static final DuzeLiczby SMALL_PRIME_PRODUCT
             = valueOf(3L*5*7*11*13*17*19*23*29*31*37*41);
 
     /**
@@ -808,20 +808,20 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * a sieve to eliminate most composites before using a more expensive
      * test.
      */
-    private static CalkowicieBig largePrime(int bitLength, int certainty, Random rnd) {
-        CalkowicieBig p;
-        p = new CalkowicieBig(bitLength, rnd).setBit(bitLength-1);
+    private static DuzeLiczby largePrime(int bitLength, int certainty, Random rnd) {
+        DuzeLiczby p;
+        p = new DuzeLiczby(bitLength, rnd).setBit(bitLength-1);
         p.mag[p.mag.length-1] &= 0xfffffffe;
 
         // Use a sieve length likely to contain the next prime number
         int searchLen = getPrimeSearchLen(bitLength);
         BitSieve searchSieve = new BitSieve(p, searchLen);
-        CalkowicieBig candidate = searchSieve.retrieve(p, certainty, rnd);
+        DuzeLiczby candidate = searchSieve.retrieve(p, certainty, rnd);
 
         while ((candidate == null) || (candidate.bitLength() != bitLength)) {
-            p = p.add(CalkowicieBig.valueOf(2*searchLen));
+            p = p.add(DuzeLiczby.valueOf(2*searchLen));
             if (p.bitLength() != bitLength)
-                p = new CalkowicieBig(bitLength, rnd).setBit(bitLength-1);
+                p = new DuzeLiczby(bitLength, rnd).setBit(bitLength-1);
             p.mag[p.mag.length-1] &= 0xfffffffe;
             searchSieve = new BitSieve(p, searchLen);
             candidate = searchSieve.retrieve(p, certainty, rnd);
@@ -830,18 +830,18 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns the first integer greater than this {@code CalkowicieBig} that
+     * Returns the first integer greater than this {@code DuzeLiczby} that
      * is probably prime.  The probability that the number returned by this
      * method is composite does not exceed 2<sup>-100</sup>. This method will
      * never skip over a prime when searching: if it returns {@code p}, there
      * is no prime {@code q} such that {@code this < q < p}.
      *
-     * @return the first integer greater than this {@code CalkowicieBig} that
+     * @return the first integer greater than this {@code DuzeLiczby} that
      *         is probably prime.
      * @throws ArithmeticException {@code this < 0} or {@code this} is too large.
      * @since 1.5
      */
-    public CalkowicieBig nextProbablePrime() {
+    public DuzeLiczby nextProbablePrime() {
         if (this.signum < 0)
             throw new ArithmeticException("start < 0: " + this);
 
@@ -849,7 +849,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         if ((this.signum == 0) || this.equals(ONE))
             return TWO;
 
-        CalkowicieBig result = this.add(ONE);
+        DuzeLiczby result = this.add(ONE);
 
         // Fastpath for small numbers
         if (result.bitLength() < SMALL_PRIME_THRESHOLD) {
@@ -891,11 +891,11 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
         while (true) {
             BitSieve searchSieve = new BitSieve(result, searchLen);
-            CalkowicieBig candidate = searchSieve.retrieve(result,
+            DuzeLiczby candidate = searchSieve.retrieve(result,
                     DEFAULT_PRIME_CERTAINTY, null);
             if (candidate != null)
                 return candidate;
-            result = result.add(CalkowicieBig.valueOf(2 * searchLen));
+            result = result.add(DuzeLiczby.valueOf(2 * searchLen));
         }
     }
 
@@ -907,17 +907,17 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns {@code true} if this CalkowicieBig is probably prime,
+     * Returns {@code true} if this DuzeLiczby is probably prime,
      * {@code false} if it's definitely composite.
      *
      * This method assumes bitLength > 2.
      *
      * @param  certainty a measure of the uncertainty that the caller is
      *         willing to tolerate: if the call returns {@code true}
-     *         the probability that this CalkowicieBig is prime exceeds
+     *         the probability that this DuzeLiczby is prime exceeds
      *         {@code (1 - 1/2<sup>certainty</sup>)}.  The execution time of
      *         this method is proportional to the value of this parameter.
-     * @return {@code true} if this CalkowicieBig is probably prime,
+     * @return {@code true} if this DuzeLiczby is probably prime,
      *         {@code false} if it's definitely composite.
      */
     boolean primeToCertainty(int certainty, Random random) {
@@ -951,13 +951,13 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns true iff this CalkowicieBig is a Lucas-Lehmer probable prime.
+     * Returns true iff this DuzeLiczby is a Lucas-Lehmer probable prime.
      *
      * The following assumptions are made:
-     * This CalkowicieBig is a positive, odd number.
+     * This DuzeLiczby is a positive, odd number.
      */
     private boolean passesLucasLehmer() {
-        CalkowicieBig thisPlusOne = this.add(ONE);
+        DuzeLiczby thisPlusOne = this.add(ONE);
 
         // Step 1
         int d = 5;
@@ -967,7 +967,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         }
 
         // Step 2
-        CalkowicieBig u = lucasLehmerSequence(d, thisPlusOne, this);
+        DuzeLiczby u = lucasLehmerSequence(d, thisPlusOne, this);
 
         // Step 3
         return u.mod(this).equals(ZERO);
@@ -977,7 +977,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * Computes Jacobi(p,n).
      * Assumes n positive, odd, n>=3.
      */
-    private static int jacobiSymbol(int p, CalkowicieBig n) {
+    private static int jacobiSymbol(int p, DuzeLiczby n) {
         if (p == 0)
             return 0;
 
@@ -1007,7 +1007,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         if ((p & u & 2) != 0)   // p = u = 3 (mod 4)?
             j = -j;
         // And reduce u mod p
-        u = n.mod(CalkowicieBig.valueOf(p)).intValue();
+        u = n.mod(DuzeLiczby.valueOf(p)).intValue();
 
         // Now compute Jacobi(u,p), u < p
         while (u != 0) {
@@ -1031,10 +1031,10 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         return 0;
     }
 
-    private static CalkowicieBig lucasLehmerSequence(int z, CalkowicieBig k, CalkowicieBig n) {
-        CalkowicieBig d = CalkowicieBig.valueOf(z);
-        CalkowicieBig u = ONE; CalkowicieBig u2;
-        CalkowicieBig v = ONE; CalkowicieBig v2;
+    private static DuzeLiczby lucasLehmerSequence(int z, DuzeLiczby k, DuzeLiczby n) {
+        DuzeLiczby d = DuzeLiczby.valueOf(z);
+        DuzeLiczby u = ONE; DuzeLiczby u2;
+        DuzeLiczby v = ONE; DuzeLiczby v2;
 
         for (int i=k.bitLength()-2; i >= 0; i--) {
             u2 = u.multiply(v).mod(n);
@@ -1064,18 +1064,18 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns true iff this CalkowicieBig passes the specified number of
+     * Returns true iff this DuzeLiczby passes the specified number of
      * Miller-Rabin tests. This test is taken from the DSA spec (NIST FIPS
      * 186-2).
      *
      * The following assumptions are made:
-     * This CalkowicieBig is a positive, odd number greater than 2.
+     * This DuzeLiczby is a positive, odd number greater than 2.
      * iterations<=50.
      */
     private boolean passesMillerRabin(int iterations, Random rnd) {
         // Find a and m such that m is odd and this == 1 + 2**a * m
-        CalkowicieBig thisMinusOne = this.subtract(ONE);
-        CalkowicieBig m = thisMinusOne;
+        DuzeLiczby thisMinusOne = this.subtract(ONE);
+        DuzeLiczby m = thisMinusOne;
         int a = m.getLowestSetBit();
         m = m.shiftRight(a);
 
@@ -1085,13 +1085,13 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         }
         for (int i=0; i < iterations; i++) {
             // Generate a uniform random on (1, this)
-            CalkowicieBig b;
+            DuzeLiczby b;
             do {
-                b = new CalkowicieBig(this.bitLength(), rnd);
+                b = new DuzeLiczby(this.bitLength(), rnd);
             } while (b.compareTo(ONE) <= 0 || b.compareTo(this) >= 0);
 
             int j = 0;
-            CalkowicieBig z = b.modPow(m, this);
+            DuzeLiczby z = b.modPow(m, this);
             while (!((j == 0 && z.equals(ONE)) || z.equals(thisMinusOne))) {
                 if (j > 0 && z.equals(ONE) || ++j == a)
                     return false;
@@ -1106,7 +1106,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * with the arguments reversed in two ways: it assumes that its
      * arguments are correct, and it doesn't copy the magnitude array.
      */
-    CalkowicieBig(int[] magnitude, int signum) {
+    DuzeLiczby(int[] magnitude, int signum) {
         this.signum = (magnitude.length == 0 ? 0 : signum);
         this.mag = magnitude;
         if (mag.length >= MAX_MAG_LENGTH) {
@@ -1118,7 +1118,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * This private constructor is for internal use and assumes that its
      * arguments are correct.
      */
-    private CalkowicieBig(byte[] magnitude, int signum) {
+    private DuzeLiczby(byte[] magnitude, int signum) {
         this.signum = (magnitude.length == 0 ? 0 : signum);
         this.mag = stripLeadingZeroBytes(magnitude);
         if (mag.length >= MAX_MAG_LENGTH) {
@@ -1127,7 +1127,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Throws an {@code ArithmeticException} if the {@code CalkowicieBig} would be
+     * Throws an {@code ArithmeticException} if the {@code DuzeLiczby} would be
      * out of the supported range.
      *
      * @throws ArithmeticException if {@code this} exceeds the supported range.
@@ -1139,21 +1139,21 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     private static void reportOverflow() {
-        throw new ArithmeticException("CalkowicieBig would overflow supported range");
+        throw new ArithmeticException("DuzeLiczby would overflow supported range");
     }
 
     //Static Factory Methods
 
     /**
-     * Returns a CalkowicieBig whose value is equal to that of the
+     * Returns a DuzeLiczby whose value is equal to that of the
      * specified {@code long}.  This "static factory method" is
      * provided in preference to a ({@code long}) constructor
-     * because it allows for reuse of frequently used CalkowicieBigs.
+     * because it allows for reuse of frequently used DuzeLiczbys.
      *
-     * @param  val value of the CalkowicieBig to return.
-     * @return a CalkowicieBig with the specified value.
+     * @param  val value of the DuzeLiczby to return.
+     * @return a DuzeLiczby with the specified value.
      */
-    public static CalkowicieBig valueOf(long val) {
+    public static DuzeLiczby valueOf(long val) {
         // If -MAX_CONSTANT < val < MAX_CONSTANT, return stashed constant
         if (val == 0)
             return ZERO;
@@ -1162,13 +1162,13 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         else if (val < 0 && val >= -MAX_CONSTANT)
             return negConst[(int) -val];
 
-        return new CalkowicieBig(val);
+        return new DuzeLiczby(val);
     }
 
     /**
-     * Constructs a CalkowicieBig with the specified value, which may not be zero.
+     * Constructs a DuzeLiczby with the specified value, which may not be zero.
      */
-    private CalkowicieBig(long val) {
+    private DuzeLiczby(long val) {
         if (val < 0) {
             val = -val;
             signum = -1;
@@ -1188,12 +1188,12 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig with the given two's complement representation.
+     * Returns a DuzeLiczby with the given two's complement representation.
      * Assumes that the input array will not be modified (the returned
-     * CalkowicieBig will reference the input array if feasible).
+     * DuzeLiczby will reference the input array if feasible).
      */
-    private static CalkowicieBig valueOf(int val[]) {
-        return (val[0] > 0 ? new CalkowicieBig(val, 1) : new CalkowicieBig(val));
+    private static DuzeLiczby valueOf(int val[]) {
+        return (val[0] > 0 ? new DuzeLiczby(val, 1) : new DuzeLiczby(val));
     }
 
     // Constants
@@ -1202,15 +1202,15 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * Initialize static constant array when class is loaded.
      */
     private final static int MAX_CONSTANT = 16;
-    private static CalkowicieBig posConst[] = new CalkowicieBig[MAX_CONSTANT+1];
-    private static CalkowicieBig negConst[] = new CalkowicieBig[MAX_CONSTANT+1];
+    private static DuzeLiczby posConst[] = new DuzeLiczby[MAX_CONSTANT+1];
+    private static DuzeLiczby negConst[] = new DuzeLiczby[MAX_CONSTANT+1];
 
     /**
      * The cache of powers of each radix.  This allows us to not have to
      * recalculate powers of radix^(2^n) more than once.  This speeds
      * Schoenhage recursive base conversion significantly.
      */
-    private static volatile CalkowicieBig[][] powerCache;
+    private static volatile DuzeLiczby[][] powerCache;
 
     /** The cache of logarithms of radices for base conversion. */
     private static final double[] logCache;
@@ -1222,8 +1222,8 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         for (int i = 1; i <= MAX_CONSTANT; i++) {
             int[] magnitude = new int[1];
             magnitude[0] = i;
-            posConst[i] = new CalkowicieBig(magnitude,  1);
-            negConst[i] = new CalkowicieBig(magnitude, -1);
+            posConst[i] = new DuzeLiczby(magnitude,  1);
+            negConst[i] = new DuzeLiczby(magnitude, -1);
         }
 
         /*
@@ -1231,61 +1231,61 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
          * with just the very first value.  Additional values will be created
          * on demand.
          */
-        powerCache = new CalkowicieBig[Character.MAX_RADIX+1][];
+        powerCache = new DuzeLiczby[Character.MAX_RADIX+1][];
         logCache = new double[Character.MAX_RADIX+1];
 
         for (int i=Character.MIN_RADIX; i <= Character.MAX_RADIX; i++) {
-            powerCache[i] = new CalkowicieBig[] { CalkowicieBig.valueOf(i) };
+            powerCache[i] = new DuzeLiczby[] { DuzeLiczby.valueOf(i) };
             logCache[i] = Math.log(i);
         }
     }
 
     /**
-     * The CalkowicieBig constant zero.
+     * The DuzeLiczby constant zero.
      *
      * @since   1.2
      */
-    public static final CalkowicieBig ZERO = new CalkowicieBig(new int[0], 0);
+    public static final DuzeLiczby ZERO = new DuzeLiczby(new int[0], 0);
 
     /**
-     * The CalkowicieBig constant one.
+     * The DuzeLiczby constant one.
      *
      * @since   1.2
      */
-    public static final CalkowicieBig ONE = valueOf(1);
+    public static final DuzeLiczby ONE = valueOf(1);
 
     /**
-     * The CalkowicieBig constant two.  (Not exported.)
+     * The DuzeLiczby constant two.  (Not exported.)
      */
-    private static final CalkowicieBig TWO = valueOf(2);
+    private static final DuzeLiczby TWO = valueOf(2);
 
     /**
-     * The CalkowicieBig constant -1.  (Not exported.)
+     * The DuzeLiczby constant -1.  (Not exported.)
      */
-    private static final CalkowicieBig NEGATIVE_ONE = valueOf(-1);
+    private static final DuzeLiczby NEGATIVE_ONE = valueOf(-1);
 
     /**
-     * The CalkowicieBig constant ten.
+     * The DuzeLiczby constant ten.
      *
      * @since   1.5
      */
-    public static final CalkowicieBig TEN = valueOf(10);
+    public static final DuzeLiczby TEN = valueOf(10);
 
     // Arithmetic Operations
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this + val)}.
+     * Returns a DuzeLiczby whose value is {@code (this + val)}.
      *
-     * @param  val value to be added to this CalkowicieBig.
+     * @param  val value to be added to this DuzeLiczby.
      * @return {@code this + val}
      */
-    public CalkowicieBig add(CalkowicieBig val) {
+    public DuzeLiczby add(DuzeLiczby val) {
         if (val.signum == 0)
             return this;
         if (signum == 0)
             return val;
         if (val.signum == signum)
-            return new CalkowicieBig(add(mag, val.mag), signum);
+            return new DuzeLiczby(add(mag, val.mag), signum);
 
         int cmp = compareMagnitude(val);
         if (cmp == 0)
@@ -1294,26 +1294,26 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
                 : subtract(val.mag, mag));
         resultMag = trustedStripLeadingZeroInts(resultMag);
 
-        return new CalkowicieBig(resultMag, cmp == signum ? 1 : -1);
+        return new DuzeLiczby(resultMag, cmp == signum ? 1 : -1);
     }
 
     /**
-     * Package private methods used by DCalkowicieBig code to add a CalkowicieBig
+     * Package private methods used by DDuzeLiczby code to add a DuzeLiczby
      * with a long. Assumes val is not equal to INFLATED.
      */
-    CalkowicieBig add(long val) {
+    DuzeLiczby add(long val) {
         if (val == 0)
             return this;
         if (signum == 0)
             return valueOf(val);
         if (Long.signum(val) == signum)
-            return new CalkowicieBig(add(mag, Math.abs(val)), signum);
+            return new DuzeLiczby(add(mag, Math.abs(val)), signum);
         int cmp = compareMagnitude(val);
         if (cmp == 0)
             return ZERO;
         int[] resultMag = (cmp > 0 ? subtract(mag, Math.abs(val)) : subtract(Math.abs(val), mag));
         resultMag = trustedStripLeadingZeroInts(resultMag);
-        return new CalkowicieBig(resultMag, cmp == signum ? 1 : -1);
+        return new DuzeLiczby(resultMag, cmp == signum ? 1 : -1);
     }
 
     /**
@@ -1476,18 +1476,18 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this - val)}.
+     * Returns a DuzeLiczby whose value is {@code (this - val)}.
      *
-     * @param  val value to be subtracted from this CalkowicieBig.
+     * @param  val value to be subtracted from this DuzeLiczby.
      * @return {@code this - val}
      */
-    public CalkowicieBig subtract(CalkowicieBig val) {
+    public DuzeLiczby subtract(DuzeLiczby val) {
         if (val.signum == 0)
             return this;
         if (signum == 0)
             return val.negate();
         if (val.signum != signum)
-            return new CalkowicieBig(add(mag, val.mag), signum);
+            return new DuzeLiczby(add(mag, val.mag), signum);
 
         int cmp = compareMagnitude(val);
         if (cmp == 0)
@@ -1495,7 +1495,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         int[] resultMag = (cmp > 0 ? subtract(mag, val.mag)
                 : subtract(val.mag, mag));
         resultMag = trustedStripLeadingZeroInts(resultMag);
-        return new CalkowicieBig(resultMag, cmp == signum ? 1 : -1);
+        return new DuzeLiczby(resultMag, cmp == signum ? 1 : -1);
     }
 
     /**
@@ -1531,15 +1531,15 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this * val)}.
+     * Returns a DuzeLiczby whose value is {@code (this * val)}.
      *
      * @implNote An implementation may offer better algorithmic
      * performance when {@code val == this}.
      *
-     * @param  val value to be multiplied by this CalkowicieBig.
+     * @param  val value to be multiplied by this DuzeLiczby.
      * @return {@code this * val}
      */
-    public CalkowicieBig multiply(CalkowicieBig val) {
+    public DuzeLiczby multiply(DuzeLiczby val) {
         if (val.signum == 0 || signum == 0)
             return ZERO;
 
@@ -1562,7 +1562,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             int[] result = multiplyToLen(mag, xlen,
                     val.mag, ylen, null);
             result = trustedStripLeadingZeroInts(result);
-            return new CalkowicieBig(result, resultSign);
+            return new DuzeLiczby(result, resultSign);
         } else {
             if ((xlen < TOOM_COOK_THRESHOLD) && (ylen < TOOM_COOK_THRESHOLD)) {
                 return multiplyKaratsuba(this, val);
@@ -1572,9 +1572,9 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         }
     }
 
-    private static CalkowicieBig multiplyByInt(int[] x, int y, int sign) {
+    private static DuzeLiczby multiplyByInt(int[] x, int y, int sign) {
         if (Integer.bitCount(y) == 1) {
-            return new CalkowicieBig(shiftLeft(x,Integer.numberOfTrailingZeros(y)), sign);
+            return new DuzeLiczby(shiftLeft(x,Integer.numberOfTrailingZeros(y)), sign);
         }
         int xlen = x.length;
         int[] rmag =  new int[xlen + 1];
@@ -1591,18 +1591,18 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         } else {
             rmag[rstart] = (int)carry;
         }
-        return new CalkowicieBig(rmag, sign);
+        return new DuzeLiczby(rmag, sign);
     }
 
     /**
-     * Package private methods used by DCalkowicieBig code to multiply a CalkowicieBig
+     * Package private methods used by DDuzeLiczby code to multiply a DuzeLiczby
      * with a long. Assumes v is not equal to INFLATED.
      */
-    CalkowicieBig multiply(long v) {
+    DuzeLiczby multiply(long v) {
         if (v == 0 || signum == 0)
             return ZERO;
-        if (v == DCalkowicieBig.INFLATED)
-            return multiply(CalkowicieBig.valueOf(v));
+        if (v == DDuzeLiczby.INFLATED)
+            return multiply(DuzeLiczby.valueOf(v));
         int rsign = (v > 0 ? signum : -signum);
         if (v < 0)
             v = -v;
@@ -1633,7 +1633,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         }
         if (carry == 0L)
             rmag = Arrays.copyOfRange(rmag, 1, rmag.length);
-        return new CalkowicieBig(rmag, rsign);
+        return new DuzeLiczby(rmag, rsign);
     }
 
     /**
@@ -1671,7 +1671,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Multiplies two CalkowicieBigs using the Karatsuba multiplication
+     * Multiplies two DuzeLiczbys using the Karatsuba multiplication
      * algorithm.  This is a recursive divide-and-conquer algorithm which is
      * more efficient for large numbers than what is commonly called the
      * "grade-school" algorithm used in multiplyToLen.  If the numbers to be
@@ -1685,7 +1685,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      *
      * See:  http://en.wikipedia.org/wiki/Karatsuba_algorithm
      */
-    private static CalkowicieBig multiplyKaratsuba(CalkowicieBig x, CalkowicieBig y) {
+    private static DuzeLiczby multiplyKaratsuba(DuzeLiczby x, DuzeLiczby y) {
         int xlen = x.mag.length;
         int ylen = y.mag.length;
 
@@ -1694,19 +1694,19 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
         // xl and yl are the lower halves of x and y respectively,
         // xh and yh are the upper halves.
-        CalkowicieBig xl = x.getLower(half);
-        CalkowicieBig xh = x.getUpper(half);
-        CalkowicieBig yl = y.getLower(half);
-        CalkowicieBig yh = y.getUpper(half);
+        DuzeLiczby xl = x.getLower(half);
+        DuzeLiczby xh = x.getUpper(half);
+        DuzeLiczby yl = y.getLower(half);
+        DuzeLiczby yh = y.getUpper(half);
 
-        CalkowicieBig p1 = xh.multiply(yh);  // p1 = xh*yh
-        CalkowicieBig p2 = xl.multiply(yl);  // p2 = xl*yl
+        DuzeLiczby p1 = xh.multiply(yh);  // p1 = xh*yh
+        DuzeLiczby p2 = xl.multiply(yl);  // p2 = xl*yl
 
         // p3=(xh+xl)*(yh+yl)
-        CalkowicieBig p3 = xh.add(xl).multiply(yh.add(yl));
+        DuzeLiczby p3 = xh.add(xl).multiply(yh.add(yl));
 
         // result = p1 * 2^(32*2*half) + (p3 - p1 - p2) * 2^(32*half) + p2
-        CalkowicieBig result = p1.shiftLeft(32*half).add(p3.subtract(p1).subtract(p2)).shiftLeft(32*half).add(p2);
+        DuzeLiczby result = p1.shiftLeft(32*half).add(p3.subtract(p1).subtract(p2)).shiftLeft(32*half).add(p2);
 
         if (x.signum != y.signum) {
             return result.negate();
@@ -1716,7 +1716,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Multiplies two CalkowicieBigs using a 3-way Toom-Cook multiplication
+     * Multiplies two DuzeLiczbys using a 3-way Toom-Cook multiplication
      * algorithm.  This is a recursive divide-and-conquer algorithm which is
      * more efficient for large numbers than what is commonly called the
      * "grade-school" algorithm used in multiplyToLen.  If the numbers to be
@@ -1743,7 +1743,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * LNCS #4547. Springer, Madrid, Spain, June 21-22, 2007.
      *
      */
-    private static CalkowicieBig multiplyToomCook3(CalkowicieBig a, CalkowicieBig b) {
+    private static DuzeLiczby multiplyToomCook3(DuzeLiczby a, DuzeLiczby b) {
         int alen = a.mag.length;
         int blen = b.mag.length;
 
@@ -1757,7 +1757,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
         // Obtain slices of the numbers. a2 and b2 are the most significant
         // bits of the numbers a and b, and a0 and b0 the least significant.
-        CalkowicieBig a0, a1, a2, b0, b1, b2;
+        DuzeLiczby a0, a1, a2, b0, b1, b2;
         a2 = a.getToomSlice(k, r, 0, largest);
         a1 = a.getToomSlice(k, r, 1, largest);
         a0 = a.getToomSlice(k, r, 2, largest);
@@ -1765,7 +1765,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         b1 = b.getToomSlice(k, r, 1, largest);
         b0 = b.getToomSlice(k, r, 2, largest);
 
-        CalkowicieBig v0, v1, v2, vm1, vinf, t1, t2, tm1, da1, db1;
+        DuzeLiczby v0, v1, v2, vm1, vinf, t1, t2, tm1, da1, db1;
 
         v0 = a0.multiply(b0);
         da1 = a2.add(a0);
@@ -1795,7 +1795,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         // Number of bits to shift left.
         int ss = k*32;
 
-        CalkowicieBig result = vinf.shiftLeft(ss).add(t2).shiftLeft(ss).add(t1).shiftLeft(ss).add(tm1).shiftLeft(ss).add(v0);
+        DuzeLiczby result = vinf.shiftLeft(ss).add(t2).shiftLeft(ss).add(t1).shiftLeft(ss).add(tm1).shiftLeft(ss).add(v0);
 
         if (a.signum != b.signum) {
             return result.negate();
@@ -1806,7 +1806,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
 
     /**
-     * Returns a slice of a CalkowicieBig for use in Toom-Cook multiplication.
+     * Returns a slice of a DuzeLiczby for use in Toom-Cook multiplication.
      *
      * @param lowerSize The size of the lower-order bit slices.
      * @param upperSize The size of the higher-order bit slices.
@@ -1818,7 +1818,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * slices to the appropriate position when multiplying different-sized
      * numbers.
      */
-    private CalkowicieBig getToomSlice(int lowerSize, int upperSize, int slice,
+    private DuzeLiczby getToomSlice(int lowerSize, int upperSize, int slice,
                                int fullsize) {
         int start, end, sliceSize, len, offset;
 
@@ -1855,7 +1855,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         int intSlice[] = new int[sliceSize];
         System.arraycopy(mag, start, intSlice, 0, sliceSize);
 
-        return new CalkowicieBig(trustedStripLeadingZeroInts(intSlice), 1);
+        return new DuzeLiczby(trustedStripLeadingZeroInts(intSlice), 1);
     }
 
     /**
@@ -1866,7 +1866,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * undefined.  Note that this is expected to be called with positive
      * arguments only.
      */
-    private CalkowicieBig exactDivideBy3() {
+    private DuzeLiczby exactDivideBy3() {
         int len = mag.length;
         int[] result = new int[len];
         long x, w, q, borrow;
@@ -1895,14 +1895,14 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             }
         }
         result = trustedStripLeadingZeroInts(result);
-        return new CalkowicieBig(result, signum);
+        return new DuzeLiczby(result, signum);
     }
 
     /**
-     * Returns a new CalkowicieBig representing n lower ints of the number.
+     * Returns a new DuzeLiczby representing n lower ints of the number.
      * This is used by Karatsuba multiplication and Karatsuba squaring.
      */
-    private CalkowicieBig getLower(int n) {
+    private DuzeLiczby getLower(int n) {
         int len = mag.length;
 
         if (len <= n) {
@@ -1912,15 +1912,15 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         int lowerInts[] = new int[n];
         System.arraycopy(mag, len-n, lowerInts, 0, n);
 
-        return new CalkowicieBig(trustedStripLeadingZeroInts(lowerInts), 1);
+        return new DuzeLiczby(trustedStripLeadingZeroInts(lowerInts), 1);
     }
 
     /**
-     * Returns a new CalkowicieBig representing mag.length-n upper
+     * Returns a new DuzeLiczby representing mag.length-n upper
      * ints of the number.  This is used by Karatsuba multiplication and
      * Karatsuba squaring.
      */
-    private CalkowicieBig getUpper(int n) {
+    private DuzeLiczby getUpper(int n) {
         int len = mag.length;
 
         if (len <= n) {
@@ -1931,17 +1931,17 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         int upperInts[] = new int[upperLen];
         System.arraycopy(mag, 0, upperInts, 0, upperLen);
 
-        return new CalkowicieBig(trustedStripLeadingZeroInts(upperInts), 1);
+        return new DuzeLiczby(trustedStripLeadingZeroInts(upperInts), 1);
     }
 
     // Squaring
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this<sup>2</sup>)}.
+     * Returns a DuzeLiczby whose value is {@code (this<sup>2</sup>)}.
      *
      * @return {@code this<sup>2</sup>}
      */
-    private CalkowicieBig square() {
+    private DuzeLiczby square() {
         if (signum == 0) {
             return ZERO;
         }
@@ -1949,7 +1949,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
         if (len < KARATSUBA_SQUARE_THRESHOLD) {
             int[] z = squareToLen(mag, len, null);
-            return new CalkowicieBig(trustedStripLeadingZeroInts(z), 1);
+            return new DuzeLiczby(trustedStripLeadingZeroInts(z), 1);
         } else {
             if (len < TOOM_COOK_SQUARE_THRESHOLD) {
                 return squareKaratsuba();
@@ -2061,33 +2061,33 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Squares a CalkowicieBig using the Karatsuba squaring algorithm.  It should
+     * Squares a DuzeLiczby using the Karatsuba squaring algorithm.  It should
      * be used when both numbers are larger than a certain threshold (found
      * experimentally).  It is a recursive divide-and-conquer algorithm that
      * has better asymptotic performance than the algorithm used in
      * squareToLen.
      */
-    private CalkowicieBig squareKaratsuba() {
+    private DuzeLiczby squareKaratsuba() {
         int half = (mag.length+1) / 2;
 
-        CalkowicieBig xl = getLower(half);
-        CalkowicieBig xh = getUpper(half);
+        DuzeLiczby xl = getLower(half);
+        DuzeLiczby xh = getUpper(half);
 
-        CalkowicieBig xhs = xh.square();  // xhs = xh^2
-        CalkowicieBig xls = xl.square();  // xls = xl^2
+        DuzeLiczby xhs = xh.square();  // xhs = xh^2
+        DuzeLiczby xls = xl.square();  // xls = xl^2
 
         // xh^2 << 64  +  (((xl+xh)^2 - (xh^2 + xl^2)) << 32) + xl^2
         return xhs.shiftLeft(half*32).add(xl.add(xh).square().subtract(xhs.add(xls))).shiftLeft(half*32).add(xls);
     }
 
     /**
-     * Squares a CalkowicieBig using the 3-way Toom-Cook squaring algorithm.  It
+     * Squares a DuzeLiczby using the 3-way Toom-Cook squaring algorithm.  It
      * should be used when both numbers are larger than a certain threshold
      * (found experimentally).  It is a recursive divide-and-conquer algorithm
      * that has better asymptotic performance than the algorithm used in
      * squareToLen or squareKaratsuba.
      */
-    private CalkowicieBig squareToomCook3() {
+    private DuzeLiczby squareToomCook3() {
         int len = mag.length;
 
         // k is the size (in ints) of the lower-order slices.
@@ -2098,11 +2098,11 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
         // Obtain slices of the numbers. a2 is the most significant
         // bits of the number, and a0 the least significant.
-        CalkowicieBig a0, a1, a2;
+        DuzeLiczby a0, a1, a2;
         a2 = getToomSlice(k, r, 0, len);
         a1 = getToomSlice(k, r, 1, len);
         a0 = getToomSlice(k, r, 2, len);
-        CalkowicieBig v0, v1, v2, vm1, vinf, t1, t2, tm1, da1;
+        DuzeLiczby v0, v1, v2, vm1, vinf, t1, t2, tm1, da1;
 
         v0 = a0.square();
         da1 = a2.add(a0);
@@ -2135,13 +2135,13 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     // Division
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this / val)}.
+     * Returns a DuzeLiczby whose value is {@code (this / val)}.
      *
-     * @param  val value by which this CalkowicieBig is to be divided.
+     * @param  val value by which this DuzeLiczby is to be divided.
      * @return {@code this / val}
      * @throws ArithmeticException if {@code val} is zero.
      */
-    public CalkowicieBig divide(CalkowicieBig val) {
+    public DuzeLiczby divide(DuzeLiczby val) {
         if (val.mag.length < BURNIKEL_ZIEGLER_THRESHOLD ||
                 mag.length - val.mag.length < BURNIKEL_ZIEGLER_OFFSET) {
             return divideKnuth(val);
@@ -2151,34 +2151,34 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this / val)} using an O(n^2) algorithm from Knuth.
+     * Returns a DuzeLiczby whose value is {@code (this / val)} using an O(n^2) algorithm from Knuth.
      *
-     * @param  val value by which this CalkowicieBig is to be divided.
+     * @param  val value by which this DuzeLiczby is to be divided.
      * @return {@code this / val}
      * @throws ArithmeticException if {@code val} is zero.
-     * @see MutCalkowicieBig#divideKnuth(MutCalkowicieBig, MutCalkowicieBig, boolean)
+     * @see MutDuzeLiczby#divideKnuth(MutDuzeLiczby, MutDuzeLiczby, boolean)
      */
-    private CalkowicieBig divideKnuth(CalkowicieBig val) {
-        MutCalkowicieBig q = new MutCalkowicieBig(),
-                a = new MutCalkowicieBig(this.mag),
-                b = new MutCalkowicieBig(val.mag);
+    private DuzeLiczby divideKnuth(DuzeLiczby val) {
+        MutDuzeLiczby q = new MutDuzeLiczby(),
+                a = new MutDuzeLiczby(this.mag),
+                b = new MutDuzeLiczby(val.mag);
 
         a.divideKnuth(b, q, false);
-        return q.toCalkowicieBig(this.signum * val.signum);
+        return q.toDuzeLiczby(this.signum * val.signum);
     }
 
     /**
-     * Returns an array of two CalkowicieBigs containing {@code (this / val)}
+     * Returns an array of two DuzeLiczbys containing {@code (this / val)}
      * followed by {@code (this % val)}.
      *
-     * @param  val value by which this CalkowicieBig is to be divided, and the
+     * @param  val value by which this DuzeLiczby is to be divided, and the
      *         remainder computed.
-     * @return an array of two CalkowicieBigs: the quotient {@code (this / val)}
+     * @return an array of two DuzeLiczbys: the quotient {@code (this / val)}
      *         is the initial element, and the remainder {@code (this % val)}
      *         is the final element.
      * @throws ArithmeticException if {@code val} is zero.
      */
-    public CalkowicieBig[] divideAndRemainder(CalkowicieBig val) {
+    public DuzeLiczby[] divideAndRemainder(DuzeLiczby val) {
         if (val.mag.length < BURNIKEL_ZIEGLER_THRESHOLD ||
                 mag.length - val.mag.length < BURNIKEL_ZIEGLER_OFFSET) {
             return divideAndRemainderKnuth(val);
@@ -2188,26 +2188,26 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /** Long division */
-    private CalkowicieBig[] divideAndRemainderKnuth(CalkowicieBig val) {
-        CalkowicieBig[] result = new CalkowicieBig[2];
-        MutCalkowicieBig q = new MutCalkowicieBig(),
-                a = new MutCalkowicieBig(this.mag),
-                b = new MutCalkowicieBig(val.mag);
-        MutCalkowicieBig r = a.divideKnuth(b, q);
-        result[0] = q.toCalkowicieBig(this.signum == val.signum ? 1 : -1);
-        result[1] = r.toCalkowicieBig(this.signum);
+    private DuzeLiczby[] divideAndRemainderKnuth(DuzeLiczby val) {
+        DuzeLiczby[] result = new DuzeLiczby[2];
+        MutDuzeLiczby q = new MutDuzeLiczby(),
+                a = new MutDuzeLiczby(this.mag),
+                b = new MutDuzeLiczby(val.mag);
+        MutDuzeLiczby r = a.divideKnuth(b, q);
+        result[0] = q.toDuzeLiczby(this.signum == val.signum ? 1 : -1);
+        result[1] = r.toDuzeLiczby(this.signum);
         return result;
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this % val)}.
+     * Returns a DuzeLiczby whose value is {@code (this % val)}.
      *
-     * @param  val value by which this CalkowicieBig is to be divided, and the
+     * @param  val value by which this DuzeLiczby is to be divided, and the
      *         remainder computed.
      * @return {@code this % val}
      * @throws ArithmeticException if {@code val} is zero.
      */
-    public CalkowicieBig remainder(CalkowicieBig val) {
+    public DuzeLiczby remainder(DuzeLiczby val) {
         if (val.mag.length < BURNIKEL_ZIEGLER_THRESHOLD ||
                 mag.length - val.mag.length < BURNIKEL_ZIEGLER_OFFSET) {
             return remainderKnuth(val);
@@ -2217,12 +2217,12 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /** Long division */
-    private CalkowicieBig remainderKnuth(CalkowicieBig val) {
-        MutCalkowicieBig q = new MutCalkowicieBig(),
-                a = new MutCalkowicieBig(this.mag),
-                b = new MutCalkowicieBig(val.mag);
+    private DuzeLiczby remainderKnuth(DuzeLiczby val) {
+        MutDuzeLiczby q = new MutDuzeLiczby(),
+                a = new MutDuzeLiczby(this.mag),
+                b = new MutDuzeLiczby(val.mag);
 
-        return a.divideKnuth(b, q).toCalkowicieBig(this.signum);
+        return a.divideKnuth(b, q).toDuzeLiczby(this.signum);
     }
 
     /**
@@ -2230,7 +2230,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @param  val the divisor
      * @return {@code this / val}
      */
-    private CalkowicieBig divideBurnikelZiegler(CalkowicieBig val) {
+    private DuzeLiczby divideBurnikelZiegler(DuzeLiczby val) {
         return divideAndRemainderBurnikelZiegler(val)[0];
     }
 
@@ -2239,7 +2239,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @param val the divisor
      * @return {@code this % val}
      */
-    private CalkowicieBig remainderBurnikelZiegler(CalkowicieBig val) {
+    private DuzeLiczby remainderBurnikelZiegler(DuzeLiczby val) {
         return divideAndRemainderBurnikelZiegler(val)[1];
     }
 
@@ -2249,24 +2249,24 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @param val the divisor
      * @return an array containing the quotient and remainder
      */
-    private CalkowicieBig[] divideAndRemainderBurnikelZiegler(CalkowicieBig val) {
-        MutCalkowicieBig q = new MutCalkowicieBig();
-        MutCalkowicieBig r = new MutCalkowicieBig(this).divideAndRemainderBurnikelZiegler(new MutCalkowicieBig(val), q);
-        CalkowicieBig qBigInt = q.isZero() ? ZERO : q.toCalkowicieBig(signum*val.signum);
-        CalkowicieBig rBigInt = r.isZero() ? ZERO : r.toCalkowicieBig(signum);
-        return new CalkowicieBig[] {qBigInt, rBigInt};
+    private DuzeLiczby[] divideAndRemainderBurnikelZiegler(DuzeLiczby val) {
+        MutDuzeLiczby q = new MutDuzeLiczby();
+        MutDuzeLiczby r = new MutDuzeLiczby(this).divideAndRemainderBurnikelZiegler(new MutDuzeLiczby(val), q);
+        DuzeLiczby qBigInt = q.isZero() ? ZERO : q.toDuzeLiczby(signum*val.signum);
+        DuzeLiczby rBigInt = r.isZero() ? ZERO : r.toDuzeLiczby(signum);
+        return new DuzeLiczby[] {qBigInt, rBigInt};
     }
 
     /**
-     * Returns a CalkowicieBig whose value is <tt>(this<sup>exponent</sup>)</tt>.
-     * Note that {@code exponent} is an integer rather than a CalkowicieBig.
+     * Returns a DuzeLiczby whose value is <tt>(this<sup>exponent</sup>)</tt>.
+     * Note that {@code exponent} is an integer rather than a DuzeLiczby.
      *
-     * @param  exponent exponent to which this CalkowicieBig is to be raised.
+     * @param  exponent exponent to which this DuzeLiczby is to be raised.
      * @return <tt>this<sup>exponent</sup></tt>
      * @throws ArithmeticException {@code exponent} is negative.  (This would
      *         cause the operation to yield a non-integer value.)
      */
-    public CalkowicieBig pow(int exponent) {
+    public DuzeLiczby pow(int exponent) {
         if (exponent < 0) {
             throw new ArithmeticException("Negative exponent");
         }
@@ -2274,7 +2274,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             return (exponent == 0 ? ONE : this);
         }
 
-        CalkowicieBig partToSquare = this.abs();
+        DuzeLiczby partToSquare = this.abs();
 
         // Factor out powers of two from the base, as the exponentiation of
         // these can be done by left shifts only.
@@ -2351,7 +2351,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             // Large number algorithm.  This is basically identical to
             // the algorithm above, but calls multiply() and square()
             // which may use more efficient algorithms for large numbers.
-            CalkowicieBig answer = ONE;
+            DuzeLiczby answer = ONE;
 
             int workingExponent = exponent;
             // Perform exponentiation using repeated squaring trick
@@ -2379,25 +2379,25 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is the greatest common divisor of
+     * Returns a DuzeLiczby whose value is the greatest common divisor of
      * {@code abs(this)} and {@code abs(val)}.  Returns 0 if
      * {@code this == 0 && val == 0}.
      *
      * @param  val value with which the GCD is to be computed.
      * @return {@code GCD(abs(this), abs(val))}
      */
-    public CalkowicieBig gcd(CalkowicieBig val) {
+    public DuzeLiczby gcd(DuzeLiczby val) {
         if (val.signum == 0)
             return this.abs();
         else if (this.signum == 0)
             return val.abs();
 
-        MutCalkowicieBig a = new MutCalkowicieBig(this);
-        MutCalkowicieBig b = new MutCalkowicieBig(val);
+        MutDuzeLiczby a = new MutDuzeLiczby(this);
+        MutDuzeLiczby b = new MutDuzeLiczby(val);
 
-        MutCalkowicieBig result = a.hybridGCD(b);
+        MutDuzeLiczby result = a.hybridGCD(b);
 
-        return result.toCalkowicieBig(1);
+        return result.toDuzeLiczby(1);
     }
 
     /**
@@ -2471,28 +2471,28 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is the absolute value of this
-     * CalkowicieBig.
+     * Returns a DuzeLiczby whose value is the absolute value of this
+     * DuzeLiczby.
      *
      * @return {@code abs(this)}
      */
-    public CalkowicieBig abs() {
+    public DuzeLiczby abs() {
         return (signum >= 0 ? this : this.negate());
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (-this)}.
+     * Returns a DuzeLiczby whose value is {@code (-this)}.
      *
      * @return {@code -this}
      */
-    public CalkowicieBig negate() {
-        return new CalkowicieBig(this.mag, -this.signum);
+    public DuzeLiczby negate() {
+        return new DuzeLiczby(this.mag, -this.signum);
     }
 
     /**
-     * Returns the signum function of this CalkowicieBig.
+     * Returns the signum function of this DuzeLiczby.
      *
-     * @return -1, 0 or 1 as the value of this CalkowicieBig is negative, zero or
+     * @return -1, 0 or 1 as the value of this DuzeLiczby is negative, zero or
      *         positive.
      */
     public int signum() {
@@ -2502,25 +2502,25 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     // Modular Arithmetic Operations
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this mod m}).  This method
+     * Returns a DuzeLiczby whose value is {@code (this mod m}).  This method
      * differs from {@code remainder} in that it always returns a
-     * <i>non-negative</i> CalkowicieBig.
+     * <i>non-negative</i> DuzeLiczby.
      *
      * @param  m the modulus.
      * @return {@code this mod m}
      * @throws ArithmeticException {@code m} &le; 0
      * @see    #remainder
      */
-    public CalkowicieBig mod(CalkowicieBig m) {
+    public DuzeLiczby mod(DuzeLiczby m) {
         if (m.signum <= 0)
-            throw new ArithmeticException("CalkowicieBig: modulus not positive");
+            throw new ArithmeticException("DuzeLiczby: modulus not positive");
 
-        CalkowicieBig result = this.remainder(m);
+        DuzeLiczby result = this.remainder(m);
         return (result.signum >= 0 ? result : result.add(m));
     }
 
     /**
-     * Returns a CalkowicieBig whose value is
+     * Returns a DuzeLiczby whose value is
      * <tt>(this<sup>exponent</sup> mod m)</tt>.  (Unlike {@code pow}, this
      * method permits negative exponents.)
      *
@@ -2528,13 +2528,13 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @param  m the modulus.
      * @return <tt>this<sup>exponent</sup> mod m</tt>
      * @throws ArithmeticException {@code m} &le; 0 or the exponent is
-     *         negative and this CalkowicieBig is not <i>relatively
+     *         negative and this DuzeLiczby is not <i>relatively
      *         prime</i> to {@code m}.
      * @see    #modInverse
      */
-    public CalkowicieBig modPow(CalkowicieBig exponent, CalkowicieBig m) {
+    public DuzeLiczby modPow(DuzeLiczby exponent, DuzeLiczby m) {
         if (m.signum <= 0)
-            throw new ArithmeticException("CalkowicieBig: modulus not positive");
+            throw new ArithmeticException("DuzeLiczby: modulus not positive");
 
         // Trivial cases
         if (exponent.signum == 0)
@@ -2553,9 +2553,9 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         if ((invertResult = (exponent.signum < 0)))
             exponent = exponent.negate();
 
-        CalkowicieBig base = (this.signum < 0 || this.compareTo(m) >= 0
+        DuzeLiczby base = (this.signum < 0 || this.compareTo(m) >= 0
                 ? this.mod(m) : this);
-        CalkowicieBig result;
+        DuzeLiczby result;
         if (m.testBit(0)) { // odd modulus
             result = base.oddModPow(exponent, m);
         } else {
@@ -2568,34 +2568,34 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             // Tear m apart into odd part (m1) and power of 2 (m2)
             int p = m.getLowestSetBit();   // Max pow of 2 that divides m
 
-            CalkowicieBig m1 = m.shiftRight(p);  // m/2**p
-            CalkowicieBig m2 = ONE.shiftLeft(p); // 2**p
+            DuzeLiczby m1 = m.shiftRight(p);  // m/2**p
+            DuzeLiczby m2 = ONE.shiftLeft(p); // 2**p
 
             // Calculate new base from m1
-            CalkowicieBig base2 = (this.signum < 0 || this.compareTo(m1) >= 0
+            DuzeLiczby base2 = (this.signum < 0 || this.compareTo(m1) >= 0
                     ? this.mod(m1) : this);
 
             // Caculate (base ** exponent) mod m1.
-            CalkowicieBig a1 = (m1.equals(ONE) ? ZERO :
+            DuzeLiczby a1 = (m1.equals(ONE) ? ZERO :
                     base2.oddModPow(exponent, m1));
 
             // Calculate (this ** exponent) mod m2
-            CalkowicieBig a2 = base.modPow2(exponent, p);
+            DuzeLiczby a2 = base.modPow2(exponent, p);
 
             // Combine results using Chinese Remainder Theorem
-            CalkowicieBig y1 = m2.modInverse(m1);
-            CalkowicieBig y2 = m1.modInverse(m2);
+            DuzeLiczby y1 = m2.modInverse(m1);
+            DuzeLiczby y2 = m1.modInverse(m2);
 
             if (m.mag.length < MAX_MAG_LENGTH / 2) {
                 result = a1.multiply(m2).multiply(y1).add(a2.multiply(m1).multiply(y2)).mod(m);
             } else {
-                MutCalkowicieBig t1 = new MutCalkowicieBig();
-                new MutCalkowicieBig(a1.multiply(m2)).multiply(new MutCalkowicieBig(y1), t1);
-                MutCalkowicieBig t2 = new MutCalkowicieBig();
-                new MutCalkowicieBig(a2.multiply(m1)).multiply(new MutCalkowicieBig(y2), t2);
+                MutDuzeLiczby t1 = new MutDuzeLiczby();
+                new MutDuzeLiczby(a1.multiply(m2)).multiply(new MutDuzeLiczby(y1), t1);
+                MutDuzeLiczby t2 = new MutDuzeLiczby();
+                new MutDuzeLiczby(a2.multiply(m1)).multiply(new MutDuzeLiczby(y2), t2);
                 t1.add(t2);
-                MutCalkowicieBig q = new MutCalkowicieBig();
-                result = t1.divide(new MutCalkowicieBig(m), q).toCalkowicieBig();
+                MutDuzeLiczby q = new MutDuzeLiczby();
+                result = t1.divide(new MutDuzeLiczby(m), q).toDuzeLiczby();
             }
         }
 
@@ -2675,10 +2675,10 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             Integer.MAX_VALUE}; // Sentinel
 
     /**
-     * Returns a CalkowicieBig whose value is x to the power of y mod z.
+     * Returns a DuzeLiczby whose value is x to the power of y mod z.
      * Assumes: z is odd && x < z.
      */
-    private CalkowicieBig oddModPow(CalkowicieBig y, CalkowicieBig z) {
+    private DuzeLiczby oddModPow(DuzeLiczby y, DuzeLiczby z) {
         /*
          * The algorithm is adapted from Colin Plumb's C library.
          *
@@ -2781,18 +2781,18 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         // Compute the modular inverse of the least significant 64-bit
         // digit of the modulus
         long n0 = (mod[modLen-1] & LONG_MASK) + ((mod[modLen-2] & LONG_MASK) << 32);
-        long inv = -MutCalkowicieBig.inverseMod64(n0);
+        long inv = -MutDuzeLiczby.inverseMod64(n0);
 
         // Convert base to Montgomery form
         int[] a = leftShift(base, base.length, modLen << 5);
 
-        MutCalkowicieBig q = new MutCalkowicieBig(),
-                a2 = new MutCalkowicieBig(a),
-                b2 = new MutCalkowicieBig(mod);
-        b2.normalize(); // MutCalkowicieBig.divide() assumes that its
+        MutDuzeLiczby q = new MutDuzeLiczby(),
+                a2 = new MutDuzeLiczby(a),
+                b2 = new MutDuzeLiczby(mod);
+        b2.normalize(); // MutDuzeLiczby.divide() assumes that its
         // divisor is in normal form.
 
-        MutCalkowicieBig r= a2.divide(b2, q);
+        MutDuzeLiczby r= a2.divide(b2, q);
         table[0] = r.toIntArray();
 
         // Pad table[0] with leading zeros so its length is at least modLen
@@ -2907,7 +2907,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
         t2 = Arrays.copyOf(b, modLen);
 
-        return new CalkowicieBig(1, t2);
+        return new DuzeLiczby(1, t2);
     }
 
     /**
@@ -3034,15 +3034,15 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is (this ** exponent) mod (2**p)
+     * Returns a DuzeLiczby whose value is (this ** exponent) mod (2**p)
      */
-    private CalkowicieBig modPow2(CalkowicieBig exponent, int p) {
+    private DuzeLiczby modPow2(DuzeLiczby exponent, int p) {
         /*
          * Perform exponentiation using repeated squaring trick, chopping off
          * high order bits as indicated by modulus.
          */
-        CalkowicieBig result = ONE;
-        CalkowicieBig baseToPow2 = this.mod2(p);
+        DuzeLiczby result = ONE;
+        DuzeLiczby baseToPow2 = this.mod2(p);
         int expOffset = 0;
 
         int limit = exponent.bitLength();
@@ -3062,10 +3062,10 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is this mod(2**p).
-     * Assumes that this {@code CalkowicieBig >= 0} and {@code p > 0}.
+     * Returns a DuzeLiczby whose value is this mod(2**p).
+     * Assumes that this {@code DuzeLiczby >= 0} and {@code p > 0}.
      */
-    private CalkowicieBig mod2(int p) {
+    private DuzeLiczby mod2(int p) {
         if (bitLength() <= p)
             return this;
 
@@ -3078,44 +3078,44 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         int excessBits = (numInts << 5) - p;
         mag[0] &= (1L << (32-excessBits)) - 1;
 
-        return (mag[0] == 0 ? new CalkowicieBig(1, mag) : new CalkowicieBig(mag, 1));
+        return (mag[0] == 0 ? new DuzeLiczby(1, mag) : new DuzeLiczby(mag, 1));
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this}<sup>-1</sup> {@code mod m)}.
+     * Returns a DuzeLiczby whose value is {@code (this}<sup>-1</sup> {@code mod m)}.
      *
      * @param  m the modulus.
      * @return {@code this}<sup>-1</sup> {@code mod m}.
-     * @throws ArithmeticException {@code  m} &le; 0, or this CalkowicieBig
-     *         has no multiplicative inverse mod m (that is, this CalkowicieBig
+     * @throws ArithmeticException {@code  m} &le; 0, or this DuzeLiczby
+     *         has no multiplicative inverse mod m (that is, this DuzeLiczby
      *         is not <i>relatively prime</i> to m).
      */
-    public CalkowicieBig modInverse(CalkowicieBig m) {
+    public DuzeLiczby modInverse(DuzeLiczby m) {
         if (m.signum != 1)
-            throw new ArithmeticException("CalkowicieBig: modulus not positive");
+            throw new ArithmeticException("DuzeLiczby: modulus not positive");
 
         if (m.equals(ONE))
             return ZERO;
 
         // Calculate (this mod m)
-        CalkowicieBig modVal = this;
+        DuzeLiczby modVal = this;
         if (signum < 0 || (this.compareMagnitude(m) >= 0))
             modVal = this.mod(m);
 
         if (modVal.equals(ONE))
             return ONE;
 
-        MutCalkowicieBig a = new MutCalkowicieBig(modVal);
-        MutCalkowicieBig b = new MutCalkowicieBig(m);
+        MutDuzeLiczby a = new MutDuzeLiczby(modVal);
+        MutDuzeLiczby b = new MutDuzeLiczby(m);
 
-        MutCalkowicieBig result = a.mutableModInverse(b);
-        return result.toCalkowicieBig(1);
+        MutDuzeLiczby result = a.mutableModInverse(b);
+        return result.toDuzeLiczby(1);
     }
 
     // Shift Operations
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this << n)}.
+     * Returns a DuzeLiczby whose value is {@code (this << n)}.
      * The shift distance, {@code n}, may be negative, in which case
      * this method performs a right shift.
      * (Computes <tt>floor(this * 2<sup>n</sup>)</tt>.)
@@ -3124,11 +3124,11 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @return {@code this << n}
      * @see #shiftRight
      */
-    public CalkowicieBig shiftLeft(int n) {
+    public DuzeLiczby shiftLeft(int n) {
         if (signum == 0)
             return ZERO;
         if (n > 0) {
-            return new CalkowicieBig(shiftLeft(mag, n), signum);
+            return new DuzeLiczby(shiftLeft(mag, n), signum);
         } else if (n == 0) {
             return this;
         } else {
@@ -3175,7 +3175,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this >> n)}.  Sign
+     * Returns a DuzeLiczby whose value is {@code (this >> n)}.  Sign
      * extension is performed.  The shift distance, {@code n}, may be
      * negative, in which case this method performs a left shift.
      * (Computes <tt>floor(this / 2<sup>n</sup>)</tt>.)
@@ -3184,7 +3184,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @return {@code this >> n}
      * @see #shiftLeft
      */
-    public CalkowicieBig shiftRight(int n) {
+    public DuzeLiczby shiftRight(int n) {
         if (signum == 0)
             return ZERO;
         if (n > 0) {
@@ -3194,19 +3194,19 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         } else {
             // Possible int overflow in {@code -n} is not a trouble,
             // because shiftLeft considers its argument unsigned
-            return new CalkowicieBig(shiftLeft(mag, -n), signum);
+            return new DuzeLiczby(shiftLeft(mag, -n), signum);
         }
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this >> n)}. The shift
+     * Returns a DuzeLiczby whose value is {@code (this >> n)}. The shift
      * distance, {@code n}, is considered unsigned.
      * (Computes <tt>floor(this * 2<sup>-n</sup>)</tt>.)
      *
      * @param  n unsigned shift distance, in bits.
      * @return {@code this >> n}
      */
-    private CalkowicieBig shiftRightImpl(int n) {
+    private DuzeLiczby shiftRightImpl(int n) {
         int nInts = n >>> 5;
         int nBits = n & 0x1f;
         int magLen = mag.length;
@@ -3247,7 +3247,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
                 newMag = javaIncrement(newMag);
         }
 
-        return new CalkowicieBig(newMag, signum);
+        return new DuzeLiczby(newMag, signum);
     }
 
     int[] javaIncrement(int[] val) {
@@ -3264,14 +3264,14 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     // Bitwise Operations
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this & val)}.  (This
-     * method returns a negative CalkowicieBig if and only if this and val are
+     * Returns a DuzeLiczby whose value is {@code (this & val)}.  (This
+     * method returns a negative DuzeLiczby if and only if this and val are
      * both negative.)
      *
-     * @param val value to be AND'ed with this CalkowicieBig.
+     * @param val value to be AND'ed with this DuzeLiczby.
      * @return {@code this & val}
      */
-    public CalkowicieBig and(CalkowicieBig val) {
+    public DuzeLiczby and(DuzeLiczby val) {
         int[] result = new int[Math.max(intLength(), val.intLength())];
         for (int i=0; i < result.length; i++)
             result[i] = (getInt(result.length-i-1)
@@ -3281,14 +3281,14 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this | val)}.  (This method
-     * returns a negative CalkowicieBig if and only if either this or val is
+     * Returns a DuzeLiczby whose value is {@code (this | val)}.  (This method
+     * returns a negative DuzeLiczby if and only if either this or val is
      * negative.)
      *
-     * @param val value to be OR'ed with this CalkowicieBig.
+     * @param val value to be OR'ed with this DuzeLiczby.
      * @return {@code this | val}
      */
-    public CalkowicieBig or(CalkowicieBig val) {
+    public DuzeLiczby or(DuzeLiczby val) {
         int[] result = new int[Math.max(intLength(), val.intLength())];
         for (int i=0; i < result.length; i++)
             result[i] = (getInt(result.length-i-1)
@@ -3298,14 +3298,14 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this ^ val)}.  (This method
-     * returns a negative CalkowicieBig if and only if exactly one of this and
+     * Returns a DuzeLiczby whose value is {@code (this ^ val)}.  (This method
+     * returns a negative DuzeLiczby if and only if exactly one of this and
      * val are negative.)
      *
-     * @param val value to be XOR'ed with this CalkowicieBig.
+     * @param val value to be XOR'ed with this DuzeLiczby.
      * @return {@code this ^ val}
      */
-    public CalkowicieBig xor(CalkowicieBig val) {
+    public DuzeLiczby xor(DuzeLiczby val) {
         int[] result = new int[Math.max(intLength(), val.intLength())];
         for (int i=0; i < result.length; i++)
             result[i] = (getInt(result.length-i-1)
@@ -3315,13 +3315,13 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (~this)}.  (This method
-     * returns a negative value if and only if this CalkowicieBig is
+     * Returns a DuzeLiczby whose value is {@code (~this)}.  (This method
+     * returns a negative value if and only if this DuzeLiczby is
      * non-negative.)
      *
      * @return {@code ~this}
      */
-    public CalkowicieBig not() {
+    public DuzeLiczby not() {
         int[] result = new int[intLength()];
         for (int i=0; i < result.length; i++)
             result[i] = ~getInt(result.length-i-1);
@@ -3330,16 +3330,16 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is {@code (this & ~val)}.  This
+     * Returns a DuzeLiczby whose value is {@code (this & ~val)}.  This
      * method, which is equivalent to {@code and(val.not())}, is provided as
      * a convenience for masking operations.  (This method returns a negative
-     * CalkowicieBig if and only if {@code this} is negative and {@code val} is
+     * DuzeLiczby if and only if {@code this} is negative and {@code val} is
      * positive.)
      *
-     * @param val value to be complemented and AND'ed with this CalkowicieBig.
+     * @param val value to be complemented and AND'ed with this DuzeLiczby.
      * @return {@code this & ~val}
      */
-    public CalkowicieBig andNot(CalkowicieBig val) {
+    public DuzeLiczby andNot(DuzeLiczby val) {
         int[] result = new int[Math.max(intLength(), val.intLength())];
         for (int i=0; i < result.length; i++)
             result[i] = (getInt(result.length-i-1)
@@ -3367,14 +3367,14 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is equivalent to this CalkowicieBig
+     * Returns a DuzeLiczby whose value is equivalent to this DuzeLiczby
      * with the designated bit set.  (Computes {@code (this | (1<<n))}.)
      *
      * @param  n index of bit to set.
      * @return {@code this | (1<<n)}
      * @throws ArithmeticException {@code n} is negative.
      */
-    public CalkowicieBig setBit(int n) {
+    public DuzeLiczby setBit(int n) {
         if (n < 0)
             throw new ArithmeticException("Negative bit address");
 
@@ -3390,7 +3390,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is equivalent to this CalkowicieBig
+     * Returns a DuzeLiczby whose value is equivalent to this DuzeLiczby
      * with the designated bit cleared.
      * (Computes {@code (this & ~(1<<n))}.)
      *
@@ -3398,7 +3398,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @return {@code this & ~(1<<n)}
      * @throws ArithmeticException {@code n} is negative.
      */
-    public CalkowicieBig clearBit(int n) {
+    public DuzeLiczby clearBit(int n) {
         if (n < 0)
             throw new ArithmeticException("Negative bit address");
 
@@ -3414,7 +3414,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns a CalkowicieBig whose value is equivalent to this CalkowicieBig
+     * Returns a DuzeLiczby whose value is equivalent to this DuzeLiczby
      * with the designated bit flipped.
      * (Computes {@code (this ^ (1<<n))}.)
      *
@@ -3422,7 +3422,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @return {@code this ^ (1<<n)}
      * @throws ArithmeticException {@code n} is negative.
      */
-    public CalkowicieBig flipBit(int n) {
+    public DuzeLiczby flipBit(int n) {
         if (n < 0)
             throw new ArithmeticException("Negative bit address");
 
@@ -3439,11 +3439,11 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * Returns the index of the rightmost (lowest-order) one bit in this
-     * CalkowicieBig (the number of zero bits to the right of the rightmost
-     * one bit).  Returns -1 if this CalkowicieBig contains no one bits.
+     * DuzeLiczby (the number of zero bits to the right of the rightmost
+     * one bit).  Returns -1 if this DuzeLiczby contains no one bits.
      * (Computes {@code (this == 0? -1 : log2(this & -this))}.)
      *
-     * @return index of the rightmost one bit in this CalkowicieBig.
+     * @return index of the rightmost one bit in this DuzeLiczby.
      */
     public int getLowestSetBit() {
         @SuppressWarnings("deprecation") int lsb = lowestSetBit - 2;
@@ -3468,13 +3468,13 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * Returns the number of bits in the minimal two's-complement
-     * representation of this CalkowicieBig, <i>excluding</i> a sign bit.
-     * For positive CalkowicieBigs, this is equivalent to the number of bits in
+     * representation of this DuzeLiczby, <i>excluding</i> a sign bit.
+     * For positive DuzeLiczbys, this is equivalent to the number of bits in
      * the ordinary binary representation.  (Computes
      * {@code (ceil(log2(this < 0 ? -this : this+1)))}.)
      *
      * @return number of bits in the minimal two's-complement
-     *         representation of this CalkowicieBig, <i>excluding</i> a sign bit.
+     *         representation of this DuzeLiczby, <i>excluding</i> a sign bit.
      */
     public int bitLength() {
         @SuppressWarnings("deprecation") int n = bitLength - 1;
@@ -3504,11 +3504,11 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * Returns the number of bits in the two's complement representation
-     * of this CalkowicieBig that differ from its sign bit.  This method is
-     * useful when implementing bit-vector style sets atop CalkowicieBigs.
+     * of this DuzeLiczby that differ from its sign bit.  This method is
+     * useful when implementing bit-vector style sets atop DuzeLiczbys.
      *
      * @return number of bits in the two's complement representation
-     *         of this CalkowicieBig that differ from its sign bit.
+     *         of this DuzeLiczby that differ from its sign bit.
      */
     public int bitCount() {
         @SuppressWarnings("deprecation") int bc = bitCount - 1;
@@ -3533,23 +3533,23 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     // Primality Testing
 
     /**
-     * Returns {@code true} if this CalkowicieBig is probably prime,
+     * Returns {@code true} if this DuzeLiczby is probably prime,
      * {@code false} if it's definitely composite.  If
      * {@code certainty} is &le; 0, {@code true} is
      * returned.
      *
      * @param  certainty a measure of the uncertainty that the caller is
      *         willing to tolerate: if the call returns {@code true}
-     *         the probability that this CalkowicieBig is prime exceeds
+     *         the probability that this DuzeLiczby is prime exceeds
      *         (1 - 1/2<sup>{@code certainty}</sup>).  The execution time of
      *         this method is proportional to the value of this parameter.
-     * @return {@code true} if this CalkowicieBig is probably prime,
+     * @return {@code true} if this DuzeLiczby is probably prime,
      *         {@code false} if it's definitely composite.
      */
     public boolean isProbablePrime(int certainty) {
         if (certainty <= 0)
             return true;
-        CalkowicieBig w = this.abs();
+        DuzeLiczby w = this.abs();
         if (w.equals(TWO))
             return true;
         if (!w.testBit(0) || w.equals(ONE))
@@ -3561,7 +3561,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     // Comparison Operations
 
     /**
-     * Compares this CalkowicieBig with the specified CalkowicieBig.  This
+     * Compares this DuzeLiczby with the specified DuzeLiczby.  This
      * method is provided in preference to individual methods for each
      * of the six boolean comparison operators ({@literal <}, ==,
      * {@literal >}, {@literal >=}, !=, {@literal <=}).  The suggested
@@ -3569,11 +3569,11 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * (x.compareTo(y)} &lt;<i>op</i>&gt; {@code 0)}, where
      * &lt;<i>op</i>&gt; is one of the six comparison operators.
      *
-     * @param  val CalkowicieBig to which this CalkowicieBig is to be compared.
-     * @return -1, 0 or 1 as this CalkowicieBig is numerically less than, equal
+     * @param  val DuzeLiczby to which this DuzeLiczby is to be compared.
+     * @return -1, 0 or 1 as this DuzeLiczby is numerically less than, equal
      *         to, or greater than {@code val}.
      */
-    public int compareTo(CalkowicieBig val) {
+    public int compareTo(DuzeLiczby val) {
         if (signum == val.signum) {
             switch (signum) {
                 case 1:
@@ -3588,14 +3588,14 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Compares the magnitude array of this CalkowicieBig with the specified
-     * CalkowicieBig's. This is the version of compareTo ignoring sign.
+     * Compares the magnitude array of this DuzeLiczby with the specified
+     * DuzeLiczby's. This is the version of compareTo ignoring sign.
      *
-     * @param val CalkowicieBig whose magnitude array to be compared.
+     * @param val DuzeLiczby whose magnitude array to be compared.
      * @return -1, 0 or 1 as this magnitude array is less than, equal to or
-     *         greater than the magnitude aray for the specified CalkowicieBig's.
+     *         greater than the magnitude aray for the specified DuzeLiczby's.
      */
-    final int compareMagnitude(CalkowicieBig val) {
+    final int compareMagnitude(DuzeLiczby val) {
         int[] m1 = mag;
         int len1 = m1.length;
         int[] m2 = val.mag;
@@ -3657,21 +3657,21 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Compares this CalkowicieBig with the specified Object for equality.
+     * Compares this DuzeLiczby with the specified Object for equality.
      *
-     * @param  x Object to which this CalkowicieBig is to be compared.
+     * @param  x Object to which this DuzeLiczby is to be compared.
      * @return {@code true} if and only if the specified Object is a
-     *         CalkowicieBig whose value is numerically equal to this CalkowicieBig.
+     *         DuzeLiczby whose value is numerically equal to this DuzeLiczby.
      */
     public boolean equals(Object x) {
         // This test is just an optimization, which may or may not help
         if (x == this)
             return true;
 
-        if (!(x instanceof CalkowicieBig))
+        if (!(x instanceof DuzeLiczby))
             return false;
 
-        CalkowicieBig xInt = (CalkowicieBig) x;
+        DuzeLiczby xInt = (DuzeLiczby) x;
         if (xInt.signum != signum)
             return false;
 
@@ -3689,24 +3689,24 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns the minimum of this CalkowicieBig and {@code val}.
+     * Returns the minimum of this DuzeLiczby and {@code val}.
      *
      * @param  val value with which the minimum is to be computed.
-     * @return the CalkowicieBig whose value is the lesser of this CalkowicieBig and
+     * @return the DuzeLiczby whose value is the lesser of this DuzeLiczby and
      *         {@code val}.  If they are equal, either may be returned.
      */
-    public CalkowicieBig min(CalkowicieBig val) {
+    public DuzeLiczby min(DuzeLiczby val) {
         return (compareTo(val) < 0 ? this : val);
     }
 
     /**
-     * Returns the maximum of this CalkowicieBig and {@code val}.
+     * Returns the maximum of this DuzeLiczby and {@code val}.
      *
      * @param  val value with which the maximum is to be computed.
-     * @return the CalkowicieBig whose value is the greater of this and
+     * @return the DuzeLiczby whose value is the greater of this and
      *         {@code val}.  If they are equal, either may be returned.
      */
-    public CalkowicieBig max(CalkowicieBig val) {
+    public DuzeLiczby max(DuzeLiczby val) {
         return (compareTo(val) > 0 ? this : val);
     }
 
@@ -3714,9 +3714,9 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     // Hash Function
 
     /**
-     * Returns the hash code for this CalkowicieBig.
+     * Returns the hash code for this DuzeLiczby.
      *
-     * @return hash code for this CalkowicieBig.
+     * @return hash code for this DuzeLiczby.
      */
     public int hashCode() {
         int hashCode = 0;
@@ -3728,21 +3728,21 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns the String representation of this CalkowicieBig in the
+     * Returns the String representation of this DuzeLiczby in the
      * given radix.  If the radix is outside the range from {@link
      * Character#MIN_RADIX} to {@link Character#MAX_RADIX} inclusive,
      * it will default to 10 (as is the case for
      * {@code Integer.toString}).  The digit-to-character mapping
      * provided by {@code Character.forDigit} is used, and a minus
      * sign is prepended if appropriate.  (This representation is
-     * compatible with the {@link #CalkowicieBig(String, int) (String,
+     * compatible with the {@link #DuzeLiczby(String, int) (String,
      * int)} constructor.)
      *
      * @param  radix  radix of the String representation.
-     * @return String representation of this CalkowicieBig in the given radix.
+     * @return String representation of this DuzeLiczby in the given radix.
      * @see    Integer#toString
      * @see    Character#forDigit
-     * @see    #CalkowicieBig(String, int)
+     * @see    #DuzeLiczby(String, int)
      */
     public String toString(int radix) {
         if (signum == 0)
@@ -3778,17 +3778,17 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         String digitGroup[] = new String[maxNumDigitGroups];
 
         // Translate number to string, a digit group at a time
-        CalkowicieBig tmp = this.abs();
+        DuzeLiczby tmp = this.abs();
         int numGroups = 0;
         while (tmp.signum != 0) {
-            CalkowicieBig d = longRadix[radix];
+            DuzeLiczby d = longRadix[radix];
 
-            MutCalkowicieBig q = new MutCalkowicieBig(),
-                    a = new MutCalkowicieBig(tmp.mag),
-                    b = new MutCalkowicieBig(d.mag);
-            MutCalkowicieBig r = a.divide(b, q);
-            CalkowicieBig q2 = q.toCalkowicieBig(tmp.signum * d.signum);
-            CalkowicieBig r2 = r.toCalkowicieBig(tmp.signum * d.signum);
+            MutDuzeLiczby q = new MutDuzeLiczby(),
+                    a = new MutDuzeLiczby(tmp.mag),
+                    b = new MutDuzeLiczby(d.mag);
+            MutDuzeLiczby r = a.divide(b, q);
+            DuzeLiczby q2 = q.toDuzeLiczby(tmp.signum * d.signum);
+            DuzeLiczby r2 = r.toDuzeLiczby(tmp.signum * d.signum);
 
             digitGroup[numGroups++] = Long.toString(r2.longValue(), radix);
             tmp = q2;
@@ -3814,7 +3814,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Converts the specified CalkowicieBig to a string and appends to
+     * Converts the specified DuzeLiczby to a string and appends to
      * {@code sb}.  This implements the recursive Schoenhage algorithm
      * for base conversions.
      * <p/>
@@ -3826,7 +3826,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * @param radix  The base to convert to.
      * @param digits The minimum number of digits to pad to.
      */
-    private static void toString(CalkowicieBig u, StringBuilder sb, int radix,
+    private static void toString(DuzeLiczby u, StringBuilder sb, int radix,
                                  int digits) {
         /* If we're smaller than a certain threshold, use the smallToString
            method, padding with leading zeroes when necessary. */
@@ -3852,8 +3852,8 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
         // and subtract 1 from that value.  This is used to find the
         // cache index that contains the best value to divide u.
         n = (int) Math.round(Math.log(b * LOG_TWO / logCache[radix]) / LOG_TWO - 1.0);
-        CalkowicieBig v = getRadixConversionCache(radix, n);
-        CalkowicieBig[] results;
+        DuzeLiczby v = getRadixConversionCache(radix, n);
+        DuzeLiczby[] results;
         results = u.divideAndRemainder(v);
 
         int expectedDigits = 1 << n;
@@ -3870,8 +3870,8 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * This could be changed to a more complicated caching method using
      * {@code Future}.
      */
-    private static CalkowicieBig getRadixConversionCache(int radix, int exponent) {
-        CalkowicieBig[] cacheLine = powerCache[radix]; // volatile read
+    private static DuzeLiczby getRadixConversionCache(int radix, int exponent) {
+        DuzeLiczby[] cacheLine = powerCache[radix]; // volatile read
         if (exponent < cacheLine.length) {
             return cacheLine[exponent];
         }
@@ -3882,7 +3882,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             cacheLine[i] = cacheLine[i - 1].pow(2);
         }
 
-        CalkowicieBig[][] pc = powerCache; // volatile read again
+        DuzeLiczby[][] pc = powerCache; // volatile read again
         if (exponent >= pc[radix].length) {
             pc = pc.clone();
             pc[radix] = cacheLine;
@@ -3901,16 +3901,16 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Returns the decimal String representation of this CalkowicieBig.
+     * Returns the decimal String representation of this DuzeLiczby.
      * The digit-to-character mapping provided by
      * {@code Character.forDigit} is used, and a minus sign is
      * prepended if appropriate.  (This representation is compatible
-     * with the {@link #CalkowicieBig(String) (String)} constructor, and
+     * with the {@link #DuzeLiczby(String) (String)} constructor, and
      * allows for String concatenation with Java's + operator.)
      *
-     * @return decimal String representation of this CalkowicieBig.
+     * @return decimal String representation of this DuzeLiczby.
      * @see    Character#forDigit
-     * @see    #CalkowicieBig(String)
+     * @see    #DuzeLiczby(String)
      */
     public String toString() {
         return toString(10);
@@ -3918,17 +3918,17 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * Returns a byte array containing the two's-complement
-     * representation of this CalkowicieBig.  The byte array will be in
+     * representation of this DuzeLiczby.  The byte array will be in
      * <i>big-endian</i> byte-order: the most significant byte is in
      * the zeroth element.  The array will contain the minimum number
-     * of bytes required to represent this CalkowicieBig, including at
+     * of bytes required to represent this DuzeLiczby, including at
      * least one sign bit, which is {@code (ceil((this.bitLength() +
      * 1)/8))}.  (This representation is compatible with the
-     * {@link #CalkowicieBig(byte[]) (byte[])} constructor.)
+     * {@link #DuzeLiczby(byte[]) (byte[])} constructor.)
      *
      * @return a byte array containing the two's-complement representation of
-     *         this CalkowicieBig.
-     * @see    #CalkowicieBig(byte[])
+     *         this DuzeLiczby.
+     * @see    #DuzeLiczby(byte[])
      */
     public byte[] toByteArray() {
         int byteLen = bitLength()/8 + 1;
@@ -3948,18 +3948,18 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Converts this CalkowicieBig to an {@code int}.  This
+     * Converts this DuzeLiczby to an {@code int}.  This
      * conversion is analogous to a
      * <i>narrowing primitive conversion</i> from {@code long} to
      * {@code int} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this CalkowicieBig is too big to fit in an
+     * if this DuzeLiczby is too big to fit in an
      * {@code int}, only the low-order 32 bits are returned.
      * Note that this conversion can lose information about the
-     * overall magnitude of the CalkowicieBig value as well as return a
+     * overall magnitude of the DuzeLiczby value as well as return a
      * result with the opposite sign.
      *
-     * @return this CalkowicieBig converted to an {@code int}.
+     * @return this DuzeLiczby converted to an {@code int}.
      * @see #intValueExact()
      */
     public int intValue() {
@@ -3969,18 +3969,18 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Converts this CalkowicieBig to a {@code long}.  This
+     * Converts this DuzeLiczby to a {@code long}.  This
      * conversion is analogous to a
      * <i>narrowing primitive conversion</i> from {@code long} to
      * {@code int} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this CalkowicieBig is too big to fit in a
+     * if this DuzeLiczby is too big to fit in a
      * {@code long}, only the low-order 64 bits are returned.
      * Note that this conversion can lose information about the
-     * overall magnitude of the CalkowicieBig value as well as return a
+     * overall magnitude of the DuzeLiczby value as well as return a
      * result with the opposite sign.
      *
-     * @return this CalkowicieBig converted to a {@code long}.
+     * @return this DuzeLiczby converted to a {@code long}.
      * @see #longValueExact()
      */
     public long longValue() {
@@ -3992,19 +3992,19 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Converts this CalkowicieBig to a {@code float}.  This
+     * Converts this DuzeLiczby to a {@code float}.  This
      * conversion is similar to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code float} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this CalkowicieBig has too great a magnitude
+     * if this DuzeLiczby has too great a magnitude
      * to represent as a {@code float}, it will be converted to
      * {@link Float#NEGATIVE_INFINITY} or {@link
      * Float#POSITIVE_INFINITY} as appropriate.  Note that even when
      * the return value is finite, this conversion can lose
-     * information about the precision of the CalkowicieBig value.
+     * information about the precision of the DuzeLiczby value.
      *
-     * @return this CalkowicieBig converted to a {@code float}.
+     * @return this DuzeLiczby converted to a {@code float}.
      */
     public float floatValue() {
         if (signum == 0) {
@@ -4076,19 +4076,19 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Converts this CalkowicieBig to a {@code double}.  This
+     * Converts this DuzeLiczby to a {@code double}.  This
      * conversion is similar to the
      * <i>narrowing primitive conversion</i> from {@code double} to
      * {@code float} as defined in section 5.1.3 of
      * <cite>The Java&trade; Language Specification</cite>:
-     * if this CalkowicieBig has too great a magnitude
+     * if this DuzeLiczby has too great a magnitude
      * to represent as a {@code double}, it will be converted to
      * {@link Double#NEGATIVE_INFINITY} or {@link
      * Double#POSITIVE_INFINITY} as appropriate.  Note that even when
      * the return value is finite, this conversion can lose
-     * information about the precision of the CalkowicieBig value.
+     * information about the precision of the DuzeLiczby value.
      *
-     * @return this CalkowicieBig converted to a {@code double}.
+     * @return this DuzeLiczby converted to a {@code double}.
      */
     public double doubleValue() {
         if (signum == 0) {
@@ -4312,7 +4312,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             62, 39, 31, 27, 24, 22, 20, 19, 18, 18, 17, 17, 16, 16, 15, 15, 15, 14,
             14, 14, 14, 13, 13, 13, 13, 13, 13, 12, 12, 12, 12, 12, 12, 12, 12};
 
-    private static CalkowicieBig longRadix[] = {null, null,
+    private static DuzeLiczby longRadix[] = {null, null,
             valueOf(0x4000000000000000L), valueOf(0x383d9170b85ff80bL),
             valueOf(0x4000000000000000L), valueOf(0x6765c793fa10079dL),
             valueOf(0x41c21cb8e1000000L), valueOf(0x3642798750226111L),
@@ -4351,7 +4351,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
 
     /**
      * These routines provide access to the two's complement representation
-     * of CalkowicieBigs.
+     * of DuzeLiczbys.
      */
 
     /**
@@ -4415,17 +4415,17 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     private static final long serialVersionUID = -8287574255936472291L;
 
     /**
-     * Serializable fields for CalkowicieBig.
+     * Serializable fields for DuzeLiczby.
      *
      * @serialField signum  int
-     *              signum of this CalkowicieBig.
+     *              signum of this DuzeLiczby.
      * @serialField magnitude int[]
-     *              magnitude array of this CalkowicieBig.
+     *              magnitude array of this DuzeLiczby.
      * @serialField bitCount  int
-     *              number of bits in this CalkowicieBig
+     *              number of bits in this DuzeLiczby
      * @serialField bitLength int
      *              the number of bits in the minimal two's-complement
-     *              representation of this CalkowicieBig
+     *              representation of this DuzeLiczby
      * @serialField lowestSetBit int
      *              lowest set bit in the twos complement representation
      */
@@ -4439,7 +4439,7 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     };
 
     /**
-     * Reconstitute the {@code CalkowicieBig} instance from a stream (that is,
+     * Reconstitute the {@code DuzeLiczby} instance from a stream (that is,
      * deserialize it). The magnitude is read in as an array of bytes
      * for historical reasons, but it is converted to an array of ints
      * and the byte array is discarded.
@@ -4451,8 +4451,8 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
      * defaultReadObject is not being used.
      */
     /**
-     * Save the {@code CalkowicieBig} instance to a stream.
-     * The magnitude of a CalkowicieBig is serialized as a byte array for
+     * Save the {@code DuzeLiczby} instance to a stream.
+     * The magnitude of a DuzeLiczby is serialized as a byte array for
      * historical reasons.
      *
      * @serialData two necessary fields are written as well as obsolete
@@ -4499,53 +4499,53 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
     }
 
     /**
-     * Converts this {@code CalkowicieBig} to a {@code long}, checking
-     * for lost information.  If the value of this {@code CalkowicieBig}
+     * Converts this {@code DuzeLiczby} to a {@code long}, checking
+     * for lost information.  If the value of this {@code DuzeLiczby}
      * is out of the range of the {@code long} type, then an
      * {@code ArithmeticException} is thrown.
      *
-     * @return this {@code CalkowicieBig} converted to a {@code long}.
+     * @return this {@code DuzeLiczby} converted to a {@code long}.
      * @throws ArithmeticException if the value of {@code this} will
      * not exactly fit in a {@code long}.
-     * @see CalkowicieBig#longValue
+     * @see DuzeLiczby#longValue
      * @since  1.8
      */
     public long longValueExact() {
         if (mag.length <= 2 && bitLength() <= 63)
             return longValue();
         else
-            throw new ArithmeticException("CalkowicieBig out of long range");
+            throw new ArithmeticException("DuzeLiczby out of long range");
     }
 
     /**
-     * Converts this {@code CalkowicieBig} to an {@code int}, checking
-     * for lost information.  If the value of this {@code CalkowicieBig}
+     * Converts this {@code DuzeLiczby} to an {@code int}, checking
+     * for lost information.  If the value of this {@code DuzeLiczby}
      * is out of the range of the {@code int} type, then an
      * {@code ArithmeticException} is thrown.
      *
-     * @return this {@code CalkowicieBig} converted to an {@code int}.
+     * @return this {@code DuzeLiczby} converted to an {@code int}.
      * @throws ArithmeticException if the value of {@code this} will
      * not exactly fit in a {@code int}.
-     * @see CalkowicieBig#intValue
+     * @see DuzeLiczby#intValue
      * @since  1.8
      */
     public int intValueExact() {
         if (mag.length <= 1 && bitLength() <= 31)
             return intValue();
         else
-            throw new ArithmeticException("CalkowicieBig out of int range");
+            throw new ArithmeticException("DuzeLiczby out of int range");
     }
 
     /**
-     * Converts this {@code CalkowicieBig} to a {@code short}, checking
-     * for lost information.  If the value of this {@code CalkowicieBig}
+     * Converts this {@code DuzeLiczby} to a {@code short}, checking
+     * for lost information.  If the value of this {@code DuzeLiczby}
      * is out of the range of the {@code short} type, then an
      * {@code ArithmeticException} is thrown.
      *
-     * @return this {@code CalkowicieBig} converted to a {@code short}.
+     * @return this {@code DuzeLiczby} converted to a {@code short}.
      * @throws ArithmeticException if the value of {@code this} will
      * not exactly fit in a {@code short}.
-     * @see CalkowicieBig#shortValue
+     * @see DuzeLiczby#shortValue
      * @since  1.8
      */
     public short shortValueExact() {
@@ -4554,19 +4554,19 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             if (value >= Short.MIN_VALUE && value <= Short.MAX_VALUE)
                 return shortValue();
         }
-        throw new ArithmeticException("CalkowicieBig out of short range");
+        throw new ArithmeticException("DuzeLiczby out of short range");
     }
 
     /**
-     * Converts this {@code CalkowicieBig} to a {@code byte}, checking
-     * for lost information.  If the value of this {@code CalkowicieBig}
+     * Converts this {@code DuzeLiczby} to a {@code byte}, checking
+     * for lost information.  If the value of this {@code DuzeLiczby}
      * is out of the range of the {@code byte} type, then an
      * {@code ArithmeticException} is thrown.
      *
-     * @return this {@code CalkowicieBig} converted to a {@code byte}.
+     * @return this {@code DuzeLiczby} converted to a {@code byte}.
      * @throws ArithmeticException if the value of {@code this} will
      * not exactly fit in a {@code byte}.
-     * @see CalkowicieBig#byteValue
+     * @see DuzeLiczby#byteValue
      * @since  1.8
      */
     public byte byteValueExact() {
@@ -4575,6 +4575,6 @@ public class CalkowicieBig extends Number implements Comparable<CalkowicieBig> {
             if (value >= Byte.MIN_VALUE && value <= Byte.MAX_VALUE)
                 return byteValue();
         }
-        throw new ArithmeticException("CalkowicieBig out of byte range");
+        throw new ArithmeticException("DuzeLiczby out of byte range");
     }
 }
